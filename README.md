@@ -21,22 +21,24 @@ No noso caso, imos comezar por estudar o **SQL DQL**, xa que a pesar de que é a
 - Podemos diferenciar entre expresións regulares e strings dependendo de si empregamos ```LIKE``` ou ```=``` nos predicados: ```nome LIKE 'S%'``` [*Samuel, Sarif, Selena...*] vs ```nome = 'S%'``` [*S%*].
 - Igual que noutras linguaxes, os comentarios realízanse desta maneira ```/* texto que non interfire na consulta, salvo que o comentario inclúa punto e coma */```
 - Orde na que se escriben as diferentes funcións:
-	> 1. **```SELECT```** columna1, columna2, columnaN
-	> 2. **```FROM```** táboa
-	> 3. [*```WHERE```  predicado*]
-	> 4. [*```GROUP BY``` columnaN*]
-	> 5. [*```HAVING```  predicado*]
-	> 6. [*```ORDER BY``` columnaN ASC|DESC*] **;**
+```sql
+1. SELECT columna1, columna2, columnaN
+2. FROM táboa
+3. [WHERE predicado*]
+4. [GROUP BY columnaN*]
+5. [HAVING predicado*]
+6. [ORDER BY columnaN ASC|DESC*] **;**
+```
 
 A continuación imos estudar as diferentes sentencias e funcións que soportan os xestores SQL de consulta, vendo as súas estruturas e acompañadas de exemplos.
 
 ## ```SELECT``` e ```FROM```, nai e pai da consulta básica
 
-Son os dous elementos de presenza obrigatoria en calquera consulta SQL. Por un lado, o ```SELECT``` é unha declaración que serve para retornar unha ou máis columnas de unha ou más táboas. Por outra banda, ```FROM``` indica sobre que táboa/s estamos a reclamar a consulta. Máis adiante amosaremos como realizar un ```FROM``` composto mediante consultas aniñadas (**link**) ou empregando ```JOIN```(**link**). 
+Son os dous elementos de presenza obrigatoria en calquera consulta SQL. Por un lado, o ```SELECT``` é unha declaración que serve para retornar unha ou máis columnas de unha ou más táboas. Por outra banda, ```FROM``` indica sobre que táboa/s estamos a reclamar a consulta. Máis adiante amosaremos como realizar un ```FROM``` composto mediante consultas aniñadas (**link**) ou empregando ```JOIN``` (**link**). 
 
 ```sql
-SELECT táboa1.columna1, [táboaN.columnaN]
-FROM táboa1 [JOIN táboaN];
+SELECT taboa1.columna1, [taboaN.columnaN]
+FROM taboa1 [JOIN taboaN];
 ```
 
 Cunha consulta deste estilo, o resultado contén todas as tuplas existentes reclamadas no ```FROM```, cos atributos declarados no ```SELECT```.
@@ -46,21 +48,21 @@ Cunha consulta deste estilo, o resultado contén todas as tuplas existentes recl
 
 A pesar de que non é obrigatorio, o certo é que unha consulta que non filtre resultados parece pouco útil. Aquí aparece a figura do ```WHERE```, principal ferramenta para establecer predicados. Como xa dixemos, SQL era unha linguaxe declarativa, e isto vese claramente reflexado no funcionamento do ```WHERE```. Se queremos que as tuplas a amosar cumpran unhas certas condicións, basta con declarar estos predicados, trasladando o *pseudocódigo* de maneira case literal.
 
-##### Exemplo
+#### Exemplo
 
-*Países e número de habitantes de todos os países sudamericanos con máis de 40 millóns de habitantes*
+*Países e número de habitantes de todos os países asiáticos con máis de 40 millóns de habitantes*
 
 Pseudocódigo:
 ```sh
 > Amosar países e poboación
 > Da nosa base de datos xeográfica mundial
-> Onde o continente é América do Sur e a poboación é maior de 40 millóns
+> Onde o continente é Asia e a poboación é maior de 40 millóns
 ```
 
 ```sql
 SELECT name, population
 FROM world
-WHERE continent = 'South America'
+WHERE continent = 'Asia'
   AND population > 40000000;
 ```
 
@@ -71,8 +73,8 @@ Existe un gran variedade de funcións que podemos combinar con ```SELECT``` ou `
 - ```AS```: Emprégase para nomear un atributo ou unha táboa por unha cadea regular desexada.
 ```sql
 SELECT W.name, 
-       W.population **AS** 'xente'
-FROM world **AS** W;
+       W.population AS 'xente'
+FROM world AS W;
 ```
 - ```*```: Comodín que permite seleccionar todas as columnas dispoñibles nunha consulta.
 ```sql
@@ -81,17 +83,17 @@ FROM táboa;
 ```
 - ```REPLACE```: Permite sustituir datos dun atributo ou string por outro string personalizado.
 ```sql
-SELECT **REPLACE** (expresión, 'patrón', 'reemprazo')
+SELECT REPLACE (expresión, 'patrón', 'reemprazo')
 FROM táboa;
 ```
 - ```DISTINCT```: Elimina os duplicados dunha columna, ofrecendo só os valores únicos dese atributo.
 ```sql
-SELECT **DISTINCT** (columnaN)
+SELECT DISTINCT (columnaN)
 FROM táboa;
 ```
 - ```ROUND```: Permite redondear un atributo numerado ou unha operación ás deceas, centeas..., ou amosar un número concreto de decimais.
 ```sql
-SELECT **ROUND** (atributo, N)
+SELECT ROUND (atributo, N)
 FROM táboa;
 ```
 O díxito tras a coma representa o número de cifras decimais a amosar. Se a cifra se representa en negativo, isto supón a cantidade de díxitos que se redondean (*-1 en deceas, -2 en centeas, -3 en millares...*).
@@ -99,40 +101,40 @@ O díxito tras a coma representa o número de cifras decimais a amosar. Se a cif
 ```sql
 SELECT columnaN
 FROM táboa
-WHERE columnaN **IN** ('valor1', 'valor2', 'valorN');
+WHERE columnaN IN ('valor1', 'valor2', 'valorN');
 ```
 Esta mesma consulta podería realizarse, de maneira menos eficiente, con múltiples ```OR```.
 ```sql
 SELECT columnaN
 FROM táboa
 WHERE columnaN = 'valor1'
-   **OR** columnaN = 'valor2'
-   **OR** columnaN = 'valorN';
+   OR columnaN = 'valor2'
+   OR columnaN = 'valorN';
 ```
 - ```BETWEEN```: Posibilita filtrar un predicado entre un rango establecido. Cabe reseñar que ```BETWEEN``` **inclúe os valores extremos**.
 ```sql
 SELECT columnaN
 FROM táboa
-WHERE columnaN **BETWEEN** 'valor1' **AND** 'valor2';
+WHERE columnaN BETWEEN 'valor1' AND 'valor2';
 ```
 De igual maneira que no caso anterior, tamén hai maneira alternativa de representar esta consulta, cos operadores maior/ menor que.
 ```sql
 SELECT columnaN
 FROM táboa
-WHERE columnaN **>=** 'valor1' 
-  **AND** columnaN **<=** 'valor2';
+WHERE columnaN >= 'valor1' 
+  AND columnaN <= 'valor2';
 ```
 - ```<>```: Expresión empregada para representar que un atributo non pode ser igual a un valor específico.
 ```sql
 SELECT columnaN
 FROM táboa
-WHERE columnaN **<>** 'valorN';
+WHERE columnaN <> 'valorN';
 ```
 - ```[NOT] LIKE```: Como xa explicamos anteriormente nas normas básicas (**link**), serve para filtrar unha columna por un valor expresado como cadea regular. 
 ```sql
 SELECT columnaN
 FROM táboa
-WHERE columnaN **LIKE** 'valor1';
+WHERE columnaN LIKE 'valor1';
 ```
 Permite empregar comodíns como **_** para representar un só caracter, ou **%** para sustituir entre cero e múltiples caracteres. A diferenza co ```=``` radica en que este último busca strings, e si empregamos comodíns, tomaraos como caracteres co seu significado literal.
 - ```XOR```: Ten o funcionamento dun OR exclusivo; isto é, de dúas condicións, debe cumprir unha e só unha delas. 
