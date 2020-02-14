@@ -70,39 +70,39 @@ WHERE continent = 'Asia'
 
 Existe un gran variedade de funcións que podemos combinar con ```SELECT``` ou ```WHERE```, e que aumentan o número de posibilidades nas nosas consultas. 
 
-###```AS```
+### ```AS```
 Emprégase para nomear un atributo ou unha táboa por unha cadea regular desexada.
 ```sql
 SELECT W.name, 
        W.population AS 'xente'
 FROM world AS W;
 ```
-###```*```
+### ```*```
 Comodín que permite seleccionar todas as columnas dispoñibles nunha consulta.
 ```sql
 SELECT *
 FROM táboa;
 ```
-###```REPLACE```
+### ```REPLACE```
 Permite sustituir datos dun atributo ou string por outro string personalizado.
 ```sql
 SELECT REPLACE (expresión, 'patrón', 'reemprazo')
 FROM táboa;
 ```
-###```DISTINCT```
+### ```DISTINCT```
 Elimina os duplicados dunha columna, ofrecendo só os valores únicos dese atributo.
 ```sql
 SELECT DISTINCT (columnaN)
 FROM táboa;
 ```
-###```ROUND```
+### ```ROUND```
 Permite redondear un atributo numerado ou unha operación ás deceas, centeas..., ou amosar un número concreto de decimais.
 ```sql
 SELECT ROUND (atributo, N)
 FROM táboa;
 ```
 O díxito tras a coma representa o número de cifras decimais a amosar. Se a cifra se representa en negativo, isto supón a cantidade de díxitos que se redondean (*-1 en deceas, -2 en centeas, -3 en millares...*).
-###```[NOT] IN```
+### ```[NOT] IN```
 Serve para especificar, nun único paso, un predicado con múltiples valores. 
 ```sql
 SELECT columnaN
@@ -117,7 +117,7 @@ WHERE columnaN = 'valor1'
    OR columnaN = 'valor2'
    OR columnaN = 'valorN';
 ```
-###```BETWEEN```
+### ```BETWEEN```
 Posibilita filtrar un predicado entre un rango establecido. Cabe reseñar que ```BETWEEN``` **inclúe os valores extremos**.
 ```sql
 SELECT columnaN
@@ -131,14 +131,14 @@ FROM táboa
 WHERE columnaN >= 'valor1' 
   AND columnaN <= 'valor2';
 ```
-###```<>```
+### ```<>```
 Expresión empregada para representar que un atributo non pode ser igual a un valor específico.
 ```sql
 SELECT columnaN
 FROM táboa
 WHERE columnaN <> 'valorN';
 ```
-###``[NOT] LIKE```
+### ```[NOT] LIKE```
 Como xa explicamos anteriormente nas normas básicas (**link**), serve para filtrar unha columna por un valor expresado como cadea regular. 
 ```sql
 SELECT columnaN
@@ -146,7 +146,7 @@ FROM táboa
 WHERE columnaN LIKE 'valor1';
 ```
 Ademais, soporta o uso de comodíns como **_** para representar un só caracter, ou **%** para sustituir entre cero e múltiples caracteres. A diferenza co ```=``` radica en que este último busca strings, e si empregamos comodíns, tomaraos como caracteres co seu significado literal.
-###```XOR```
+### ```XOR```
 Ten o funcionamento dun OR exclusivo; isto é, de dúas condicións, debe cumprir unha e só unha delas. 
 ```sql
 SELECT columnaX, columnaY
@@ -160,13 +160,13 @@ SELECT LENGTH (columnaN)
 FROM táboa
 [WHERE LENGTH (columnaN) = X];
 ```
-###```LEFT/ RIGHT```
+### ```LEFT/ RIGHT```
 Extrae un número específico de caracteres (comezando pola esquerda ou a dereita) das cadeas de texto que forman os valores dunha columna. 
 ```sql
 SELECT LEFT (columnaN, n)
 FROM táboa;
 ```
-###```CONCAT```
+### ```CONCAT```
 Función que combina dous ou máis strings personalizados ou pertencentes ós valores dun atributo.
 ```sql
 SELECT CONCAT ('string1', 'string2', 'stringN')
@@ -179,7 +179,7 @@ SELECT columnaN
 FROM táboa
 WHERE columnaN IS NOT NULL;
 ```
-###```COALESCE```
+### ```COALESCE```
 Serve de gran utilidade si queremos substituir os valores nulos dun atributo por un string concreto.
 ```sql
 SELECT COALESCE (columnaN, 'string')
