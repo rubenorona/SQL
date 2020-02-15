@@ -46,7 +46,7 @@ Cunha consulta deste estilo, o resultado contén todas as tuplas existentes recl
 
 ## ```WHERE```, exemplificación do paradigma declarativo
 
-A pesar de que non é obrigatorio, o certo é que unha consulta que non filtre resultados parece pouco útil. Aquí aparece a figura do ```WHERE```, principal ferramenta para establecer predicados. Como xa dixemos, SQL era unha linguaxe declarativa, e isto vese claramente reflexado no funcionamento do ```WHERE```. Se queremos que as tuplas a amosar cumpran unhas certas condicións, basta con declarar estos predicados, trasladando o *pseudocódigo* de maneira case literal.
+A pesar de que non é obrigatorio, o certo é que unha consulta que non **filtre** resultados parece pouco útil. Aquí aparece a figura do ```WHERE```, principal ferramenta para establecer **predicados**. Como xa dixemos, SQL era unha linguaxe declarativa, e isto vese claramente reflexado no funcionamento do ```WHERE```. Se queremos que as tuplas a amosar cumpran unhas certas condicións, basta con declarar estos predicados, trasladando o *pseudocódigo* de maneira case literal.
 
 #### Exemplo
 
@@ -71,7 +71,7 @@ WHERE continent = 'Asia'
 Existe un gran variedade de funcións que podemos combinar con ```SELECT``` ou ```WHERE```, e que aumentan o número de posibilidades nas nosas consultas. 
 
 ### ```AS```
-Emprégase para nomear un atributo ou unha táboa por unha cadea regular desexada.
+Emprégase para **renomear** un atributo ou unha táboa por unha cadea regular desexada.
 ```sql
 SELECT W.name, 
        W.population AS 'xente'
@@ -84,26 +84,26 @@ SELECT *
 FROM táboa;
 ```
 ### ```REPLACE```
-Permite sustituir datos dun atributo ou string por outro string personalizado.
+Permite **substituir** datos dun atributo ou string por outro string personalizado.
 ```sql
 SELECT REPLACE (expresión, 'patrón', 'reemprazo')
 FROM táboa;
 ```
 ### ```DISTINCT```
-Elimina os duplicados dunha columna, ofrecendo só os valores únicos dese atributo.
+Elimina os duplicados dunha columna, ofrecendo só os **valores únicos** dese atributo.
 ```sql
 SELECT DISTINCT (columnaN)
 FROM táboa;
 ```
 ### ```ROUND```
-Permite redondear un atributo numerado ou unha operación ás deceas, centeas..., ou amosar un número concreto de decimais.
+Permite **redondear** un atributo numerado ou unha operación ás deceas, centeas..., ou amosar un número concreto de decimais.
 ```sql
 SELECT ROUND (atributo, N)
 FROM táboa;
 ```
 O díxito tras a coma representa o número de cifras decimais a amosar. Se a cifra se representa en negativo, isto supón a cantidade de díxitos que se redondean (*-1 en deceas, -2 en centeas, -3 en millares...*).
 ### ```[NOT] IN```
-Serve para especificar, nun único paso, un predicado con múltiples valores. 
+Serve para especificar, nun único paso, un predicado con **múltiples valores**. 
 ```sql
 SELECT columnaN
 FROM táboa
@@ -118,7 +118,7 @@ WHERE columnaN = 'valor1'
    OR columnaN = 'valorN';
 ```
 ### ```BETWEEN```
-Posibilita filtrar un predicado entre un rango establecido. Cabe reseñar que ```BETWEEN``` **inclúe os valores extremos**.
+Posibilita filtrar un predicado entre un **rango** establecido. Cabe reseñar que ```BETWEEN``` **inclúe os valores extremos**.
 ```sql
 SELECT columnaN
 FROM táboa
@@ -145,13 +145,14 @@ SELECT columnaN
 FROM táboa
 WHERE columnaN LIKE 'valor1';
 ```
-Ademais, soporta o uso de comodíns como **_** para representar un só caracter, ou **%** para sustituir entre cero e múltiples caracteres. A diferenza co ```=``` radica en que este último busca strings, e si empregamos comodíns, tomaraos como caracteres co seu significado literal.
+Ademais, soporta o uso de **comodíns** como **_** para representar un só caracter, ou **%** para sustituir entre cero e múltiples caracteres. A diferenza co ```=``` radica en que este último busca strings, e si empregamos comodíns, tomaraos como caracteres co seu significado literal.
 ### ```XOR```
-Ten o funcionamento dun OR exclusivo; isto é, de dúas condicións, debe cumprir unha e só unha delas. 
+Ten o funcionamento dun **```OR``` exclusivo**; isto é, de dúas condicións, debe cumprir unha e só unha delas. 
 ```sql
 SELECT columnaX, columnaY
 FROM táboa
-WHERE columnaX = condiciónX XOR columnaY = condiciónY;
+WHERE columnaX = condiciónX
+  XOR columnaY = condiciónY;
 ```
 ### ```LENGTH```
 Mide a cantidade de caracteres dos strings pertencentes a un atributo referenciado. 
@@ -167,13 +168,13 @@ SELECT LEFT (columnaN, n)
 FROM táboa;
 ```
 ### ```CONCAT```
-Función que combina dous ou máis strings personalizados ou pertencentes ós valores dun atributo.
+Función que **combina** dous ou máis strings personalizados ou pertencentes ós valores dun atributo.
 ```sql
 SELECT CONCAT ('string1', 'string2', 'stringN')
 FROM táboa;
 ```
 ### ```IS [NOT] NULL```
-Permite delcarar que un atributo sexa [ou non] nulo; isto é, que non ten un valor definido. Cabe recordar que, segundo a regra de identidade das entidades, o atributo que serve como clave principal nunca pode ser nulo. 
+Permite delcarar que un atributo sexa [ou non] nulo; isto é, que non ten un **valor definido**. Cabe recordar que, segundo a regra de identidade das entidades, o atributo que serve como clave principal nunca pode ser nulo. 
 ```sql
 SELECT columnaN
 FROM táboa
@@ -186,7 +187,7 @@ SELECT COALESCE (columnaN, 'string')
 FROM táboa;
 ```
 
-#### Exemplos prácticos
+### Un par de exemplos prácticos
 
 *Ganadores dun premio nobel que se chamen John e cuxa disciplina non sexa Física nen Química. Reempraza o nome John por Manolo.* 
 ```sql
@@ -203,11 +204,94 @@ SELECT name,
        LEFT (name, 3) AS 'abreviatura', 
        ROUND (gdp/population, 2) AS 'per capita'
 FROM world
-WHERE population > 250000000 
+WHERE population >= 250000000 
   XOR area       > 3000000;
 ```
 
+## Funcións de agregado, aumentando as posibilidades alxebraicas
 
+Serven para **reducir** unha serie de valores a un só resultado. Estas funcións de agregado operan sobre strings numéricos, ou permiten contar todas as filas pertencentes a unha columna. En todo caso, o resultado final queda reducido a unha tupla. 
+
+Diferentes funcións de agregado:
+
+### ```MAX```, ```MIN``` e ```AVG```
+Dunha columna con **atributos numéricos**, estas función retornan unha única tupla co maior valor, o menor, ou o valor promedio de entre todas as tuplas. Cabe destacar que, empregando estas funcións, os valores nulos son ignorados.
+
+Imaxinemos unha táboa onde a columnaN ten 15 tuplas, todas con valores únicos que aumentan de catro en catro, dende o 4 ata o 60 *[4,8,12,16,20,24,28,32,36,40,44,48,52,56,60]*
+```sql
+SELECT MAX (columnaN),
+       MIN (columnaN),
+       AVG (columnaN)
+FROM táboa;
+```
+Neste caso, ```MAX (columnaN)``` = 60, ```MIN (columnaN)``` = 4 e ```AVG (columnaN)``` = 32
+
+### ```SUM``` e ```COUNT```
+Aínda que poidan resultar similares, en realidade non o son. Como o seu nome suxire, ```SUM``` fai unha **suma de todos os valores numéricos** pertencentes a unha columna, derivando nunha tupla co resultado final da suma. Igual que pasaba nas funcións anteriores, os valores nulos tamén se ignoran. 
+
+Por outra banda, ```COUNT``` **contabiliza o total de tuplas** presentes na consulta. Neste caso, os valores nulos si se teñen en conta. Ademais, a función non diferencia entre valores idénticos. Por esta mesma razón, é moi interesante empregalo xunto con ```DISTINCT```, pois desta maneira é posible contabilizar o número total de valores únicos presentes nunha columna: ```COUNT (DISTINCT columnaN)```
+```sql
+SELECT SUM (columnaN),
+     COUNT (columnaN)
+FROM táboa;
+```
+Si tomamos de exemplo a táboa anterior, a suma total dos valores numéricos sería ```SUM (columnaN)``` = 480. Pola contra, ```COUNT (columnaN)``` = 15, xa que se limita a contabilizar a cantidade total de tuplas.
+
+## Xa, pero quero ver máis dunha tupla: ```GROUP BY``` e ```HAVING```
+
+Nos exemplos previos, as consultas finais eran dunha tupla, con tantas columnas como funcións de agregado fosen declaradas no ```SELECT```. Ademais, poderiamos ter empregado ``WHERE```, cuxa función sería a de **filtrar** o número de tuplas que se verían posteriormente reducidas. Pero eran exemplos teóricos cun pouco de trampa, xa que non empregamos no ```SELECT``` nada que non fose unha función de agregado, pois a consulta sería errónea sen o uso dun ```GROUP BY```.
+
+### ```GROUP BY```
+Permite agrupar as tuplas en función dun criterio establecido. Como dixemos antes, todo atributo declarado nun ```SELECT``` que non sexa unha función de agregado **debe ir obrigatoriamente incluído** nun ```GROUP BY```. A razón é que este último agrupa os valores idénticos e xenera unha tupla por cada tipo. Por outra banda, un atributo só no ```SELECT``` vai devolver todas as filas que cumpran as condicións da consulta. Loxicamente, unha consulta non pode amosar dúas cantidades diferentes de tuplas.
+
+Imos poñer un exemplo: *Sabemos que no mundo hai quince países que teñan entre 50 e 100 millóns de habitantes. Estas nacións están repartidas entre tres continentes: África, Asia e Europa. Para saber cantos países pertencen a cada continente, a consulta correcta sería:*
+```sql
+SELECT continent, 
+ COUNT (name) AS 'total'
+FROM world
+WHERE population BETWEEN 50000000 AND 100000000
+GROUP BY continent;
+```
+As tuplas resultantes serían tres, tantas como continentes diferentes cumpren o predicado. A partir disto, cóntanse os países en función desa agrupación.
+
+| continent | total |
+|-----------|-------|
+| Africa    |     3 |
+| Asia      |     8 |
+| Europe    |     4 |
+
+Si da consulta anterior prescindimos do ```GROUP BY```, estamoslle a pedir ó xestor da base de datos que, por un lado, amose os continentes que cumpren o predicado do ```WHERE``` (quince tuplas, cuxo valor sería algún dos tres continentes). Por outra banda, un ```COUNT``` non asociado a unha agrupación vai tratar de devolver sempre unha soa tupla. Polo tanto, a consulta sería errónea. 
+
+### ```HAVING```
+Única ferramenta que temos para realizar predicados empregando calquera das cinco funcións de agregado explicadas con anterioridade. Naturalmente, o ```HAVING``` aplica ese filtro en función dunha agrupación, polo que o seu uso combinado con ```GROUP BY``` é **obrigatorio**.
+
+Recuperamos o exemplo anterior: *Agora queremos que a consulta só amose os continentes que teñan máis de catro países cunha poboación entre 50 e 100 millóns de habitantes*.
+```sql
+SELECT continent, 
+ COUNT (name) AS 'total'
+FROM world
+WHERE population BETWEEN 50000000 AND 100000000
+GROUP BY continent
+HAVING COUNT (name) > '4';
+```
+Cal é a orde de execución nesta consulta?
+```sh
+> ```FORM``` Atopar a base de datos (táboa world, 195 tuplas)
+> ```WHERE``` Filtrar os países cunha poboación entre 50 e 100 millóns de habitantes (15 tuplas)
+> ```GROUP BY``` Agrupar en función dos diferentes continentes (3 tuplas)
+> ```HAVING``` Filtrar que, respeto da agrupación e o predicado establecidos, o número total de países sexa maior a catro (1 tupla)
+> ```SELECT``` Amosar as columnas desexadas
+```
+| continent | total |
+|-----------|-------|
+| Asia      |     8 |
+
+
+.
+
+.
+
+.
 
 .
 
@@ -232,4 +316,4 @@ Sistema operativo empregado: UBUNTU 18.04, instalado como máquina virtual con O
 
 Editor de texto: MarkdownPad (versión 2.5.0.2), que conta con highlight de sintaxe e preview a tempo real.
 
-Os exemplos de consulta e as bases de datos asociadas foron elaborados a través da páxina web www.SQLzoo.net
+Os exemplos de consulta foron testados mediante as bases de datos presentes na páxina web www.SQLzoo.net
