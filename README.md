@@ -274,20 +274,48 @@ WHERE population BETWEEN 50000000 AND 100000000
 GROUP BY continent
 HAVING COUNT (name) > '4';
 ```
-Cal é a orde de execución nesta consulta?
-```sh
-> ```FORM``` Atopar a base de datos (táboa world, 195 tuplas)
-> ```WHERE``` Filtrar os países cunha poboación entre 50 e 100 millóns de habitantes (15 tuplas)
-> ```GROUP BY``` Agrupar en función dos diferentes continentes (3 tuplas)
-> ```HAVING``` Filtrar que, respeto da agrupación e o predicado establecidos, o número total de países sexa maior a catro (1 tupla)
-> ```SELECT``` Amosar as columnas desexadas
-```
 | continent | total |
 |-----------|-------|
 | Asia      |     8 |
 
+Cal é a orde de execución nesta consulta?
+```sql
+> 1. FORM:     Atopar a base de datos (táboa world, 195 tuplas)
+> 2. WHERE:    Filtrar os países cunha poboación entre 50 e 100 millóns de habitantes (15 tuplas)
+> 3. GROUP BY: Agrupar en función dos diferentes continentes (3 tuplas)
+> 4. HAVING:   Filtrar que, respeto da agrupación e o predicado establecidos, o número total de países sexa maior a catro (1 tupla)
+> 5. SELECT:   Amosar as columnas desexadas
+```
 
-.
+## Agora toca combinar táboas: ```SELECT``` aniñados e ```JOIN```
+
+Xa temos todas as ferramentas para sacar o máximo partido ás consultas que impliquen unha táboa. Pero o certo é que as bases de datos son máis complexas que isto, polo que debemos aprender a referenciar elementos externos. 
+
+### ```SELECT``` aniñados
+Realmente a súa maior utilidade non radica en combinar dúas táboas, senón en facer referencia de maneira transitiva a datos que non é posible **declarar de maneira directa**. O segundo ```SELECT``` adoita aparecer nunha comparación co principal ```WHERE```, polo que os atributos que declaran ambos deben ser os **mesmos**.
+
+Exemplo: *Amosar todos os países que teñan unha poboación maior á do Brasil*. Non sabemos o número de habitantes do Brasil, polo que debemos aniñar unha subconsulta que compare todas as tuplas de poboación da táboa cos habitantes totais brasileiros. Para resolver este tipo de cuestións, é aconsellable comezar pola subconsulta, pois atopar os habitantes dun país específico é moi sinxelo. A partir disto, completamos o resto da consulta. 
+```sql
+SELECT name
+FROM world
+WHERE population > (
+   SELECT population
+   FROM world
+   WHERE name = 'Brazil'
+);
+```
+
+A veces cómpre realizar un **bucle aniñado**, onde resulta necesario renomear ambas táboas, pois o obxectivo é facer unha comparativa entre dous atributos da mesma táboa.
+
+Exemplo: *Amosa o país con maior superficie de cada continente*. Neste caso facemos un loop que, sempre que os continentes de ambas consultas coincidan, compare as súas aŕeas. Como só pode haber un país cuxa superficie sexa ≥ a súa propia, o resultado da consulta conterá unha tupla por continente. 
+```sql
+SELECT O.continent, O.name, O.area
+FROM world AS O
+WHERE  O.area >= ALL (SELECT I.area
+	              FROM world AS I
+	              WHERE  I.continent = O.continent
+	                 AND I.area IS NOT NULL);
+```
 
 .
 
