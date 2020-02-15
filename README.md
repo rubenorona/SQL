@@ -4,7 +4,7 @@
 
 ### Sublinguaxes de SQL e principais sentencias
 
-- **DDL** *Data Definition Language* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ```CREATE``` &nbsp; ```ALTER``` &nbsp; ```DROP```
+- **DDL** *Data Definition Language* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ```CREATE``` &nbsp; ```ALTER``` &nbsp;&nbsp; ```DROP```
 - **DML** *Data Manipulation Language* &nbsp;&nbsp;&nbsp;&nbsp; ```INSERT``` &nbsp; ```UPDATE``` &nbsp; ```DELETE```
 - **DQL** *Data Query Language* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ```SELECT```
 - **TCL** *Transaction Control Language* &nbsp;&nbsp;&nbsp;&nbsp; ```COMMIT``` &nbsp; ```ROLLBACK```
@@ -317,7 +317,7 @@ WHERE  O.area >= ALL (SELECT I.area
 
 ### ```JOIN```
 
-Tamén expresado como ```INNER JOIN```, permite combinar dúas ou máis táboas nunha consulta. Mediante ```ON``` debemos expresar un predicado que relacione ambas partes, normalmente a **clave principal** dunha táboa coa <span style="text-decoration:overline">*clave allea*</span> doutra (este predicado tamén se pode declarar con ```WHERE```). Isto é fundamental, pois doutra maneira o xestor de BD relacionaría ambas mediante un **produto cartesiano**. Polo tanto, si se relacionasen dúas táboas con 100 tuplas cada unha, a consulta final contaría con 100000 tuplas. Cabe destacar que ó facer un ```JOIN```, suprímense as tuplas que conteñan valores nulos. 
+Tamén expresado como ```INNER JOIN```, permite combinar dúas ou máis táboas nunha consulta. Mediante ```ON``` debemos expresar un predicado que relacione ambas partes, normalmente a **clave principal** dunha táboa coa <u>*clave allea*</u> doutra (este predicado tamén se pode declarar con ```WHERE```). Isto é fundamental, pois doutra maneira o xestor de BD relacionaría ambas mediante un **produto cartesiano**. Polo tanto, si se relacionasen dúas táboas con 100 tuplas cada unha, a consulta final contaría con 100000 tuplas. Cabe destacar que ó facer un ```JOIN```, suprímense as tuplas que conteñan valores nulos. 
 ```sql
 SELECT columnaX, columnaY
 FROM táboaX JOIN táboa Y
@@ -328,7 +328,7 @@ Exemplo de base de datos con varias táboas:
 
 - movie (**id**, title, yr, director, budget, gross)
 - actor (**id**, name)
-- casting (<span style="text-decoration:overline">***movieid***</span>, <span style="text-decoration:overline">*actorid*</span>, ord)
+- casting (<u>***movieid***</u>, <u>*actorid*</u>, ord)
 
 *Amosa todas as películas nas que participou Joe Pesci.* Neste caso, mediante un dobre ```JOIN```, conseguimos *desbloquear* a base de datos e xa podemos facer referencia a calquera atributo de calquera táboa.
 ```sql
