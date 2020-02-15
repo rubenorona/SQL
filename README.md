@@ -27,7 +27,7 @@ No noso caso, imos comezar por estudar o **SQL DQL**, xa que a pesar de que é a
 3. [WHERE predicado*]
 4. [GROUP BY columnaN*]
 5. [HAVING predicado*]
-6. [ORDER BY columnaN ASC|DESC*] **;**
+6. [ORDER BY columnaN ASC|DESC*] ;
 ```
 
 A continuación imos estudar as diferentes sentencias e funcións que soportan os xestores SQL de consulta, vendo as súas estruturas e acompañadas de exemplos.
@@ -298,11 +298,9 @@ Exemplo: *Amosar todos os países que teñan unha poboación maior á do Brasil*
 ```sql
 SELECT name
 FROM world
-WHERE population > (
-   SELECT population
-   FROM world
-   WHERE name = 'Brazil'
-);
+WHERE population > (SELECT population
+	            FROM world
+	            WHERE name = 'Brazil');
 ```
 
 A veces cómpre realizar un **bucle aniñado**, onde resulta necesario renomear ambas táboas, pois o obxectivo é facer unha comparativa entre dous atributos da mesma táboa.
@@ -314,8 +312,54 @@ FROM world AS O
 WHERE  O.area >= ALL (SELECT I.area
 	              FROM world AS I
 	              WHERE  I.continent = O.continent
-	                 AND I.area IS NOT NULL);
+	                AND  I.area IS NOT NULL);
 ```
+
+### ```JOIN```
+
+Tamén expresado como ```INNER JOIN```, permite combinar dúas ou máis táboas nunha consulta. Mediante ```ON``` debemos expresar un predicado que relacione ambas partes, normalmente a **clave principal** dunha táboa coa <span style="text-decoration:overline">*clave allea*</span> doutra (este predicado tamén se pode declarar con ```WHERE```). Isto é fundamental, pois doutra maneira o xestor de BD relacionaría ambas mediante un **produto cartesiano**. Polo tanto, si se relacionasen dúas táboas con 100 tuplas cada unha, a consulta final contaría con 100000 tuplas. Cabe destacar que ó facer un ```JOIN```, suprímense as tuplas que conteñan valores nulos. 
+```sql
+SELECT columnaX, columnaY
+FROM táboaX JOIN táboa Y
+	      ON principalX = alleaY;
+```
+
+Exemplo de base de datos con varias táboas:
+
+- movie (**id**, title, yr, director, budget, gross)
+- actor (**id**, name)
+- casting (<span style="text-decoration:overline">***movieid***</span>, <span style="text-decoration:overline">*actorid*</span>, ord)
+
+*Amosa todas as películas nas que participou Joe Pesci.* Neste caso, mediante un dobre ```JOIN```, conseguimos *desbloquear* a base de datos e xa podemos facer referencia a calquera atributo de calquera táboa.
+```sql
+SELECT M.title
+FROM actor AS A JOIN casting AS C
+	          ON A.id = C.actorid
+	        JOIN movie AS M
+	          ON C.movieid = M.id
+WHERE A.name = 'Joe Pesci';
+```
+Unha alternativa máis complicada para resolver esta consulta sería añidar dúas subconsultas:
+```sql
+SELECT M.title
+FROM movie AS M
+WHERE M.id IN (SELECT C.movieid
+	       FROM casting AS C
+	       WHERE C.actorid IN (SELECT A.id
+	                           FROM actor AS A
+	                           WHERE A.name = 'Joe Pesci')
+	      );
+```
+
+.
+
+.
+
+.
+
+.
+
+.
 
 .
 
