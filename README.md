@@ -1,17 +1,17 @@
 ## Primeiros pasos
 
-**```SQL```** é unha linguaxe standard empregada na xestión de bases de datos relacionais, que permite crear/ modificar esquemas, ademais de engadir/ borrar/ consultar información dunha BD. Podemos dicir que é unha **liguaxe declarativa**, pois debemos declarar propiedades e condicións en vez de instrucións; isto é, a importancia do *```QUE?```* sobre o *```COMO?```*.
+**SQL** é unha linguaxe standard empregada na xestión de bases de datos relacionais, que permite crear e modificar esquemas, ademais de engadir, borrar ou consultar información dunha BD. Podemos dicir que é unha **liguaxe declarativa**, pois debemos proclamar propiedades e condicións en vez de instrucións; isto é, a importancia do **QUE?** sobre o **COMO?**.
 
 ### Sublinguaxes de SQL e principais sentencias
 
-- **DDL** *Data Definition Language* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ```CREATE``` &nbsp; ```ALTER``` &nbsp;&nbsp;&nbsp; ```DROP```
-- **DML** *Data Manipulation Language* &nbsp;&nbsp;&nbsp;&nbsp; ```INSERT``` &nbsp; ```UPDATE``` &nbsp; ```DELETE```
-- **DQL** *Data Query Language* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ```SELECT```
-- **TCL** *Transaction Control Language* &nbsp;&nbsp;&nbsp;&nbsp; ```COMMIT``` &nbsp; ```ROLLBACK```
-- **DCL** *Data Control Language* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ```GRANT``` &nbsp;&nbsp;&nbsp; ```REVOKE```
-- **SCL** *Session Control Language* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ```ALTER```
+- **DDL** *(Data Definition Language)* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ```CREATE``` &nbsp; ```ALTER``` &nbsp;&nbsp;&nbsp; ```DROP```
+- **DML** *(Data Manipulation Language)* &nbsp;&nbsp;&nbsp;&nbsp; ```INSERT``` &nbsp; ```UPDATE``` &nbsp; ```DELETE```
+- **DQL** *(Data Query Language)* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ```SELECT```
+- **TCL** *(Transaction Control Language)* &nbsp;&nbsp;&nbsp;&nbsp; ```COMMIT``` &nbsp; ```ROLLBACK```
+- **DCL** *(Data Control Language)* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ```GRANT``` &nbsp;&nbsp;&nbsp; ```REVOKE```
+- **SCL** *(Session Control Language)* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ```ALTER```
 
-No noso caso, imos comezar por estudar o **SQL DQL**, xa que a pesar de que é a sublinguaxe máis complexa, é posible familiarizarse con ela dunha maneira más dinámica, realizando consultas en diferentes páxinas web interactivas. Desta maneira, á hora de xerar bases de datos dende cero, xa teremos unha base de aprendizaxe tralas nosas costas e limitarémonos a estudar as novas estruturas.
+No noso caso, imos comezar por estudar **SQL DQL**, xa que a pesar de que posiblemente é a sublinguaxe máis complexa, é posible familiarizarse con ela dunha maneira máis dinámica, realizando consultas en diferentes páxinas web interactivas. Desta maneira, á hora de xerar bases de datos dende cero, xa teremos unha base de aprendizaxe tralas nosas costas e limitarémonos a estudar as novas estruturas do resto de sublinguaxes.
 
 #### Normas básicas: 
 
@@ -19,15 +19,15 @@ No noso caso, imos comezar por estudar o **SQL DQL**, xa que a pesar de que é a
 - Por convenio, as sentencias e funcións adoitan escribirse en **maiúsculas**, pero é importante coñecer que SQL non as distingue das minúsculas. 
 - As cadeas de texto ou strings van sempre entre **comiñas** simples [```cidade = 'A Coruña'```]. Pola contra, os valores numéricos están exentos, sempre que os díxitos non formen un string [```ano = 1902``` vs ```bus.liña = '12'```].
 - Podemos diferenciar entre expresións regulares e strings dependendo de si empregamos ```LIKE``` ou ```=``` nos predicados: ```nome LIKE 'S%'``` [*Samuel, Sarif, Selena...*] vs ```nome = 'S%'``` [*S%*].
-- Igual que noutras linguaxes, os comentarios realízanse desta maneira ```/* texto que non interfire na consulta, salvo que o comentario inclúa punto e coma */```
+- Igual que noutras linguaxes, os comentarios realízanse desta maneira: ```/* texto que non interfire na consulta, salvo que o comentario inclúa punto e coma */```
 - Orde na que se escriben as diferentes funcións:
 ```sql
 1. SELECT columna1, columna2, columnaN
 2. FROM táboa
-3. [WHERE predicado*]
-4. [GROUP BY columnaN*]
-5. [HAVING predicado*]
-6. [ORDER BY columnaN ASC|DESC*] ;
+3. [WHERE predicado]
+4. [GROUP BY columnaN]
+5. [HAVING predicado]
+6. [ORDER BY columnaN ASC|DESC] ;
 ```
 
 A continuación imos estudar as diferentes sentencias e funcións que soportan os xestores SQL de consulta, vendo as súas estruturas e acompañadas de exemplos.
@@ -46,7 +46,7 @@ Cunha consulta deste estilo, o resultado contén todas as tuplas existentes recl
 
 ## ```WHERE```, exemplificación do paradigma declarativo
 
-A pesar de que non é obrigatorio, o certo é que unha consulta que non **filtre** resultados parece pouco útil. Aquí aparece a figura do ```WHERE```, principal ferramenta para establecer **predicados**. Como xa dixemos, SQL era unha linguaxe declarativa, e isto vese claramente reflexado no funcionamento do ```WHERE```. Se queremos que as tuplas a amosar cumpran unhas certas condicións, basta con declarar estos predicados, trasladando o *pseudocódigo* de maneira case literal.
+A pesar de que non é obrigatorio, o certo é que unha consulta que non **filtre** resultados parece pouco útil. Aquí aparece a figura do ```WHERE```, principal ferramenta para establecer **predicados**. Como xa dixemos, SQL é unha linguaxe declarativa, e isto vese claramente reflexado no funcionamento do ```WHERE```. Se queremos que as tuplas a amosar cumpran unhas certas condicións, basta con declarar estos predicados, trasladando o *pseudocódigo* de maneira case literal.
 
 #### Exemplo
 
@@ -101,7 +101,7 @@ Permite **redondear** un atributo numerado ou unha operación ás deceas, centea
 SELECT ROUND (atributo, N)
 FROM táboa;
 ```
-O díxito tras a coma representa o número de cifras decimais a amosar. Se a cifra se representa en negativo, isto supón a cantidade de díxitos que se redondean (*-1 en deceas, -2 en centeas, -3 en millares...*).
+O díxito trala coma representa o número de cifras decimais a amosar. Se a cifra se representa en negativo, isto supón a cantidade de díxitos que se redondean (*-1 en deceas, -2 en centeas, -3 en millares...*).
 ### ```[NOT] IN```
 Serve para especificar, nun único paso, un predicado con **múltiples valores**. 
 ```sql
@@ -124,7 +124,7 @@ SELECT columnaN
 FROM táboa
 WHERE columnaN BETWEEN 'valor1' AND 'valor2';
 ```
-De igual maneira que no caso anterior, tamén hai maneira alternativa de representar esta consulta, cos operadores maior/ menor que.
+De igual maneira que no caso anterior, tamén hai maneira alternativa de representar esta consulta, mediante os operadores ≥ | ≤.
 ```sql
 SELECT columnaN
 FROM táboa
@@ -145,7 +145,7 @@ SELECT columnaN
 FROM táboa
 WHERE columnaN LIKE 'valor1';
 ```
-Ademais, soporta o uso de **comodíns** como **_** para representar un só caracter, ou **%** para sustituir entre cero e múltiples caracteres. A diferenza co ```=``` radica en que este último busca strings, e si empregamos comodíns, tomaraos como caracteres co seu significado literal.
+Ademais, soporta o uso de **comodíns** como '**_**' para representar un só caracter, ou '**%**' para sustituir entre cero e múltiples caracteres. A diferenza co ```=``` radica en que este último busca strings, e si empregamos comodíns, tomaraos como caracteres co seu significado literal.
 ### ```XOR```
 Ten o funcionamento dun **```OR``` exclusivo**; isto é, de dúas condicións, debe cumprir unha e só unha delas. 
 ```sql
@@ -196,7 +196,7 @@ ORDER BY columnaN ASC|DESC;
 
 ### Un par de exemplos prácticos
 
-*Ganadores dun premio nobel que se chamen John e cuxa disciplina non sexa Física nen Química. Reempraza o nome John por Manolo, e amosa as disciplinas en orde descendente.* 
+*Gañadores dun premio nobel que se chamen John e cuxa disciplina non sexa Física nen Química. Reempraza o nome John por Manolo, e amosa as disciplinas en orde descendente.* 
 ```sql
 SELECT subject, 
        REPLACE (winner, 'John', 'Manolo') AS 'manobel winners'
@@ -220,22 +220,22 @@ WHERE population >= 250000000
 
 Serven para **reducir** unha serie de valores a un só resultado. Estas funcións de agregado operan sobre strings numéricos, ou permiten contar todas as filas pertencentes a unha columna. En todo caso, o resultado final queda reducido a unha tupla. 
 
-Diferentes funcións de agregado:
+#### Diferentes funcións de agregado:
 
 ### ```MAX```, ```MIN``` e ```AVG```
 Dunha columna con **atributos numéricos**, estas función retornan unha única tupla co maior valor, o menor, ou o valor promedio de entre todas as tuplas. Cabe destacar que, empregando estas funcións, os valores nulos son ignorados.
 
-Imaxinemos unha táboa onde a columnaN ten 15 tuplas, todas con valores únicos que aumentan de catro en catro, dende o 4 ata o 60 *[4,8,12,16,20,24,28,32,36,40,44,48,52,56,60]*
+Imaxinemos unha táboa onde a columnaN ten 15 tuplas, todas con valores únicos que aumentan de catro en catro, dende o 4 ata o 60 *[4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60]*
 ```sql
 SELECT MAX (columnaN),
        MIN (columnaN),
        AVG (columnaN)
 FROM táboa;
 ```
-Neste caso, ```MAX (columnaN)``` = 60, ```MIN (columnaN)``` = 4 e ```AVG (columnaN)``` = 32
+Neste caso, ```MAX (columnaN)```= 60, ```MIN (columnaN)```= 4 e ```AVG (columnaN)```= 32
 
 ### ```SUM``` e ```COUNT```
-Aínda que poidan resultar similares, en realidade non o son. Como o seu nome suxire, ```SUM``` fai unha **suma de todos os valores numéricos** pertencentes a unha columna, derivando nunha tupla co resultado final da suma. Igual que pasaba nas funcións anteriores, os valores nulos tamén se ignoran. 
+Aínda que poidan resultar similares, en realidade non o son. Como o seu nome suxire, ```SUM``` fai unha **suma de todos os valores numéricos** pertencentes a unha columna, derivando nunha tupla co resultado final da suma. Igual que ocorría nas funcións anteriores, os valores nulos tamén se ignoran. 
 
 Por outra banda, ```COUNT``` **contabiliza o total de tuplas** presentes na consulta. Neste caso, os valores nulos si se teñen en conta. Ademais, a función non diferencia entre valores idénticos. Por esta mesma razón, é moi interesante empregalo xunto con ```DISTINCT```, pois desta maneira é posible contabilizar o número total de valores únicos presentes nunha columna: ```COUNT (DISTINCT columnaN)```
 ```sql
@@ -243,11 +243,11 @@ SELECT SUM (columnaN),
      COUNT (columnaN)
 FROM táboa;
 ```
-Si tomamos de exemplo a táboa anterior, a suma total dos valores numéricos sería ```SUM (columnaN)``` = 480. Pola contra, ```COUNT (columnaN)``` = 15, xa que se limita a contabilizar a cantidade total de tuplas.
+Se tomamos de exemplo a táboa anterior, a suma total dos valores numéricos sería ```SUM (columnaN)```= 480. Pola contra, ```COUNT (columnaN)```= 15, xa que se limita a contabilizar a cantidade total de tuplas.
 
 ## Xa, pero quero ver máis dunha tupla: ```GROUP BY``` e ```HAVING```
 
-Nos exemplos previos, as consultas finais eran dunha tupla, con tantas columnas como funcións de agregado fosen declaradas no ```SELECT```. Ademais, poderiamos ter empregado ``WHERE```, cuxa función sería a de **filtrar** o número de tuplas que se verían posteriormente reducidas. Pero eran exemplos teóricos cun pouco de trampa, xa que non empregamos no ```SELECT``` nada que non fose unha función de agregado, pois a consulta sería errónea sen o uso dun ```GROUP BY```.
+Nos exemplos previos, as consultas finais eran dunha tupla, con tantas columnas como funcións de agregado fosen declaradas no ```SELECT```. Ademais, poderiamos ter empregado ```WHERE```, cuxa función sería a de **filtrar** o número de tuplas que se verían posteriormente reducidas. Pero eran exemplos teóricos cun pouco de trampa, xa que non empregamos no ```SELECT``` nada que non fose unha función de agregado, pois a consulta sería errónea sen o uso dun ```GROUP BY```.
 
 ### ```GROUP BY```
 Permite agrupar as tuplas en función dun criterio establecido. Como dixemos antes, todo atributo declarado nun ```SELECT``` que non sexa unha función de agregado **debe ir obrigatoriamente incluído** nun ```GROUP BY```. A razón é que este último agrupa os valores idénticos e xenera unha tupla por cada tipo. Por outra banda, un atributo só no ```SELECT``` vai devolver todas as filas que cumpran as condicións da consulta. Loxicamente, unha consulta non pode amosar dúas cantidades diferentes de tuplas.
@@ -292,7 +292,7 @@ Cal é a orde de execución nesta consulta?
 > 2. WHERE:    Filtrar os países cunha poboación entre 50 e 100 millóns de habitantes (15 tuplas)
 > 3. GROUP BY: Agrupar en función dos diferentes continentes (3 tuplas)
 > 4. HAVING:   Filtrar que, respeto da agrupación e o predicado establecidos, o número total de países sexa maior a catro (1 tupla)
-> 5. SELECT:   Amosar as columnas desexadas
+> 5. SELECT:   Amosar certas columnas desexadas
 ```
 
 ## Agora toca combinar táboas: ```SELECT``` aniñados e ```JOIN```
@@ -361,9 +361,9 @@ WHERE M.id IN (SELECT C.movieid
 
 ### ```LEFT/ RIGHT JOIN```
 
-Como xa dixemos anteriormente, ó realizar un ```JOIN```, son eliminadas as tuplas que conteñan valores nulos. Para evitar isto, podemos enlazar unha táboa respeto da outra. Desta maneira, no lado escollido aparecerán todos os valores, aínda que no outro haxa valores nulos. 
+Como xa dixemos anteriormente, ó realizar un ```JOIN``` son eliminadas as tuplas que conteñan valores nulos. Para evitar isto, podemos enlazar unha táboa respeto da outra. Desta maneira, no lado escollido aparecerán todos os valores, aínda que no outro haxa valores nulos. 
 
-Imaxinemos esta base de datos, onde varios profesores non teñen departamento asignado ou teléfono móbil rexistrado. Ademais, un departamento non ten profesores:
+Imaxinemos esta base de datos, onde varios profesores non teñen departamento asignado ou teléfono móbil rexistrado. Ademais, un departamento non contén profesores:
 - dept (**id**, name)
 - teacher (**id**, *dept*, name, phone, mobile)
 
@@ -373,7 +373,7 @@ SELECT teacher.name, dept.name
 FROM teacher LEFT JOIN dept
   ON teacher.dept = dept.id;
 ```
-Ó feito de facer un ```LEFT JOIN```, permítenos que a táboa da esquerda (teacher) amose todos os valores, aínda que na outra táboa existan tuplas con ```NULL```. Naturalmente, podemos acadar esta mesma consulta con un ```RIGHT JOIN``` se damos a volta ás táboas. Ademais, imos aproveitar este exemplo para substituir os valores nulos cun ```COALESCE```.
+O feito de facer un ```LEFT JOIN```, permítenos que a táboa da esquerda (*teacher*) amose todos os valores, aínda que na outra táboa existan tuplas con ```NULL```. Naturalmente, podemos acadar esta mesma consulta con un ```RIGHT JOIN``` se damos a volta ás táboas. Ademais, imos aproveitar este exemplo para substituir os valores nulos cun ```COALESCE```.
 ```sql
 SELECT teacher.name, 
        COALESCE (dept.name, 'None') AS 'dept'
