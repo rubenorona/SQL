@@ -1,4 +1,4 @@
-# Apuntes de SQL
+# Apuntamentos de SQL
 
 ## Índice
 
@@ -19,7 +19,7 @@
   - [JOIN](#JOIN)
   - [LEFT | RIGHT JOIN](#LEFT--RIGHT-JOIN)
 - [Agora toca aplicar os coñecementos](#agora-toca-aplicar-os-coñecementos)
-- [Apuntes finais](#apuntes-finais)
+- [Ferramentas empregadas](#ferramentas-empregadas)
 
 ## Primeiros pasos
 
@@ -433,7 +433,7 @@ WHERE A2.name = 'Katharine Hepburn'
 ORDER BY A1.name ASC;
 ```
 
-### Apuntes finais
+### Ferramentas empregadas
 
 Sistema operativo empregado: UBUNTU 18.04, instalado como máquina virtual con Oracle VirtualBox (versión 6.1.2).
 
