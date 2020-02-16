@@ -4,7 +4,7 @@
 
 ### Sublinguaxes de SQL e principais sentencias
 
-- **DDL** *Data Definition Language* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ```CREATE``` &nbsp; ```ALTER``` &nbsp;&nbsp; ```DROP```
+- **DDL** *Data Definition Language* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ```CREATE``` &nbsp; ```ALTER``` &nbsp;&nbsp;&nbsp; ```DROP```
 - **DML** *Data Manipulation Language* &nbsp;&nbsp;&nbsp;&nbsp; ```INSERT``` &nbsp; ```UPDATE``` &nbsp; ```DELETE```
 - **DQL** *Data Query Language* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ```SELECT```
 - **TCL** *Transaction Control Language* &nbsp;&nbsp;&nbsp;&nbsp; ```COMMIT``` &nbsp; ```ROLLBACK```
@@ -15,7 +15,7 @@ No noso caso, imos comezar por estudar o **SQL DQL**, xa que a pesar de que é a
 
 #### Normas básicas: 
 
-- As consultas deben rematar <u>**sempre**</u> con **punto e coma** ```;```
+- As consultas deben rematar ***sempre*** con **punto e coma** ```;```
 - Por convenio, as sentencias e funcións adoitan escribirse en **maiúsculas**, pero é importante coñecer que SQL non as distingue das minúsculas. 
 - As cadeas de texto ou strings van sempre entre **comiñas** simples [```cidade = 'A Coruña'```]. Pola contra, os valores numéricos están exentos, sempre que os díxitos non formen un string [```ano = 1902``` vs ```bus.liña = '12'```].
 - Podemos diferenciar entre expresións regulares e strings dependendo de si empregamos ```LIKE``` ou ```=``` nos predicados: ```nome LIKE 'S%'``` [*Samuel, Sarif, Selena...*] vs ```nome = 'S%'``` [*S%*].
@@ -186,16 +186,24 @@ Serve de gran utilidade si queremos substituir os valores nulos dun atributo por
 SELECT COALESCE (columnaN, 'string')
 FROM táboa;
 ```
+### ```ORDER BY```
+Sempre ó **final** da consulta, permite ordenar os strings (alfabeticamente) ou os valores numéricos dunha ou varias columnas. Por defecto, a orde é ascendente.
+```sql
+SELECT columnaN
+FROM táboa
+ORDER BY columnaN ASC|DESC;
+```
 
 ### Un par de exemplos prácticos
 
-*Ganadores dun premio nobel que se chamen John e cuxa disciplina non sexa Física nen Química. Reempraza o nome John por Manolo.* 
+*Ganadores dun premio nobel que se chamen John e cuxa disciplina non sexa Física nen Química. Reempraza o nome John por Manolo, e amosa as disciplinas en orde descendente.* 
 ```sql
 SELECT subject, 
        REPLACE (winner, 'John', 'Manolo') AS 'manobel winners'
 FROM nobel
 WHERE winner  LIKE 'John%' 
-  AND subject NOT IN ('Physics', 'Chemistry');
+  AND subject NOT IN ('Physics', 'Chemistry')
+ORDER BY subject DESC;
 ```
 
 *Calcula a renta per capita (con dous decimais) daqueles países que, ou ben teñen polo menos 250 millóns de habitantes, ou contan cunha área de máis de 3 millóns de km cadrados. Amosa a tres primeiras letras de cada país a modo de abreviatura.*
@@ -280,7 +288,7 @@ HAVING COUNT (name) > '4';
 
 Cal é a orde de execución nesta consulta?
 ```sql
-> 1. FORM:     Atopar a base de datos (táboa world, 195 tuplas)
+> 1. FROM:     Atopar a base de datos (táboa world, 195 tuplas)
 > 2. WHERE:    Filtrar os países cunha poboación entre 50 e 100 millóns de habitantes (15 tuplas)
 > 3. GROUP BY: Agrupar en función dos diferentes continentes (3 tuplas)
 > 4. HAVING:   Filtrar que, respeto da agrupación e o predicado establecidos, o número total de países sexa maior a catro (1 tupla)
@@ -317,7 +325,7 @@ WHERE  O.area >= ALL (SELECT I.area
 
 ### ```JOIN```
 
-Tamén expresado como ```INNER JOIN```, permite combinar dúas ou máis táboas nunha consulta. Mediante ```ON``` debemos expresar un predicado que relacione ambas partes, normalmente a **clave principal** dunha táboa coa <u>*clave allea*</u> doutra (este predicado tamén se pode declarar con ```WHERE```). Isto é fundamental, pois doutra maneira o xestor de BD relacionaría ambas mediante un **produto cartesiano**. Polo tanto, si se relacionasen dúas táboas con 100 tuplas cada unha, a consulta final contaría con 100000 tuplas. Cabe destacar que ó facer un ```JOIN```, suprímense as tuplas que conteñan valores nulos. 
+Tamén expresado como ```INNER JOIN```, permite combinar dúas ou máis táboas nunha consulta. Mediante ```ON``` debemos expresar un predicado que relacione ambas partes, normalmente a **clave principal** dunha táboa coa *clave allea* doutra (este predicado tamén se pode declarar con ```WHERE```). Isto é fundamental, pois doutra maneira o xestor de BD relacionaría ambas mediante un **produto cartesiano**. Polo tanto, si se relacionasen dúas táboas con 100 tuplas cada unha, a consulta final contaría con 100000 tuplas. Cabe destacar que ó facer un ```JOIN```, suprímense as tuplas que conteñan valores nulos. 
 ```sql
 SELECT columnaX, columnaY
 FROM táboaX JOIN táboa Y
@@ -325,21 +333,21 @@ FROM táboaX JOIN táboa Y
 ```
 
 Exemplo de base de datos con varias táboas:
-
 - movie (**id**, title, yr, director, budget, gross)
 - actor (**id**, name)
-- casting (<u>***movieid***</u>, <u>*actorid*</u>, ord)
+- casting (***movieid***, *actorid*, ord)
 
-*Amosa todas as películas nas que participou Joe Pesci.* Neste caso, mediante un dobre ```JOIN```, conseguimos *desbloquear* a base de datos e xa podemos facer referencia a calquera atributo de calquera táboa.
+*Amosa todas as películas nas que participou Joe Pesci e non foi un dos dous principais actores* Neste caso, mediante un dobre ```JOIN```, conseguimos *desbloquear* a base de datos, e permítenos facer referencia a calquera atributo de calquera táboa.
 ```sql
 SELECT M.title
 FROM actor AS A JOIN casting AS C
 	          ON A.id = C.actorid
 	        JOIN movie AS M
 	          ON C.movieid = M.id
-WHERE A.name = 'Joe Pesci';
+WHERE A.name = 'Joe Pesci'
+  AND C.ord > 2;
 ```
-Unha alternativa máis complicada para resolver esta consulta sería añidar dúas subconsultas:
+Unha alternativa máis complicada para resolver esta consulta sería añidar dous ```SELECT```:
 ```sql
 SELECT M.title
 FROM movie AS M
@@ -348,41 +356,61 @@ WHERE M.id IN (SELECT C.movieid
 	       WHERE C.actorid IN (SELECT A.id
 	                           FROM actor AS A
 	                           WHERE A.name = 'Joe Pesci')
-	      );
+	         AND C.ord > 2);
 ```
 
-.
+### ```LEFT/ RIGHT JOIN```
 
-.
+Como xa dixemos anteriormente, ó realizar un ```JOIN```, son eliminadas as tuplas que conteñan valores nulos. Para evitar isto, podemos enlazar unha táboa respeto da outra. Desta maneira, no lado escollido aparecerán todos os valores, aínda que no outro haxa valores nulos. 
 
-.
+Imaxinemos esta base de datos, onde varios profesores non teñen departamento asignado ou teléfono móbil rexistrado. Ademais, un departamento non ten profesores:
+- dept (**id**, name)
+- teacher (**id**, *dept*, name, phone, mobile)
 
-.
+*Fai un ```JOIN``` que amose todos os profesores, aínda que non teñan departamento asignado*
+```sql
+SELECT teacher.name, dept.name
+FROM teacher LEFT JOIN dept
+  ON teacher.dept = dept.id;
+```
+Ó feito de facer un ```LEFT JOIN```, permítenos que a táboa da esquerda (teacher) amose todos os valores, aínda que na outra táboa existan tuplas con ```NULL```. Naturalmente, podemos acadar esta mesma consulta con un ```RIGHT JOIN``` se damos a volta ás táboas. Ademais, imos aproveitar este exemplo para substituir os valores nulos cun ```COALESCE```.
+```sql
+SELECT teacher.name, 
+       COALESCE (dept.name, 'None') AS 'dept'
+FROM dept RIGHT JOIN teacher
+  ON dept.id = teacher.dept
+```
+| name       | dept      |
+|------------|-----------|
+| Shrivell   | Computing |
+| Throd      | Computing |
+| Splint     | Computing |
+| Spiregrain | None      |
+| Cutflower  | Design    |
+| Deadyawn   | None      |
 
-.
+## Agora toca aplicar os coñecementos
 
-.
+*Ordena alfabeticamente todas as persoas que traballaron con Katharine Hepburn*
 
-.
+Base de datos:
+- movie (**id**, title, yr, director, budget, gross)
+- actor (**id**, name)
+- casting (***movieid***, *actorid*, ord)
 
-.
+O primeiro que recoñecemos é que a táboa movie non é necesaria nesta consulta. Polo tanto, comezamos por facer un ```JOIN``` ordinario entre actor e casting. Ademais, imos precisar dun bucle que comprobe si os actores da lista traballaron ou non con Katharine Hepburn. Para isto, facemos un ```JOIN``` de casting consigo mesmo, ademais dun derradeiro ```JOIN``` con outra táboa actor, mediante a que declaramos o nome da actriz obxecto da consulta. Coa estrutura xa montada, precisamos dun predicado que elimine a tupla de Katharine Hepburn, pois naturalmente traballou consigo mesma pero non nos interesa. Agora só falta un ```DISTINCT``` que descarte os actores duplicados, e un ```ORDER BY``` final.
 
-.
+```sql
+SELECT DISTINCT A1.name
+FROM actor AS A1 JOIN casting AS C1 ON A1.id      = C1.actorid
+	         JOIN casting AS C2 ON C1.movieid = C2.movieid
+	         JOIN actor   AS A2 ON A2.id      = C2.actorid
+WHERE A2.name = 'Katharine Hepburn'
+  AND A1.id <> A2.id
+ORDER BY A1.name ASC;
+```
 
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
+### Apuntes finais
 
 Sistema operativo empregado: UBUNTU 18.04, instalado como máquina virtual con Oracle VirtualBox (versión 6.1.2).
 
