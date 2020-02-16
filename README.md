@@ -3,7 +3,7 @@
 ## Índice
 
 - [Primeiros pasos](#primeiros-pasos)
-  - [Sublinguaxes de SQL](#sublinguaxes-de-SQL)
+  - [Sublinguaxes de SQL](#sublinguaxes-de-SQL-e-principais-sentencias)
   - [Normas básicas](#normas-básicas)
 - [SELECT e FROM, nai e pai da consulta básica](#SELECT-e-FROM-nai-e-pai-da-consulta-básica)
 - [WHERE, exemplificación do paradigma declarativo](#WHERE-exemplificación-do-paradigma-declarativo)
@@ -14,10 +14,10 @@
 - [Xa, pero quero ver máis dunha tupla](#xa-pero-quero-ver-máis-dunha-tupla-GROUP-BY-e-HAVING)
   - [GROUP BY](#GROUP-BY)
   - [HAVING](#HAVING)
-- [Agora toca combinar táboas](#agora-toca-combinar-táboas-SELECT-aniñados-e-JOIN)
+- [E como combino varias táboas?](#e-como-combino-varias-táboas-SELECT-aniñados-e-JOIN)
   - [SELECT aniñados](#SELECT-aniñados)
   - [JOIN](#JOIN)
-  - [LEFT | RIGHT JOIN](#LEFT-RIGHT-JOIN)
+  - [LEFT | RIGHT JOIN](#LEFT--RIGHT-JOIN)
 - [Agora toca aplicar os coñecementos](#agora-toca-aplicar-os-coñecementos)
 - [Apuntes finais](#apuntes-finais)
 
@@ -318,7 +318,7 @@ Cal é a orde de execución nesta consulta?
 > 5. SELECT:   Amosar certas columnas desexadas
 ```
 
-## Agora toca combinar táboas: ```SELECT``` aniñados e ```JOIN```
+## E como combino varias táboas?: ```SELECT``` aniñados e ```JOIN```
 
 Xa temos todas as ferramentas para sacar o máximo partido ás consultas que impliquen unha táboa. Pero o certo é que as bases de datos son máis complexas que isto, polo que debemos aprender a referenciar elementos externos. 
 
