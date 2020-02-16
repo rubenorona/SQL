@@ -1,3 +1,26 @@
+# Apuntes de SQL
+
+## Índice
+
+- [Primeiros pasos](#primeiros-pasos)
+  - [Sublinguaxes de SQL](#sublinguaxes-de-SQL)
+  - [Normas básicas](#normas-básicas)
+- [SELECT e FROM, nai e pai da consulta básica](#SELECT-e-FROM-nai-e-pai-da-consulta-básica)
+- [WHERE, exemplificación do paradigma declarativo](#WHERE-exemplificación-do-paradigma-declarativo)
+- [Isto está moi ben, pero preciso de máis ferramentas](#isto-está-moi-ben-pero-preciso-de-máis-ferramentas)
+- [Funcións de agregado, aumentando as posibilidades alxebraicas](#funcións-de-agregado-aumentando-as-posibilidades-alxebraicas)
+  - [MAX, MIN e AVG](#MAX-MIN-e-AVG)
+  - [SUM e COUNT](#SUM-e-COUNT)
+- [Xa, pero quero ver máis dunha tupla](#xa-pero-quero-ver-máis-dunha-tupla-GROUP-BY-e-HAVING)
+  - [GROUP BY](#GROUP-BY)
+  - [HAVING](#HAVING)
+- [Agora toca combinar táboas](#agora-toca-combinar-táboas-SELECT-aniñados-e-JOIN)
+  - [SELECT aniñados](#SELECT-aniñados)
+  - [JOIN](#JOIN)
+  - [LEFT | RIGHT JOIN](#LEFT-RIGHT-JOIN)
+- [Agora toca aplicar os coñecementos](#agora-toca-aplicar-os-coñecementos)
+- [Apuntes finais](#apuntes-finais)
+
 ## Primeiros pasos
 
 **SQL** é unha linguaxe standard empregada na xestión de bases de datos relacionais, que permite crear e modificar esquemas, ademais de engadir, borrar ou consultar información dunha BD. Podemos dicir que é unha **liguaxe declarativa**, pois debemos proclamar propiedades e condicións en vez de instrucións; isto é, a importancia do **QUE?** sobre o **COMO?**.
@@ -34,7 +57,7 @@ A continuación imos estudar as diferentes sentencias e funcións que soportan o
 
 ## ```SELECT``` e ```FROM```, nai e pai da consulta básica
 
-Son os dous elementos de presenza obrigatoria en calquera consulta SQL. Por un lado, o ```SELECT``` é unha declaración que serve para retornar unha ou máis columnas de unha ou más táboas. Por outra banda, ```FROM``` indica sobre que táboa/s estamos a reclamar a consulta. Máis adiante amosaremos como realizar un ```FROM``` composto mediante consultas aniñadas (**link**) ou empregando ```JOIN``` (**link**). 
+Son os dous elementos de presenza obrigatoria en calquera consulta SQL. Por un lado, o ```SELECT``` é unha declaración que serve para retornar unha ou máis columnas de unha ou más táboas. Por outra banda, ```FROM``` indica sobre que táboa/s estamos a reclamar a consulta. Máis adiante amosaremos como realizar un ```FROM``` composto mediante [consultas aniñadas](#SELECT-aniñados) ou [empregando ```JOIN```](#JOIN). 
 
 ```sql
 SELECT taboa1.columna1, [taboaN.columnaN]
@@ -139,7 +162,7 @@ FROM táboa
 WHERE columnaN <> 'valorN';
 ```
 ### ```[NOT] LIKE```
-Como xa explicamos anteriormente nas normas básicas (**link**), serve para filtrar unha columna por un valor expresado como cadea regular. 
+Como xa explicamos anteriormente nas [normas básicas](#normas-básicas), serve para filtrar unha columna por un valor expresado como cadea regular. 
 ```sql
 SELECT columnaN
 FROM táboa
@@ -161,7 +184,7 @@ SELECT LENGTH (columnaN)
 FROM táboa
 [WHERE LENGTH (columnaN) = X];
 ```
-### ```LEFT/ RIGHT```
+### ```LEFT | RIGHT```
 Extrae un número específico de caracteres (comezando pola esquerda ou a dereita) das cadeas de texto que forman os valores dunha columna. 
 ```sql
 SELECT LEFT (columnaN, n)
@@ -359,7 +382,7 @@ WHERE M.id IN (SELECT C.movieid
 	         AND C.ord > 2);
 ```
 
-### ```LEFT/ RIGHT JOIN```
+### ```LEFT | RIGHT JOIN```
 
 Como xa dixemos anteriormente, ó realizar un ```JOIN``` son eliminadas as tuplas que conteñan valores nulos. Para evitar isto, podemos enlazar unha táboa respeto da outra. Desta maneira, no lado escollido aparecerán todos os valores, aínda que no outro haxa valores nulos. 
 
