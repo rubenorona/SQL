@@ -40,23 +40,19 @@ Debido á diversidade de información que se pode engadir nunha base de datos, e
 
 | TIPO DE DATO  | PARA QUE SERVE?                                                                     |
 |---------------|-------------------------------------------------------------------------------------|
-| tipo numérico |                                                                                     |
-|---------------|-------------------------------------------------------------------------------------|
+| **numérico**  |                                                                                     |
 | INTEGER       | número enteiro; é o tipo numérico máis empregado)                                   |
 | DECIMAL(n,m)  | número preciso (díxitos a introducir, díxitos decimais)                             |
 | REAL          | número aproxiamdo; ocupa só 4 bytes                                                 |
-| tipo texto    |                                                                                     |
-|---------------|-------------------------------------------------------------------------------------|
+| **texto**     |                                                                                     |
 | CHAR(n)       | lonxitude fixa (só pode ter n caracteres)                                           |
 | VARCHAR(n)    | lonxitude variable (pode ter un máximo de n caracteres)                             |
 | TEXT          | lonixutde variable e ilimitada; emprégase para descripcións                         |
-| tipo data     |                                                                                     |
-|---------------|-------------------------------------------------------------------------------------|
+| **data**      |                                                                                     |
 | DATE          | 'aaaa-mm-dd'; precisión de 1 día                                                    |
 | TIME          | 'hh:mm:ss[.sss]'; precisión de ata 1 microsegundo                                   |
 | TIMESTAMP     | 'aaaa-mm-dd hh:mm:ss'; combinación de DATE e TIME                                   |
-| outros tipos  |                                                                                     |
-|---------------|-------------------------------------------------------------------------------------|
+| **outro**     |                                                                                     |
 | BOOLEAN       | TRUE(1) ou FALSE(0); cómpre usar NOT NULL (xa que por defecto admite valores nulos) |
 | MONEY         | precisión limitada (ata catro cifras decimais); optimizado para ```SUM```           |
 | UUID          | identificador universal único; 128 bits = 32 díxitos hexadecimais (8-4-4-4-12)      |
