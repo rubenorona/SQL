@@ -1,1 +1,1 @@
-va
+Unha vez que xa dominamos o SQL DQL (**link**), aprendendo a realizar consultas mediante páxinas web interactivas, agora imos a ver como facer bases de datos dende cero. Nisto consiste a sublinguaxe **SQL DDL**, que nos permite crear bases de datos, esquemas, táboas ou usuarios, engadir atributos cun tipo de dato definido, establecer restricións, impoñer un criterio en táboas relacionadas ante o borrado ou modificación de datos, así como alterar calquera destes parámetros a posteriori. 
