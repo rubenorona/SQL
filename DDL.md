@@ -20,3 +20,17 @@ CREATE SCHEMA [IF NOT EXISTS] <nomeDaBaseDeDatos>
               [CHARACTER SET  <nomeDoCharset>]
 ;
 ```
+
+### ```CREATE DOMAIN```
+
+Se imos a repetir nunha BD o mesmo tipo de datos en diferentes atributos, cómpre crer un dominio común. Desta maneira, realizar unha posterior modificación do mesmo resultará moito máis sinxelo. Ademais, o resto de colaboradores na xestión da base de datos agradecerán esta organización e orde. 
+
+```sql
+CREATE DOMAIN [nomeDoSchema.]<nomeDoDominio> <tipoDeDato>
+              [DEFAULT  <'expresión'>]
+              [NULL | NOT NULL]
+              [CHECK (restrición)]
+;
+```
+Os únicos parámetros obrigatorios son o nome do dominio e a declaración do tipo de dato (que veremos a continuación). Por defecto, os dominios son creados no esquema que esteamos a empregar nese momento, pero podemos establecelo noutro no mesmo intre que nomeamos o dominio. Tamén de forma predetirminada, os dominios admiten valores nulos, polo que cómpre usar ```NOT NULL``` para evitalo. Ademais, ```CREATE DOMAIN``` permítenos engadir restricións ós tipos de datos con ```CHECK``` (verémolo con profundidade nos ```CONSTRAINTS```**link**). Por último, se queremos definir un valor por defecto, esta expresión debe cumprir as restricións establecidas e ser coherente co tipo de dato escollido.
+
