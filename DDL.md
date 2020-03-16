@@ -58,12 +58,12 @@ Debido á diversidade de información que se pode engadir nunha base de datos, e
 | UUID          | identificador universal único; 128 bits = 32 díxitos hexadecimais; 8-4-4-4-12      |
 | JSON          | extensión de arquivos .json [JavaScript Object Notation]                           |
 | XML           | extensión de arquivos .xml [eXtensible Markup Language]                            |
-| CIDR          | direccións IPv4 e IPv6; non permite bits distintos a 0 á dereita da máscara        |
-| INET          | direccións IPv4 e IPv6                                                             |
+| CIDR          | direcións IPv4 e IPv6; non permite bits distintos a 0 á dereita da máscara         |
+| INET          | direcións IPv4 e IPv6                                                              |
 
 ### ```CREATE TABLE```
 
-Debemos crear as táboas unha a unha, rematando sempre con punto e coma. Todo o contido da mesma vai entre parénteses, e separando os disntintos elementos mediante comas. Igual que ocorría cos dominios, unha táboa será xerada na basa de datos que se esté empregando nese momento, salvo que especifiquemos o contrario á hora de establecer o nome. Os elementos básicos que compoñen as táboas son os atributos [columnas], que declaramos mediante un nome e un tipo de dato (de maneira explícita ou mediante un dominio previamente creado). Voluntariamente, podemos establecer parámetros de clave primaria, unicidade, imposibilidade de valores nulos ou un valor por defecto ó final de cada atributo. Outro método para establecer estas restricións é a función ```CONSTRAINT```, que podemos realizar tras declarar os atributos.
+Debemos crear as táboas unha a unha, rematando sempre con punto e coma. Todo o contido da mesma vai entre parénteses, e separando os disntintos elementos mediante comas. Igual que ocorría cos dominios, unha táboa será xerada na basa de datos que se esté empregando nese momento, salvo que especifiquemos o contrario á hora de establecer o nome. Os elementos básicos que compoñen as táboas son os atributos [columnas], que declaramos mediante un nome e un tipo de dato (de maneira explícita ou mediante un dominio previamente creado). Voluntariamente, podemos establecer [de maneira implícita] parámetros de clave primaria, unicidade, imposibilidade de valores nulos ou un valor por defecto ó final de cada atributo. Outro método para establecer estas restricións é a función ```CONSTRAINT```, que podemos realizar tras declarar os atributos.
 
 ```sql
 CREATE TABLE [IF NOT EXISTS]   [nomeDoSchema.]<nomeDaTaboa> (
@@ -73,8 +73,31 @@ CREATE TABLE [IF NOT EXISTS]   [nomeDoSchema.]<nomeDaTaboa> (
 );
 ```
 
+## ```CONSTRAINT```, establecendo restricións sobre as táboas
 
+Método **explícito** para establecer claves primarias, claves alleas, restricións de unicidade ou límites ós valores que se poden introducir nunha columna. Estes pódense engadir ó final dun ```CREATE TABLE``` tras os atributos, ou mediante un ```ALTER``` (que veremos máis adiante (**link**)).
 
+### ```PRIMARY KEY```
 
+Segundo a regra de integridade das entidades, cada táboa debe ter unha e só unha clave principal, cuxo/s atributo/s debe/n permitir identificar unha tupla sobre as outras. Polo tanto, este [conxuto de] atributo/s só pode tomar valores únicos e non nulos. 
 
+```sql
+CREATE TABLE <exemplo1> (
+	     <nomeDoAtributo1> <dominio1> PRIMARY KEY,
+	     <nomeDoAtributoN> <dominioN>
+);
+
+CREATE TABLE <exemplo2> (
+	     <nomeDoAtributo1> <dominio1> UNIQUE NOT NULL,
+	     <nomeDoAtributoN> <dominioN>
+);
+
+CREATE TABLE <exemplo3> (
+	     <nomeDoAtributo1> <dominio1>,
+	     <nomeDoAtributoN> <dominioN>,
+	     [CONSTRAINT <nomeDoConstraint>]
+		 PRIMARY KEY (atributo1[, atributoN])
+);
+```
+Como podemos ver, temos tres maneiras de establecer unha clave principal. No exemplo1 realízase de maneira sinxela tras declarar o atributo, sendo a maneira máis sinxela de facelo se a clave está formada por unha única columna. O exemplo2 é igual de válido, xa que facemos cumprir os dous parámetros básicos da primary key. Sen embargo, non recomendamos este método, pois é o empregado para declarar o resto de claves candidatas que tornan en alternativas, das que sí pode haber máis dunha na táboa e xerar conflicto coa principal. Por último, no exemplo3 vemos o método explícito, que ademáis é o único que permite xerar unha clave principal composta de varios atributos. 
 
