@@ -192,11 +192,13 @@ CREATE TABLE <taboaY> (
 ```
 Crear un ```CONSTRAINT``` ex professo para a clave allea resulta moito máis conveniente, pois permite nomear a acción, facer claves compostas e escoller o criterio a seguir ante o **borrado e modificación de datos** presentes en múltiples táboas. 
 
-| SIGLA | CRITERIO        | PARA QUE SERVE?                                                                                      |
-|-------|-----------------|------------------------------------------------------------------------------------------------------|
-| **R** | NO ACTION       | opción por defecto; é a máis restrictiva, non alterando os datos durante o borrado/ modificación     |
-| **C** | CASCADE         | actúa en cascada durante o borrado/ modificación en todas as táboas nas que o dato esté presente     |
-| **N** | SET NULL        | normalmente só se emprega ante o borrado, onde se establecen valores nulos [si o atributo o permite] |
-| **D** | SET DEFAULT <x> | opción menos recomendada das catro, pois engade datos que pode comprometer a integridade da táboa    |
+| SIGLA | CRITERIO    | PARA QUE SERVE?                                                                                      |
+|-------|-------------|------------------------------------------------------------------------------------------------------|
+| **R** | NO ACTION   | opción por defecto; é a máis restrictiva, non alterando os datos durante o borrado/ modificación     |
+| **C** | CASCADE     | actúa en cascada durante o borrado/ modificación en todas as táboas nas que o dato esté presente     |
+| **N** | SET NULL    | normalmente só se emprega ante o borrado, onde se establecen valores nulos [si o atributo o permite] |
+| **D** | SET DEFAULT | opción menos recomendada das catro, pois engade datos que poden comprometer a integridade da táboa   |
 
 Naturalmente, para crear a restrición da clave allea, deben previamente existir as táboas e os atributos implicados. Polo tanto, a maneira máis recomendada e ordenada de establecer as interrelación entre táboas é mediante un ```ALTER```, que nos permtite engadir un ```CONSTRAINT``` sobre unha base de datos xa declarada. Desta forma, evitamos a problemática que xurde cando as táboas dependen sucesivamente entre elas. 
+
+
