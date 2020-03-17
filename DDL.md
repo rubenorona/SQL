@@ -199,6 +199,48 @@ Crear un ```CONSTRAINT``` ex professo para a clave allea resulta moito máis con
 | SET NULL    | [**N**] normalmente só se emprega ante o borrado, onde se establecen valores nulos               |
 | SET DEFAULT | [**D**] opción menos recomendada, pois engade datos que poden comprometer a integridade da táboa |
 
-Naturalmente, para crear a restrición da clave allea, deben previamente existir as táboas e os atributos implicados. Polo tanto, a maneira máis recomendada e ordenada de establecer as interrelación entre táboas é mediante un ```ALTER```, que nos permtite engadir un ```CONSTRAINT``` sobre unha base de datos xa declarada. Desta forma, evitamos a problemática que xurde cando as táboas dependen sucesivamente entre elas. 
+Naturalmente, para crear a restrición da clave allea, deben previamente existir as táboas e os atributos implicados. Polo tanto, a maneira máis recomendada e ordenada de establecer as interrelación entre táboas é mediante un ```ALTER```, que nos permtite engadir un ```CONSTRAINT``` sobre unha base de datos xa declarada. Desta forma, evitamos a problemática que xurde cando as táboas dependen sucesivamente entre elas.
 
+## ```ALTER TABLE```, modificando táboas xa creadas
 
+Existe unha gran variedade de parámetros que podemos alterar nunha base de datos, pero ímonos a centrar en ```ALTER TABLE```, que nos permite engadir ou eliminar tanto columnas como restricións. Ademais, podemos renomear elementos e vincular unha táboa a outra base de datos diferente.
+
+```sql
+ALTER TABLE [IF NOT EXISTS] <nomeDaTaboa>
+	    [RENAME TO <novoNomeDaTaboa>],
+	    [RENAME [COLUMN | CONSTRAINT] <nomeOrixinal> TO <novoNome>],
+	    [SET SCHEMA <novoSchema>],
+	    [ADD | DROP [COLUMN | CONSTRAINT] <nome>]
+	       [...]
+;
+```
+Aínda que ```ALTER TABLE``` permite executar no seu anterior outro ```ALTER```, co que variar un parámetro concreto dunha columna ou unha restrición, non recomendamos este método. Para evitar fallos na estrutura da táboa, resulta moito máis eficiente facer un ```DROP``` do elemento que queiramos modificar, para despois declaralo todo de novo mediante un ```ADD```. Por esta razón, cómpre nomear sempre os restricións. Finalmente, como dixemos con anterioridade, o criterio máis ordeado para realizar interrelacións é facelo mediante un ```ALTER TABLE```, onde engadimos a restrición da clave allea sobre unhas táboas xa creadas previamente.
+
+```sql
+CREATE TABLE <taboaX> (
+	     <xAtributo1> <dominio1>,
+	     <xAtributo2> <dominio2>,
+	     <xAtributoN> <dominioN>,
+	     [CONSTRAINT <PK_taboaX>]
+		 PRIMARY KEY (xAtributo1[, xAtributoN])
+);
+
+CREATE TABLE <taboaY> (
+	     <yAtributo1> <dominio1>,
+	     <yAtributo2> <dominio2>,
+	     <yAtributoN> <dominioN>,
+	     [CONSTRAINT <PK_taboaY>]
+		 PRIMARY KEY (yAtributo1[, yAtributoN]),
+);
+
+[...]
+
+ALTER TABLE <taboaY>
+	    ADD [CONSTRAINT <FK_taboaX_taboaY>]
+		 FOREIGN KEY       (yAtributo1[, yAtributoN])
+	         REFERENCES taboaX (xAtributo1[, xAtributoN])
+	        [ON DELETE NO ACTION | CASCADE | SET NULL | SET DEFAULT <'expresion'>]
+	        [ON UPDATE NO ACTION | CASCADE | SET NULL | SET DEFAULT <'expresion'>]
+;
+```
+Desta maneira, cando manexamos unha base de datos moi grande, non temos que estar levando conta de si está creada ou non unha táboa sobre a que precisamos facer referencia. Así pois, declaramos todas as táboas e os seus atributos, con claves principais e alternativas. Só no final é cando engadimos a totalidade de claves alleas.
