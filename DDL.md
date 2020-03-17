@@ -83,18 +83,18 @@ Segundo a regra de integridade das entidades, cada táboa debe ter unha e só un
 
 ```sql
 CREATE TABLE <exemplo1> (
-	     <nomeDoAtributo1> <dominio1> UNIQUE NOT NULL,
-	     <nomeDoAtributoN> <dominioN>
+	     <atributo1> <dominio1> UNIQUE NOT NULL,
+	     <atributoN> <dominioN>
 );
 
 CREATE TABLE <exemplo2> (
-	     <nomeDoAtributo1> <dominio1> PRIMARY KEY,
-	     <nomeDoAtributoN> <dominioN>
+	     <atributo1> <dominio1> PRIMARY KEY,
+	     <atributoN> <dominioN>
 );
 
 CREATE TABLE <exemplo3> (
-	     <nomeDoAtributo1> <dominio1>,
-	     <nomeDoAtributoN> <dominioN>,
+	     <atributo1> <dominio1>,
+	     <atributoN> <dominioN>,
 	     [CONSTRAINT <nomeDoConstraint>]
 		 PRIMARY KEY (atributo1[, atributoN])
 );
@@ -107,9 +107,9 @@ No apartado anterior xa introducimos este termo, porque explicamos que segundo a
 
 ```sql
 CREATE TABLE <exemplo1> (
-	     <nomeDoAtributo1> <tipoDeDato>,
-	     <nomeDoAtributo2> <tipoDeDato> UNIQUE,
-	     <nomeDoAtributoN> <tipoDeDato>,
+	     <atributo1> <tipoDeDato>,
+	     <atributo2> <tipoDeDato> UNIQUE,
+	     <atributoN> <tipoDeDato>,
 	     [CONSTRAINT <nomeDoConstraintX>]
 		 PRIMARY KEY (atributo1[, atributoN]),
 	     [CONSTRAINT <nomeDoConstraintY>]
@@ -117,15 +117,33 @@ CREATE TABLE <exemplo1> (
 );
 
 CREATE TABLE <exemplo2> (
-	     <nomeDoAtributo1> <tipoDeDato>  PRIMARY KEY,
-	     <nomeDoAtributo2> <tipoDeDato>  NOT NULL,
-	     <nomeDoAtributoN> <tipoDeDato> [NOT NULL],
+	     <atributo1> <tipoDeDato>  PRIMARY KEY,
+	     <atributo2> <tipoDeDato>  NOT NULL,
+	     <atributoN> <tipoDeDato> [NOT NULL],
 	     [CONSTRAINT <nomeDoConstraint>]
 		 UNIQUE (atributo2[, atributoN])
 );
 ```
 En ambos casos, o atributo1 funciona como clave principal, mentres que o atributo2 é clave alternativa. Xa que previamente vimos como declarar ```UNIQUE``` e ```NOT NULL``` ó final do propio atributo, agora facemos dous exemplos mesturando este método coa xeración ex professo dun ```CONSTRAINT```. Sen embargo, non recomendamos crear un ```CHECK``` para establecer valores non nulos, resultando máis eficiente engadilo como parámetro xunto coa delcaración da columna.
 
+### ```CHECK```
 
+Permítenos limitar os valores que pode tomar un atributo. As que non teñen límite son as posibilidades que ofrece ```CHECK```, pois podemos realizar calquera tipo de predicado aplicando os coñecementos aprendidos en SQL DQL. O que sí debemos ter en conta é que os valores referenciados nese predicado deben pertencer á mesma táboa na que se crea o ```CHECK```.
+
+```sql
+CREATE TABLE <exemplo1> (
+	     <atributo1> <tipoDeDato> PRIMARY KEY,
+	     <atributo2> <tipoDeDato> CHECK (<predicado>),
+	     <atributoN> <tipoDeDato>
+);
+
+CREATE TABLE <exemplo2> (
+	     <atributo1> <tipoDeDato> PRIMARY KEY,
+	     <atributo2> <tipoDeDato>,
+	     <atributoN> <tipoDeDato>,
+	     [CONSTRAINT <nomeDoConstraint>]
+		 CHECK (<predicado>)
+);
+```
 
 
