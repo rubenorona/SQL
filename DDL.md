@@ -192,12 +192,12 @@ CREATE TABLE <taboaY> (
 ```
 Crear un ```CONSTRAINT``` ex professo para a clave allea resulta moito máis conveniente, pois permite nomear a acción, facer claves compostas e escoller o criterio a seguir ante o **borrado e modificación de datos** presentes en múltiples táboas. 
 
-| CRITERIO    | PARA QUE SERVE?                                                                                              |
-|-------------|--------------------------------------------------------------------------------------------------------------|
-| NO ACTION   | [**R**] opción por defecto; é a máis restrictiva, non alterando os datos durante o borrado/ modificación     |
-| CASCADE     | [**C**] actúa en cascada durante o borrado/ modificación en todas as táboas nas que o dato esté presente     |
-| SET NULL    | [**N**] normalmente só se emprega ante o borrado, onde se establecen valores nulos [si o atributo o permite] |
-| SET DEFAULT | [**D**] opción menos recomendada das catro, pois engade datos que poden comprometer a integridade da táboa   |
+| CRITERIO    | PARA QUE SERVE?                                                                                  |
+|-------------|--------------------------------------------------------------------------------------------------|
+| NO ACTION   | [**R**] restrictiva, non altera os datos durante o borrado/ modificación; opción por defecto     |
+| CASCADE     | [**C**] actúa en cascada en todas as táboas nas que o dato esté presente                         |
+| SET NULL    | [**N**] normalmente só se emprega ante o borrado, onde se establecen valores nulos               |
+| SET DEFAULT | [**D**] opción menos recomendada, pois engade datos que poden comprometer a integridade da táboa |
 
 Naturalmente, para crear a restrición da clave allea, deben previamente existir as táboas e os atributos implicados. Polo tanto, a maneira máis recomendada e ordenada de establecer as interrelación entre táboas é mediante un ```ALTER```, que nos permtite engadir un ```CONSTRAINT``` sobre unha base de datos xa declarada. Desta forma, evitamos a problemática que xurde cando as táboas dependen sucesivamente entre elas. 
 
