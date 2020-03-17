@@ -83,12 +83,12 @@ Segundo a regra de integridade das entidades, cada táboa debe ter unha e só un
 
 ```sql
 CREATE TABLE <exemplo1> (
-	     <nomeDoAtributo1> <dominio1> PRIMARY KEY,
+	     <nomeDoAtributo1> <dominio1> UNIQUE NOT NULL,
 	     <nomeDoAtributoN> <dominioN>
 );
 
 CREATE TABLE <exemplo2> (
-	     <nomeDoAtributo1> <dominio1> UNIQUE NOT NULL,
+	     <nomeDoAtributo1> <dominio1> PRIMARY KEY,
 	     <nomeDoAtributoN> <dominioN>
 );
 
@@ -99,5 +99,33 @@ CREATE TABLE <exemplo3> (
 		 PRIMARY KEY (atributo1[, atributoN])
 );
 ```
-Como podemos ver, temos tres maneiras de establecer unha clave principal. No exemplo1 realízase de maneira sinxela tras declarar o atributo, sendo a maneira máis sinxela de facelo se a clave está formada por unha única columna. O exemplo2 é igual de válido, xa que facemos cumprir os dous parámetros básicos da primary key. Sen embargo, non recomendamos este método, pois é o empregado para declarar o resto de claves candidatas que tornan en alternativas, das que sí pode haber máis dunha na táboa e xerar conflicto coa principal. Por último, no exemplo3 vemos o método explícito, que ademáis é o único que permite xerar unha clave principal composta de varios atributos. 
+Como podemos ver, temos tres maneiras de establecer unha clave principal. No *exemplo1* facemos cumprir os dous parámetros básicos da primary key. Sen embargo, non recomendamos este método, pois é o empregado para declarar o resto de claves candidatas que tornan en alternativas, das que sí pode haber máis dunha na táboa e xerar conflicto coa principal. O *exemplo2* resulta o máis sinxelo, xa que engadindo ```PRIMARY KEY``` tras a declararción do atributo, establecemos de maneira implícita as propiedades que esta columna debe cumprir. Por último, no *exemplo3* vemos unha maneira de facelo por separado, que ademáis de dar a posibilidade de nomear a restrición, é a única que permite xerar unha clave principal composta por varios atributos. 
+
+### ```UNIQUE``` e ```NOT NULL```
+
+No apartado anterior xa introducimos este termo, porque explicamos que segundo a regra de integridade das entidades, as claves candidatas deben tomar valores únicos e non nulos. Como unha táboa só pode ter unha clave principal, a sentenza ```PRIMARY KEY``` unicamente se pode empregar nunha ocasión. Pero coa suma de ```UNIQUE``` + ```NOT NULL``` podemos declarar todas as claves alternativas que existan.
+
+```sql
+CREATE TABLE <exemplo1> (
+	     <nomeDoAtributo1> <tipoDeDato>,
+	     <nomeDoAtributo2> <tipoDeDato> UNIQUE,
+	     <nomeDoAtributoN> <tipoDeDato>,
+	     [CONSTRAINT <nomeDoConstraintX>]
+		 PRIMARY KEY (atributo1[, atributoN]),
+	     [CONSTRAINT <nomeDoConstraintY>]
+		 CHECK (atributo2 IS NOT NULL)
+);
+
+CREATE TABLE <exemplo2> (
+	     <nomeDoAtributo1> <tipoDeDato>  PRIMARY KEY,
+	     <nomeDoAtributo2> <tipoDeDato>  NOT NULL,
+	     <nomeDoAtributoN> <tipoDeDato> [NOT NULL],
+	     [CONSTRAINT <nomeDoConstraint>]
+		 UNIQUE (atributo2[, atributoN])
+);
+```
+En ambos casos, o atributo1 funciona como clave principal, mentres que o atributo2 é clave alternativa. Xa que previamente vimos como declarar ```UNIQUE``` e ```NOT NULL``` ó final do propio atributo, agora facemos dous exemplos mesturando este método coa xeración ex professo dun ```CONSTRAINT```. Sen embargo, non recomendamos crear un ```CHECK``` para establecer valores non nulos, resultando máis eficiente engadilo como parámetro xunto coa delcaración da columna.
+
+
+
 
