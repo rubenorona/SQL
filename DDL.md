@@ -143,7 +143,60 @@ CREATE TABLE <exemplo2> (
 	     <atributoN> <tipoDeDato>,
 	     [CONSTRAINT <nomeDoConstraint>]
 		 CHECK (<predicado>)
+	         [NOT DEFERRABLE | DEFERRABLE]
+	         [INITIALLY IMMEDIATE | INITIALLY DEFERRED]
 );
 ```
+Por defecto, a comprobación a este tipo de restricións prodúcese inmediatamente [```NOT DEFERRABLE``` e ```INITIALLY IMMEDIATE```], pero podemos aplazala ó final.
 
+### ```FOREIGN KEY```
 
+Tipo de ```CONSTRAINT``` máis complexo, pois serve para establecer unha interrelación entre táboas. Cando un atributo fai referencia á clave principal doutra táboa, herda as súas propiedades, polo que non é preciso especificar que os valores a tomar deben ser non nulos e únicos. Algo moi a ter en conta é que as columnas relacionadas deben ter dominios ou tipos de datos coincidentes entre si.
+
+```sql
+CREATE TABLE <taboaX> (
+	     <xAtributo1> <dominio1> PRIMARY KEY,
+	     <xAtributo2> <dominio2>,
+	     <xAtributoN> <dominioN>
+);
+
+CREATE TABLE <taboaY> (
+	     <yAtributo1> <dominio1> PRIMARY KEY,
+	     <yAtributo2> <dominio2> REFERENCES taboaX (xAtributo1),
+	     <yAtributoN> <dominioN>,
+);
+```
+Este é o exemplo de clave allea máis sinxelo e limitado, no que a clave principal dunha táboa se converte en clave allea doutra. Se a declaramos xunto co atributo, a foreign key non pode ser composta e ten unha modificación a posteriori moito máis complicada, polo que non é nada recomendable.
+
+```sql
+CREATE TABLE <taboaX> (
+	     <xAtributo1> <dominio1>,
+	     <xAtributo2> <dominio2>,
+	     <xAtributoN> <dominioN>,
+	     [CONSTRAINT <PK_taboaX>]
+		 PRIMARY KEY (xAtributo1[, xAtributoN])
+);
+
+CREATE TABLE <taboaY> (
+	     <yAtributo1> <dominio1>,
+	     <yAtributo2> <dominio2>,
+	     <yAtributoN> <dominioN>,
+	     [CONSTRAINT <PK_taboaY>]
+		 PRIMARY KEY (yAtributo1[, yAtributoN]),
+	     [CONSTRAINT <FK_taboaX_taboaY>]
+		 FOREIGN KEY       (yAtributo1[, yAtributoN])
+	         REFERENCES taboaX (xAtributo1[, xAtributoN])
+	         [ON DELETE NO ACTION | CASCADE | SET NULL | SET DEFAULT <'expresion'>]
+	         [ON UPDATE NO ACTION | CASCADE | SET NULL | SET DEFAULT <'expresion'>]
+);
+```
+Crear un ```CONSTRAINT``` ex professo para a clave allea resulta moito máis conveniente, pois permite nomear a acción, facer claves compostas e escoller o criterio a seguir ante o **borrado e modificación de datos** presentes en múltiples táboas. 
+
+| SIGLA | CRITERIO        | PARA QUE SERVE?                                                                                      |
+|-------|-----------------|------------------------------------------------------------------------------------------------------|
+| **R** | NO ACTION       | opción por defecto; é a máis restrictiva, non alterando os datos durante o borrado/ modificación     |
+| **C** | CASCADE         | actúa en cascada durante o borrado/ modificación en todas as táboas nas que o dato esté presente     |
+| **N** | SET NULL        | normalmente só se emprega ante o borrado, onde se establecen valores nulos [si o atributo o permite] |
+| **D** | SET DEFAULT <x> | opción menos recomendada das catro, pois engade datos que pode comprometer a integridade da táboa    |
+
+Naturalmente, para crear a restrición da clave allea, deben previamente existir as táboas e os atributos implicados. Polo tanto, a maneira máis recomendada e ordenada de establecer as interrelación entre táboas é mediante un ```ALTER```, que nos permtite engadir un ```CONSTRAINT``` sobre unha base de datos xa declarada. Desta forma, evitamos a problemática que xurde cando as táboas dependen sucesivamente entre elas. 
