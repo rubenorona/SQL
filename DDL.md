@@ -263,8 +263,19 @@ Coa opción ```RESTRICT```, que é a predeterminada, non se elimina a BD ou a t�
 
 ## Agora toca aplicar os coñecementos
 
-Imos inventar un suposto sinxelo co que practicar todo o aprendido. A partir do enunciado, desenvolvemos primeiro o esquema entidade-interrelación (*deseño exterior*) e despois o esquema relacional (*deseño conceptual*).
+Inventamos un suposto práctico sinxelo, mediante o que practicar todo o aprendido. Así pois, partindo do enunciado desenvolvemos primeiro o esquema entidade-interrelación (*deseño exterior*), elaborando despois o esquema relacional (*deseño conceptual*).
 
 ![exemploDDL](/img/exemploDDL.png)
 
+A partir disto, imos realizar paso a paso a implementación física (*deseño interno*) da base de datos. O exemplo foi testado previamente en ElephantSQL, empregando o xestor de base de datos PostgreSQL.
 
+```sql
+CREATE SCHEMA centro_de_formacion;
+CREATE DOMAIN tipo_nif      CHAR(9);
+CREATE DOMAIN tipo_nrp      CHAR(15);
+CREATE DOMAIN tipo_codigo   CHAR(6);
+CREATE DOMAIN tipo_telefono CHAR(9);
+CREATE DOMAIN tipo_email    VARCHAR(320); /* 64_usuario + @ + 255_dominio */
+CREATE DOMAIN nome_valido   VARCHAR(60);
+```
+Comezamos por crear un ```SCHEMA``` en vez dunha ```DATABASE```, pois como xa explicamos ó comezo, son equivalentes e a nosa conta cun menor nivel de restricións. Ademais, analizados os atributos que imos manexar, optamos por declarar seis dominios diferentes, todos con tipos de datos de lonxitude limitada. Desta maneira, realizar unha posterior modificación resultará moito máis conveniente.
