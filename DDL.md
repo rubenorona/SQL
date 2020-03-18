@@ -206,7 +206,7 @@ Naturalmente, para crear a restrición da clave allea, deben previamente existir
 Existe unha gran variedade de parámetros que podemos alterar nunha base de datos, pero ímonos a centrar en ```ALTER TABLE```, que nos permite engadir ou eliminar tanto columnas como restricións. Ademais, podemos renomear elementos e vincular unha táboa a outra base de datos diferente.
 
 ```sql
-ALTER TABLE [IF NOT EXISTS] <nomeDaTaboa>
+ALTER TABLE [IF EXISTS] <nomeDaTaboa>
 	    [RENAME TO <novoNomeDaTaboa>],
 	    [RENAME [COLUMN | CONSTRAINT] <nomeOrixinal> TO <novoNome>],
 	    [SET SCHEMA <novoSchema>],
@@ -244,3 +244,19 @@ ALTER TABLE <taboaY>
 ;
 ```
 Desta maneira, cando manexamos unha base de datos moi grande, non temos que estar levando conta de si está creada ou non unha táboa sobre a que precisamos facer referencia. Así pois, declaramos todas as táboas e os seus atributos, con claves principais e alternativas. Só no final é cando engadimos a totalidade de claves alleas.
+
+## ```DROP SCHEMA``` e ```DROP TABLE```, poñendo fin a [partes da] nosa BD
+
+Ten un funcionamento similar a ```ALTER TABLE DROP```. Sen embargo, ```DROP TABLE``` non só elimina a táboa, senón tamén o seu contido. Ademais, é o método para suprimir toda unha base de datos.
+
+```sql
+DROP SCHEMA [IF EXISTS] <nomeDoSchema>
+	    [RESTRICT | CASCADE]
+;
+
+DROP TABLE  [IF EXISTS] <nomeDaTaboa>
+	    [RESTRICT | CASCADE]
+;
+```
+
+Coa opción ```RESTRICT```, que é a predeterminada, non se elimina a BD ou a táboa se aínda contén obxectos, aportando un certo nivel de autoprotección. Pola contra, ```CASCADE``` suprime todo. 
