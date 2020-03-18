@@ -320,3 +320,43 @@ CREATE TABLE FILLOS (
 );
 ```
 A continuación, optamos por crear todas as táboas e os seus atributos. Establecemos todas as claves principais mediante un criterio que consiste en declaralas ó final do atributo sempre que sexa posible, e só facer un ```CONSTRAINT``` ex professo cando a clave sexa composta. Aplicamos o mesmo para as claves alternativas (```UNIQUE``` + ```NOT NULL```). Ademais, indicamos ```NOT NULL``` a todas as columnas salvo ás claves principais (implícito), os atributos que sendo clave allea fagan referencia a unha ```PRIMARY KEY``` (pois herda as súas propiedades intrínsecas), e os atributos que sexan de rexistro voluntario (neste exemplo sería o teléfono móbil dos estudantes).
+
+```sql
+ALTER TABLE DOCENTES
+  ADD CONSTRAINT FK_DOCENTES_DOCENTES
+    FOREIGN KEY         (xefe)
+    REFERENCES DOCENTES (nif)
+    ON DELETE  CASCADE
+    ON UPDATE  CASCADE
+;
+
+ALTER TABLE IMPARTIDOS
+  ADD CONSTRAINT FK_CURSOS_IMPARTIDOS
+    FOREIGN KEY         (curso)
+    REFERENCES CURSOS   (codigo)
+    ON DELETE  NO ACTION
+    ON UPDATE  CASCADE,
+  ADD CONSTRAINT FK_DOCENTES_IMPARTIDOS
+    FOREIGN KEY         (docente)
+    REFERENCES DOCENTES (nif)
+    ON DELETE  NO ACTION
+    ON UPDATE  CASCADE
+;
+
+ALTER TABLE ESTUDANTES
+  ADD CONSTRAINT FK_CURSOS_ESTUDANTES
+    FOREIGN KEY         (curso)
+    REFERENCES CURSOS   (codigo)
+    ON DELETE  NO ACTION
+    ON UPDATE  CASCADE
+;
+
+ALTER TABLE FILLOS
+  ADD CONSTRAINT FK_DOCENTES_FILLOS
+    FOREIGN KEY         (proxenitor)
+    REFERENCES DOCENTES (nif)
+    ON DELETE  NO ACTION
+    ON UPDATE  CASCADE
+;
+```
+Agora empregamos ```ALTER TABLE``` para engadir as restricións de clave allea, pois todas as táboas e atributos están xa creados e non precisamos preocuparnos de si existen ou non os obxectos ós que imos facer referencia. 
