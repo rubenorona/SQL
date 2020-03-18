@@ -1,3 +1,21 @@
+# Data Definition Language
+
+## Índice
+
+- [```CREATE```, xénese de toda base de datos](#create-xénese-de-toda-base-de-datos)
+  - [```CREATE DATABASE``` e ```CREATE SCHEMA```](#create-database-e-create-schema)
+  - [```CREATE DOMAIN```](#create-domain)
+    - [Tipos de datos](#tipos-de-datos)
+  - [```CREATE TABLE```](#create-table)
+-  [```CONSTRAINT```, establecendo restricións sobre as táboas](#constraint-establecendo-restricións-sobre-as-táboas)
+  - [```PRIMARY KEY```](#primary-key)
+  - [```UNIQUE``` e ```NOT NULL```](#unique-e-not-null)
+  - [```CHECK```](#check)
+  - [```FOREIGN KEY```](#foreign-key)
+- [```ALTER TABLE```, modificando táboas xa creadas](#alter-table-modificando-táboas-xa-creadas)
+- [```DROP SCHEMA``` e ```DROP TABLE```, poñendo fin a [partes da] nosa BD](#drop-schema-e-drop-table-poñendo-fin-a-partes-da-nosa-bd)
+- [Agora toca aplicar os coñecementos](#agora-toca-aplicar-os-coñecementos)
+
 Unha vez que xa dominamos o SQL DQL (**link**), aprendendo a realizar consultas mediante páxinas web interactivas, agora imos a ver como facer bases de datos dende cero. Nisto consiste a sublinguaxe **SQL DDL**, que nos permite crear bases de datos, táboas, usuarios ou dominios, engadir atributos cun tipo de dato definido, establecer restricións, impoñer un criterio nas táboas interrelacionadas ante o borrado ou modificación de datos, así como a posibilidade de alterar calquera destes parámetros a posteriori.
 
 ## ```CREATE```, xénese de toda base de datos
@@ -13,7 +31,7 @@ CREATE DATABASE | SCHEMA | DOMAIN | TABLE | USER
 
 ### ```CREATE DATABASE``` e ```CREATE SCHEMA```
 
-Serven para declarar a BD onde engadiremos despois as táboas, datos e restricións. Dependendo do xestor de bases de datos que empreguemos, o significado de ambos variará ou non. Por exemplo, en **MySQL** unha ```DATABASE``` é equivalente a un ```SCHEMA```, e poden ser empregados indistintamente. Por outra banda, **PostreSQL** si que establece certas diferenciacións, funcionando ```SCHEMA``` como unha especie de capa intermedia entre ```DATABASE``` e as táboas que a compoñen. Na práctica, recoméndase empregar sempre unha ou otra, tendo ```DATABASE``` un maior nivel de restricións. Polo tanto, dende un punto de vista didáctico, imos optar a partir de agora por usar únicamente a función ```CREATE SCHEMA```. Aparte do nome que establecemos á base de datos, tamén podemos configurarlle un CharSet, como por exemplo UTF-8.
+Serven para declarar a BD onde engadiremos despois as táboas, datos e restricións. Dependendo do xestor de bases de datos que empreguemos, o significado de ambos variará ou non. Por exemplo, en **MySQL** unha ```DATABASE``` é equivalente a un ```SCHEMA```, e poden ser empregados indistintamente. Por outra banda, **PostgreSQL** si que establece certas diferenciacións, funcionando ```SCHEMA``` como unha especie de capa intermedia entre ```DATABASE``` e as táboas que a compoñen. Na práctica, recoméndase empregar sempre unha ou otra, tendo ```DATABASE``` un maior nivel de restricións. Polo tanto, dende un punto de vista didáctico, imos optar a partir de agora por usar unicamente a función ```CREATE SCHEMA```. Aparte do nome que lle establecemos á base de datos, tamén podemos configurarlle un CharSet, como por exemplo UTF-8.
 
 ```sql
 CREATE SCHEMA [IF NOT EXISTS] <nomeDaBaseDeDatos> 
@@ -23,7 +41,7 @@ CREATE SCHEMA [IF NOT EXISTS] <nomeDaBaseDeDatos>
 
 ### ```CREATE DOMAIN```
 
-Se imos a repetir nunha BD o mesmo tipo de datos en diferentes atributos, cómpre crer un dominio común. Desta maneira, realizar unha posterior modificación do mesmo resultará moito máis sinxelo. Ademais, o resto de colaboradores na xestión da base de datos agradecerán esta organización e orde. 
+Se imos a repetir nunha BD o mesmo tipo de datos en diferentes atributos, cómpre crear un dominio común. Desta maneira, realizar unha modificación do mesmo a posteriori resultará moito máis sinxelo. Ademais, o resto de colaboradores na xestión da base de datos agradecerán esta organización e orde. 
 
 ```sql
 CREATE DOMAIN [nomeDoSchema.]<nomeDoDominio> <tipoDeDato>
@@ -32,34 +50,34 @@ CREATE DOMAIN [nomeDoSchema.]<nomeDoDominio> <tipoDeDato>
               [CHECK (restrición)]
 ;
 ```
-Os únicos parámetros obrigatorios son o nome do dominio e a declaración do tipo de dato (que veremos a continuación). Por defecto, os dominios son creados no esquema que esteamos a empregar nese momento, pero podemos establecelo noutro no mesmo intre que nomeamos o dominio. Tamén de forma predetirminada, os dominios admiten valores nulos, polo que cómpre usar ```NOT NULL``` para evitalo. Ademais, ```CREATE DOMAIN``` permítenos engadir restricións ós tipos de datos con ```CHECK``` (verémolo con profundidade nos ```CONSTRAINTS```(**link**)). Por último, se queremos definir un valor por defecto, esta expresión debe cumprir as restricións establecidas e ser coherente co tipo de dato escollido.
+Os únicos parámetros obrigatorios son o nome do dominio e a declaración do tipo de dato (que veremos a continuación). Por defecto, os dominios son creados no esquema que esteamos a empregar nese momento, pero podemos establecelo noutro no mesmo intre que nomeamos o dominio. Tamén de forma predeterminada, os dominios admiten valores nulos, polo que cómpre usar ```NOT NULL``` para evitalo. Ademais, ```CREATE DOMAIN``` permítenos engadir restricións ós tipos de datos con ```CHECK``` (verémolo con profundidade nos ```CONSTRAINTS```(**link**)). Por último, se queremos definir un valor por defecto, esta expresión debe cumprir as restricións establecidas e ser coherente co tipo de dato escollido.
 
 ### Tipos de datos
 
-Debido á diversidade de información que se pode engadir nunha base de datos, existe unha gran variedade de tipos de datos, coas súas vantaxes e inconvintes. Como hai diferenzas dependendo do xestor de BD, facemos unha táboa resumo cos máis xerales e interesantes dende o noso punto de vista como estudantes, pero recordando que á hora de usar un xestor específico, deberemos antes consultar o manual. 
+Debido á diversidade de información que se pode engadir nunha base de datos, existe unha gran variedade de tipos de datos, coas súas vantaxes e inconvintes. Como hai diferenzas dependendo do xestor de BD, faremos unha táboa resumo cos tipos máis xerales e interesantes dende o noso punto de vista como estudantes, pero recordando que á hora de usar un xestor específico, deberemos antes consultar o manual. 
 
-| TIPO DE DATO  | PARA QUE SERVE?                                                                    |
-|---------------|------------------------------------------------------------------------------------|
-| **numérico**  |                                                                                    |
-| INTEGER       | número enteiro; é o tipo numérico máis empregado                                   |
-| DECIMAL(n,m)  | número preciso (díxitos a introducir, díxitos decimais)                            |
-| REAL          | número aproxiamdo; ocupa só 4 bytes                                                |
-| **texto**     |                                                                                    |
-| CHAR(n)       | lonxitude fixa (só pode ter n caracteres)                                          |
-| VARCHAR(n)    | lonxitude variable (pode ter un máximo de n caracteres)                            |
-| TEXT          | lonixutde variable e ilimitada; emprégase para descripcións                        |
-| **data**      |                                                                                    |
-| DATE          | 'aaaa-mm-dd'; precisión de 1 día                                                   |
-| TIME          | 'hh:mm:ss[.sss]'; precisión de ata 1 microsegundo                                  |
-| TIMESTAMP     | 'aaaa-mm-dd hh:mm:ss'; combinación de DATE e TIME                                  |
-| **outro**     |                                                                                    |
-| BOOLEAN       | TRUE[1] ou FALSE[0]; cómpre usar NOT NULL, xa que por defecto admite valores nulos |
-| MONEY         | precisión limitada, ata catro cifras decimais; optimizado para ```SUM```           |
-| UUID          | identificador universal único; 128 bits = 32 díxitos hexadecimais; 8-4-4-4-12      |
-| JSON          | extensión de arquivos .json [JavaScript Object Notation]                           |
-| XML           | extensión de arquivos .xml [eXtensible Markup Language]                            |
-| CIDR          | direcións IPv4 e IPv6; non permite bits distintos a 0 á dereita da máscara         |
-| INET          | direcións IPv4 e IPv6                                                              |
+| TIPO DE DATO  | PARA QUE SERVE?                                                                          |
+|---------------|------------------------------------------------------------------------------------------|
+| **numérico**  |                                                                                          |
+| INTEGER       | número enteiro; é o tipo numérico máis empregado                                         |
+| DECIMAL(n,m)  | número preciso (n_díxitosTotais, m_díxitosDecimais)                                      |
+| REAL          | número aproximado; ocupa só 4 bytes                                                      |
+| **texto**     |                                                                                          |
+| CHAR(n)       | lonxitude fixa (só pode ter n caracteres)                                                |
+| VARCHAR(n)    | lonxitude variable (pode ter un máximo de n caracteres)                                  |
+| TEXT          | lonixutde variable e ilimitada; emprégase para descripcións e comentarios                |
+| **data**      |                                                                                          |
+| DATE          | 'aaaa-mm-dd'; precisión de 1 día                                                         |
+| TIME          | 'hh:mm:ss[.sss]'; precisión de ata 1 microsegundo                                        |
+| TIMESTAMP     | 'aaaa-mm-dd hh:mm:ss'; combinación de ```DATE``` e ```TIME```                            |
+| **outro**     |                                                                                          |
+| BOOLEAN       | TRUE[1] ou FALSE[0]; cómpre usar ```NOT NULL```, xa que por defecto admite valores nulos |
+| MONEY         | precisión limitada, ata catro cifras decimais; optimizado para ```SUM```                 |
+| UUID          | identificador universal único; 128 bits = 32 díxitos hexadecimais; 8-4-4-4-12            |
+| JSON          | extensión de arquivos .json [JavaScript Object Notation]                                 |
+| XML           | extensión de arquivos .xml [eXtensible Markup Language]                                  |
+| CIDR          | direcións IPv4 e IPv6; non permite bits distintos a 0 á dereita da máscara               |
+| INET          | direcións IPv4 e IPv6                                                                    |
 
 ### ```CREATE TABLE```
 
@@ -99,7 +117,7 @@ CREATE TABLE <exemplo3> (
 		 PRIMARY KEY (atributo1[, atributoN])
 );
 ```
-Como podemos ver, temos tres maneiras de establecer unha clave principal. No *exemplo1* facemos cumprir os dous parámetros básicos da primary key. Sen embargo, non recomendamos este método, pois é o empregado para declarar o resto de claves candidatas que tornan en alternativas, das que sí pode haber máis dunha na táboa e xerar conflicto coa principal. O *exemplo2* resulta o máis sinxelo, xa que engadindo ```PRIMARY KEY``` tras a declararción do atributo, establecemos de maneira implícita as propiedades que esta columna debe cumprir. Por último, no *exemplo3* vemos unha maneira de facelo por separado, que ademáis de dar a posibilidade de nomear a restrición, é a única que permite xerar unha clave principal composta por varios atributos. 
+Como podemos ver, temos tres maneiras de establecer unha clave principal. No *exemplo1* facemos cumprir os dous parámetros básicos da primary key. Sen embargo, non recomendamos este método, pois é o empregado para declarar o resto de claves candidatas que tornan en alternativas, das que sí pode haber máis dunha na táboa e xerar conflicto coa principal. O *exemplo2* resulta o máis sinxelo, xa que engadindo ```PRIMARY KEY``` tras a declararción do atributo, establecemos de maneira implícita as propiedades intrínsecas que esta columna debe cumprir. Por último, no *exemplo3* vemos unha maneira de facelo por separado, que ademáis de dar a posibilidade de nomear a restrición, é a única que permite xerar unha clave principal composta por varios atributos. 
 
 ### ```UNIQUE``` e ```NOT NULL```
 
@@ -166,7 +184,7 @@ CREATE TABLE <taboaY> (
 	     <yAtributoN> <dominioN>,
 );
 ```
-Este é o exemplo de clave allea máis sinxelo e limitado, no que a clave principal dunha táboa se converte en clave allea doutra. Se a declaramos xunto co atributo, a foreign key non pode ser composta e ten unha modificación a posteriori moito máis complicada, polo que non é nada recomendable.
+Este é o exemplo de clave allea máis sinxelo e limitado, no que a clave principal dunha táboa se converte na clave allea propagada doutra. Se a declaramos xunto co atributo, a foreign key non pode ser composta e ten unha modificación a posteriori moito máis complicada, polo que non é nada recomendable.
 
 ```sql
 CREATE TABLE <taboaX> (
@@ -214,7 +232,7 @@ ALTER TABLE [IF EXISTS] <nomeDaTaboa>
 	       [...]
 ;
 ```
-Aínda que ```ALTER TABLE``` permite executar no seu anterior outro ```ALTER```, co que variar un parámetro concreto dunha columna ou unha restrición, non recomendamos este método. Para evitar fallos na estrutura da táboa, resulta moito máis eficiente facer un ```DROP``` do elemento que queiramos modificar, para despois declaralo todo de novo mediante un ```ADD```. Por esta razón, cómpre nomear sempre os restricións. Finalmente, como dixemos con anterioridade, o criterio máis ordeado para realizar interrelacións é facelo mediante un ```ALTER TABLE```, onde engadimos a restrición da clave allea sobre unhas táboas xa creadas previamente.
+Aínda que ```ALTER TABLE``` permite executar no seu interior outros ```ALTER```, cos que variar un parámetro concreto dunha columna ou unha restrición, non recomendamos este método. Para evitar fallos na estrutura da táboa, resulta moito máis eficiente facer un ```DROP``` do elemento que queiramos modificar, para despois declaralo todo de novo mediante un ```ADD```. Por esta razón, cómpre nomear sempre as restricións. Finalmente, como dixemos con anterioridade, o criterio máis ordeado para realizar interrelacións é facelo mediante un ```ALTER TABLE```, onde engadimos a restrición da clave allea sobre unhas táboas xa creadas previamente.
 
 ```sql
 CREATE TABLE <taboaX> (
@@ -243,7 +261,7 @@ ALTER TABLE <taboaY>
 	        [ON UPDATE NO ACTION | CASCADE | SET NULL | SET DEFAULT <'expresion'>]
 ;
 ```
-Desta maneira, cando manexamos unha base de datos moi grande, non temos que estar levando conta de si está creada ou non unha táboa sobre a que precisamos facer referencia. Así pois, declaramos todas as táboas e os seus atributos, con claves principais e alternativas. Só no final é cando engadimos a totalidade de claves alleas.
+Desta maneira, cando manexamos unha base de datos moi grande, non temos que estar levando conta de si existe ou non unha táboa sobre a que precisamos facer referencia. Así pois, declaramos todas as táboas e os seus atributos, con claves principais e alternativas. Só no final é cando engadimos a totalidade de claves alleas.
 
 ## ```DROP SCHEMA``` e ```DROP TABLE```, poñendo fin a [partes da] nosa BD
 
@@ -267,7 +285,7 @@ Inventamos un suposto práctico sinxelo, mediante o que practicar todo o aprendi
 
 ![exemploDDL](/img/exemploDDL.png)
 
-A partir disto, imos realizar paso a paso a implementación física (*deseño interno*) da base de datos. O exemplo foi testado previamente en ElephantSQL, empregando o xestor de base de datos PostgreSQL.
+A partir disto, imos realizar paso a paso a implementación física (*deseño interno*) da base de datos. O exemplo foi testado previamente en ElephantSQL, empregando o seu xestor de base de datos PostgreSQL.
 
 ```sql
 CREATE SCHEMA centro_de_formacion;
@@ -278,7 +296,7 @@ CREATE DOMAIN tipo_telefono CHAR(9);
 CREATE DOMAIN tipo_email    VARCHAR(320); /* 64_usuario + @ + 255_dominio */
 CREATE DOMAIN nome_valido   VARCHAR(60);
 ```
-Comezamos por crear un ```SCHEMA``` en vez dunha ```DATABASE```, pois como xa explicamos ó comezo, son equivalentes e a nosa conta cun menor nivel de restricións. Ademais, analizados os atributos que imos manexar, optamos por declarar seis dominios diferentes, todos con tipos de datos de lonxitude limitada. Desta maneira, realizar unha posterior modificación resultará moito máis conveniente. Pola contra, non o consideramos necesario para as datas, o comentario nin a cantidade de horas lectivas semanais. 
+Comezamos cun ```CREATE SCHEMA``` en vez dunha ```DATABASE```, pois como xa explicamos ó comezo, son equivalentes e ```SCHEMA``` conta cun menor nivel de restricións. Ademais, analizados os atributos que imos manexar, optamos por declarar seis dominios diferentes, todos con tipos de datos de lonxitude limitada. Desta maneira, realizar unha posterior modificación resultará moito máis conveniente. Pola contra, non o consideramos necesario para as datas, o comentario nin a cantidade de horas lectivas semanais. 
 
 ```sql
 CREATE TABLE DOCENTES (
@@ -319,7 +337,7 @@ CREATE TABLE FILLOS (
     PRIMARY KEY  (proxenitor, nome)
 );
 ```
-A continuación, optamos por crear todas as táboas e os seus atributos. Establecemos todas as claves principais mediante un criterio que consiste en declaralas ó final do atributo sempre que sexa posible, e só facer un ```CONSTRAINT``` ex professo cando a clave sexa composta. Aplicamos o mesmo para as claves alternativas (```UNIQUE``` + ```NOT NULL```). Ademais, indicamos ```NOT NULL``` a todas as columnas salvo ás claves principais (implícito), os atributos que sendo clave allea fagan referencia a unha ```PRIMARY KEY``` (pois herda as súas propiedades intrínsecas), e os atributos que sexan de rexistro voluntario (neste exemplo sería o teléfono móbil dos estudantes).
+A continuación, optamos por crear todas as táboas e os seus atributos. Establecemos todas as claves principais mediante un criterio que consiste en declaralas ó final do atributo sempre que sexa posible, e só facer un ```CONSTRAINT``` ex professo cando a clave sexa composta. Aplicamos o mesmo para as claves alternativas (```UNIQUE``` + ```NOT NULL```). Ademais, indicamos ```NOT NULL``` a todas as columnas salvo ás claves principais (implícito), os atributos que sendo clave allea fagan referencia a unha ```PRIMARY KEY``` (pois herda as súas propiedades intrínsecas), e os atributos que sexan de rexistro voluntario (no noso suposto sería o teléfono móbil dos estudantes).
 
 ```sql
 ALTER TABLE DOCENTES
@@ -372,4 +390,4 @@ ALTER TABLE CURSOS
     CHECK (horas_semanais BETWEEN 1 AND 40)
 ;
 ```
-Por último, establecemos dúas limitacións na inserción de datos. Por un lado, si o centro se fundou no ano 2004, ningún docente pudo ingresar antes desa data. Por outra banda, si o centro abre oito horas diarias e cinco días á semana, un curso non pode ter máis de 40 horas lectivas semanais. Con isto, a base de datos xa estaría implementada.
+Por último, establecemos dúas limitacións na inserción de datos. Por un lado, si o centro se fundou no ano 2004, ningún docente puido ingresar antes desa data. Por outra banda, si o centro abre oito horas diarias e cinco días á semana, un curso non pode ter máis de 40 horas lectivas semanais. Con isto, a base de datos xa estaría implementada.
