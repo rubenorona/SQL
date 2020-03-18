@@ -278,4 +278,45 @@ CREATE DOMAIN tipo_telefono CHAR(9);
 CREATE DOMAIN tipo_email    VARCHAR(320); /* 64_usuario + @ + 255_dominio */
 CREATE DOMAIN nome_valido   VARCHAR(60);
 ```
-Comezamos por crear un ```SCHEMA``` en vez dunha ```DATABASE```, pois como xa explicamos ó comezo, son equivalentes e a nosa conta cun menor nivel de restricións. Ademais, analizados os atributos que imos manexar, optamos por declarar seis dominios diferentes, todos con tipos de datos de lonxitude limitada. Desta maneira, realizar unha posterior modificación resultará moito máis conveniente.
+Comezamos por crear un ```SCHEMA``` en vez dunha ```DATABASE```, pois como xa explicamos ó comezo, son equivalentes e a nosa conta cun menor nivel de restricións. Ademais, analizados os atributos que imos manexar, optamos por declarar seis dominios diferentes, todos con tipos de datos de lonxitude limitada. Desta maneira, realizar unha posterior modificación resultará moito máis conveniente. Pola contra, non o consideramos necesario para as datas, o comentario nin a cantidade de horas lectivas semanais. 
+
+```sql
+CREATE TABLE DOCENTES (
+  nif            tipo_nif      PRIMARY KEY,
+  nrp            tipo_nrp      NOT NULL UNIQUE,
+  nome           nome_valido   NOT NULL,
+  data_ingreso   DATE          NOT NULL,
+  xefe           tipo_nif
+);
+
+CREATE TABLE CURSOS (
+  codigo         tipo_codigo   PRIMARY KEY,
+  denominacion   nome_valido   NOT NULL UNIQUE,
+  horas_semanais INTEGER       NOT NULL,
+  comentario     TEXT          NOT NULL
+);
+
+CREATE TABLE IMPARTIDOS (
+  curso          tipo_codigo,
+  docente        tipo_nif,
+  CONSTRAINT PK_IMPARTIDOS
+    PRIMARY KEY  (curso, docente)
+);
+
+CREATE TABLE ESTUDANTES (
+  nif            tipo_nif      PRIMARY KEY,
+  nome           nome_valido   NOT NULL,
+  telefono       tipo_telefono,
+  email          tipo_email    NOT NULL,
+  curso          tipo_codigo
+);
+
+CREATE TABLE FILLOS (
+  proxenitor     tipo_nif,
+  nome           nome_valido   NOT NULL,
+  data_nacemento DATE          NOT NULL,
+  CONSTRAINT PK_FILLOS
+    PRIMARY KEY  (proxenitor, nome)
+);
+```
+A continuación, optamos por crear todas as táboas e os seus atributos. Establecemos todas as claves principais mediante un criterio que consiste en declaralas ó final do atributo sempre que sexa posible, e só facer un ```CONSTRAINT``` ex professo cando a clave sexa composta. Aplicamos o mesmo para as claves alternativas (```UNIQUE``` + ```NOT NULL```). Ademais, indicamos ```NOT NULL``` a todas as columnas salvo ás claves principais (implícito), os atributos que sendo clave allea fagan referencia a unha ```PRIMARY KEY``` (pois herda as súas propiedades intrínsecas), e os atributos que sexan de rexistro voluntario (neste exemplo sería o teléfono móbil dos estudantes).
