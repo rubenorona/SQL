@@ -359,4 +359,17 @@ ALTER TABLE FILLOS
     ON UPDATE  CASCADE
 ;
 ```
-Agora empregamos ```ALTER TABLE``` para engadir as restricións de clave allea, pois todas as táboas e atributos están xa creados e non precisamos preocuparnos de si existen ou non os obxectos ós que imos facer referencia. 
+Agora empregamos ```ALTER TABLE``` para engadir as restricións de clave allea, pois todas as táboas e atributos están xa creados e non precisamos preocuparnos de si existen ou non os obxectos ós que imos facer referencia.
+
+```sql
+ALTER TABLE DOCENTES
+  ADD CONSTRAINT non_antes_do_2004
+    CHECK (data_ingreso >= '2004-01-01')
+;
+
+ALTER TABLE CURSOS
+  ADD CONSTRAINT horas_lectivas_semanais
+    CHECK (horas_semanais BETWEEN 1 AND 40)
+;
+```
+Por último, establecemos dúas limitacións na inserción de datos. Por un lado, si o centro se fundou no ano 2004, ningún docente pudo ingresar antes desa data. Por outra banda, si o centro abre oito horas diarias e cinco días á semana, un curso non pode ter máis de 40 horas lectivas semanais. Con isto, a base de datos xa estaría implementada.
