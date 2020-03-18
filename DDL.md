@@ -259,4 +259,12 @@ DROP TABLE  [IF EXISTS] <nomeDaTaboa>
 ;
 ```
 
-Coa opción ```RESTRICT```, que é a predeterminada, non se elimina a BD ou a táboa se aínda contén obxectos, aportando un certo nivel de autoprotección. Pola contra, ```CASCADE``` suprime todo. 
+Coa opción ```RESTRICT```, que é a predeterminada, non se elimina a BD ou a táboa se aínda contén obxectos, aportando un certo nivel de autoprotección. Pola contra, ```CASCADE``` suprime todo.
+
+## Agora toca aplicar os coñecementos
+
+Imos inventar un suposto sinxelo co que practicar todo o aprendido. A partir do enunciado, desenvolvemos primeiro o esquema entidade-interrelación (*deseño exterior*) e despois o esquema relacional (*deseño conceptual*).
+
+![exemploDDL](/img/exemploDDL.png)
+
+
