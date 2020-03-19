@@ -42,3 +42,14 @@ UPDATE <nomeDaTaboa>
 ;
 ```
 Declarar un predicado serve para filtrar as tuplas nas que imos rexistrar os novos datos. Polo tanto, ó prescindir dun predicado, estableceranse estes valores ó longo de toda a táboa.
+
+## ```DELETE FROM```, [ten coidado] para eliminar tuplas
+
+Self-explanatory. Nunha táboa específica, é posible borrar todas as tuplas [que cumpran unha condición].
+
+```sql
+DELETE FROM <nomeDaTaboa>
+	    [WHERE <predicado>]
+;
+```
+**BEWARE**: Se non se establece un predicado, o resultado será baleirar toda a táboa. *Don't hate the player, hate the game*
