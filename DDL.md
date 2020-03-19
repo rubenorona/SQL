@@ -16,7 +16,7 @@
 - [```DROP SCHEMA``` e ```DROP TABLE```, poñendo fin a [partes da] nosa BD](#drop-schema-e-drop-table-poñendo-fin-a-partes-da-nosa-bd)
 - [Agora toca aplicar os coñecementos](#agora-toca-aplicar-os-coñecementos)
 
-Unha vez que xa dominamos o [SQL DQL](../DQL.md), aprendendo a realizar consultas mediante páxinas web interactivas, agora imos a ver como facer bases de datos dende cero. Nisto consiste a sublinguaxe **SQL DDL**, que nos permite crear bases de datos, táboas, usuarios ou dominios, engadir atributos cun tipo de dato definido, establecer restricións, impoñer un criterio nas táboas interrelacionadas ante o borrado ou modificación de datos, así como a posibilidade de alterar calquera destes parámetros a posteriori.
+Unha vez que xa dominamos o [SQL DQL](DQL.md), aprendendo a realizar consultas mediante páxinas web interactivas, agora imos a ver como facer bases de datos dende cero. Nisto consiste a sublinguaxe **SQL DDL**, que nos permite crear bases de datos, táboas, usuarios ou dominios, engadir atributos cun tipo de dato definido, establecer restricións, impoñer un criterio nas táboas interrelacionadas ante o borrado ou modificación de datos, así como a posibilidade de alterar calquera destes parámetros a posteriori.
 
 ## ```CREATE```, xénese de toda base de datos
 
