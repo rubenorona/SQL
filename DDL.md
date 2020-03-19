@@ -7,7 +7,7 @@
   - [```CREATE DOMAIN```](#create-domain)
     - [Tipos de datos](#tipos-de-datos)
   - [```CREATE TABLE```](#create-table)
--  [```CONSTRAINT```, establecendo restricións sobre as táboas](#constraint-establecendo-restricións-sobre-as-táboas)
+- [```CONSTRAINT```, establecendo restricións sobre as táboas](#constraint-establecendo-restricións-sobre-as-táboas)
   - [```PRIMARY KEY```](#primary-key)
   - [```UNIQUE``` e ```NOT NULL```](#unique-e-not-null)
   - [```CHECK```](#check)
@@ -16,7 +16,7 @@
 - [```DROP SCHEMA``` e ```DROP TABLE```, poñendo fin a [partes da] nosa BD](#drop-schema-e-drop-table-poñendo-fin-a-partes-da-nosa-bd)
 - [Agora toca aplicar os coñecementos](#agora-toca-aplicar-os-coñecementos)
 
-Unha vez que xa dominamos o SQL DQL (**link**), aprendendo a realizar consultas mediante páxinas web interactivas, agora imos a ver como facer bases de datos dende cero. Nisto consiste a sublinguaxe **SQL DDL**, que nos permite crear bases de datos, táboas, usuarios ou dominios, engadir atributos cun tipo de dato definido, establecer restricións, impoñer un criterio nas táboas interrelacionadas ante o borrado ou modificación de datos, así como a posibilidade de alterar calquera destes parámetros a posteriori.
+Unha vez que xa dominamos o [SQL DQL](#/DQL.md), aprendendo a realizar consultas mediante páxinas web interactivas, agora imos a ver como facer bases de datos dende cero. Nisto consiste a sublinguaxe **SQL DDL**, que nos permite crear bases de datos, táboas, usuarios ou dominios, engadir atributos cun tipo de dato definido, establecer restricións, impoñer un criterio nas táboas interrelacionadas ante o borrado ou modificación de datos, así como a posibilidade de alterar calquera destes parámetros a posteriori.
 
 ## ```CREATE```, xénese de toda base de datos
 
@@ -50,7 +50,7 @@ CREATE DOMAIN [nomeDoSchema.]<nomeDoDominio> <tipoDeDato>
               [CHECK (restrición)]
 ;
 ```
-Os únicos parámetros obrigatorios son o nome do dominio e a declaración do tipo de dato (que veremos a continuación). Por defecto, os dominios son creados no esquema que esteamos a empregar nese momento, pero podemos establecelo noutro no mesmo intre que nomeamos o dominio. Tamén de forma predeterminada, os dominios admiten valores nulos, polo que cómpre usar ```NOT NULL``` para evitalo. Ademais, ```CREATE DOMAIN``` permítenos engadir restricións ós tipos de datos con ```CHECK``` (verémolo con profundidade nos ```CONSTRAINTS```(**link**)). Por último, se queremos definir un valor por defecto, esta expresión debe cumprir as restricións establecidas e ser coherente co tipo de dato escollido.
+Os únicos parámetros obrigatorios son o nome do dominio e a declaración do tipo de dato (que veremos a continuación). Por defecto, os dominios son creados no esquema que esteamos a empregar nese momento, pero podemos establecelo noutro no mesmo intre que nomeamos o dominio. Tamén de forma predeterminada, os dominios admiten valores nulos, polo que cómpre usar ```NOT NULL``` para evitalo. Ademais, ```CREATE DOMAIN``` permítenos engadir restricións ós tipos de datos con ```CHECK``` ([verémolo con profundidade nos ```CONSTRAINTS```](#constraint-establecendo-restricións-sobre-as-táboas)). Por último, se queremos definir un valor por defecto, esta expresión debe cumprir as restricións establecidas e ser coherente co tipo de dato escollido.
 
 ### Tipos de datos
 
@@ -93,7 +93,7 @@ CREATE TABLE [IF NOT EXISTS]   [nomeDoSchema.]<nomeDaTaboa> (
 
 ## ```CONSTRAINT```, establecendo restricións sobre as táboas
 
-Método **explícito** para establecer claves primarias, claves alleas, restricións de unicidade ou límites ós valores que se poden introducir nunha columna. Estes pódense engadir ó final dun ```CREATE TABLE``` tras os atributos, ou mediante un ```ALTER``` (que veremos máis adiante (**link**)).
+Método **explícito** para establecer claves primarias, claves alleas, restricións de unicidade ou límites ós valores que se poden introducir nunha columna. Estes pódense engadir ó final dun ```CREATE TABLE``` tras os atributos, ou mediante un ```ALTER``` ([que veremos máis adiante](#alter-table-modificando-táboas-xa-creadas)).
 
 ### ```PRIMARY KEY```
 
@@ -326,18 +326,18 @@ CREATE TABLE ESTUDANTES (
   nome           nome_valido   NOT NULL,
   telefono       tipo_telefono,
   email          tipo_email    NOT NULL,
-  curso          tipo_codigo
+  curso          tipo_codigo   NOT NULL
 );
 
 CREATE TABLE FILLOS (
-  proxenitor     tipo_nif,
+  proxenitor     tipo_nif      NOT NULL,
   nome           nome_valido   NOT NULL,
   data_nacemento DATE          NOT NULL,
   CONSTRAINT PK_FILLOS
     PRIMARY KEY  (proxenitor, nome)
 );
 ```
-A continuación, optamos por crear todas as táboas e os seus atributos. Establecemos todas as claves principais mediante un criterio que consiste en declaralas ó final do atributo sempre que sexa posible, e só facer un ```CONSTRAINT``` ex professo cando a clave sexa composta. Aplicamos o mesmo para as claves alternativas (```UNIQUE``` + ```NOT NULL```). Ademais, indicamos ```NOT NULL``` a todas as columnas salvo ás claves principais (implícito), os atributos que sendo clave allea fagan referencia a unha ```PRIMARY KEY``` (pois herda as súas propiedades intrínsecas), e os atributos que sexan de rexistro voluntario (no noso suposto sería o teléfono móbil dos estudantes).
+A continuación, optamos por crear todas as táboas e os seus atributos. Establecemos todas as claves principais mediante un criterio que consiste en declaralas ó final do atributo sempre que sexa posible, e só facer un ```CONSTRAINT``` ex professo cando a clave sexa composta. Aplicamos o mesmo para as claves alternativas (```UNIQUE``` + ```NOT NULL```). Ademais, indicamos ```NOT NULL``` a todas as columnas salvo ás claves principais (implícito) e os atributos que sexan de rexistro voluntario (no noso suposto serían o teléfono móbil dos estudantes e o xefe dos docentes).
 
 ```sql
 ALTER TABLE DOCENTES
