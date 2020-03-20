@@ -62,17 +62,27 @@ DELETE FROM <nomeDaTaboa>
 
 Tomando como punto de partida o [suposto presentado no estudo do SQL DDL](DDL.md#agora-toca-aplicar-os-coñecementos), agora imos a rexistrar os seguintes datos nesa base de datos xa creada pero aínda baleira de información.
 
-| **nif**   | nrp             | nome            | data_ingreso | *xefe*    |
-|-----------|-----------------|-----------------|--------------|-----------|
-| 87425812Y | 8742581257A0591 | Xiana Raboduro  | 2004-06-01   |           |
-| 63845991S | 6384599168A0591 | Armando Paredes | 2016-07-15   | 87425812Y |
-| 41357625Z | 4135762513I0593 | Álvaro Siza     | 2020-03-19   | 87425812Y |
+| DOCENTES.nif  | nrp             | nome            | data_ingreso | xefe        |
+|---------------|-----------------|-----------------|--------------|-------------|
+| **87425812Y** | 8742581257A0591 | Xiana Raboduro  | 2004-06-01   |             |
+| **63845991S** | 6384599168A0591 | Armando Paredes | 2016-07-15   | *87425812Y* |
+| **41357625Z** | 4135762513I0593 | Álvaro Siza     | 2020-03-19   | *87425812Y* |
 
 
-| **codigo** | denominacion  | horas_semanais | comentario                                                                                        |
-|------------|---------------|----------------|---------------------------------------------------------------------------------------------------|
-| 200602     | Debuxo II     | 6              | Representación gráfica enfocada á arquitectura. Saír a debuxar ó exterior cando sexa posible      |
-| 200204     | Estruturas IV | 12             | Cálculo de estruturas metálicas de grande escala. Debe presentarse un proxecto final por parellas |
-| 200501     | Urbanismo I   | 9              | Introdución ó estudo do entramado territorial. A cidade obxecto de estudo será A Coruña           |
+| CURSOS.codigo | denominacion  | horas_semanais | comentario                                                                                        |
+|---------------|---------------|----------------|---------------------------------------------------------------------------------------------------|
+| **200602**    | Debuxo II     | 6              | Representación gráfica enfocada á arquitectura. Saír a debuxar ó exterior cando sexa posible      |
+| **200204**    | Estruturas IV | 12             | Cálculo de estruturas metálicas de grande escala. Debe presentarse un proxecto final por parellas |
+| **200501**    | Urbanismo I   | 9              | Introdución ó estudo do entramado territorial. A cidade obxecto de estudo será A Coruña           |
 
+| IMPARTIDOS.curso | IMPARTIDOS.docente |   | FILLOS.proxenitor | FILLOS.nome |data_nacemento |
+|------------------|--------------------|   |-------------------|-------------|---------------|
+| ***200204***     | ***63845991S***    |   | ***87425812Y***   | **Sonia**   | 2018-02-14    |
+| ***200602***     | ***41357625Z***    |   | ***87425812Y***   | **Selena**  | 2018-12-28    |
+| ***200501***     | ***41357625Z***    |   | ***41357625Z***   | **Paulo**   | 2019-05-17    |
 
+| ESTUDANTES.nif | nome           | telefono  | email                        | curso    |
+|----------------|----------------|-----------|------------------------------|----------|
+| **71053454Z**  | Xulián Tenorio |           | oliantedemasaricos@gmail.com | *200204* |
+| **11250562C**  | Álex Tintor    | 606091112 | fireman18@hotmail.es         | *200602* |
+| **50738070R**  | Débora Cabezas |           | deeznutsenyofais@yahoo.com   | *200501* |
