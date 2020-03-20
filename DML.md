@@ -62,16 +62,15 @@ DELETE FROM <nomeDaTaboa>
 
 Tomando como punto de partida o [suposto presentado no estudo do SQL DDL](DDL.md#agora-toca-aplicar-os-coñecementos), agora imos a rexistrar os seguintes datos nesa base de datos xa creada pero aínda baleira de información.
 
-| DOCENTES                                                                 |
-|--------------------------------------------------------------------------|
 | **nif**   | nrp             | nome            | data_ingreso | *xefe*    |
+|--------------------------------------------------------------------------|
 | 87425812Y | 8742581257A0591 | Xiana Raboduro  | 2004-06-01   |           |
 | 63845991S | 6384599168A0591 | Armando Paredes | 2016-07-15   | 87425812Y |
 | 41357625Z | 4135762513I0593 | Álvaro Siza     | 2020-03-19   | 87425812Y |
 
-| CURSOS                                                                                                                                         |
+
+| **codigo** | denominacion  | horas_semanais | comentario                                                                                        |
 |-------------------------------------------------------------------------------------------------------------------------------------------------|
-| **codigo** | denominacion  | horas_semanais | comentario                                                                           |
 | 200602     | Debuxo II     | 6              | Representación gráfica enfocada á arquitectura. Saír a debuxar ó exterior cando sexa posible      |
 | 200204     | Estruturas IV | 12             | Cálculo de estruturas metálicas de grande escala. Debe presentarse un proxecto final por parellas |
 | 200501     | Urbanismo I   | 9              | Introdución ó estudo do entramado territorial. A cidade obxecto de estudo será A Coruña           |
