@@ -79,17 +79,17 @@ DELETE FROM <nomeDaTaboa>
 | ***200602***     | ***41357625Z***    |
 | ***200501***     | ***41357625Z***    |
 
-| FILLOS.proxenitor | FILLOS.nome |data_nacemento |
-|-------------------|-------------|---------------|
-| ***87425812Y***   | **Sonia**   | 2018-02-14    |
-| ***87425812Y***   | **Selena**  | 2018-12-28    |
-| ***41357625Z***   | **Paulo**   | 2019-05-17    |
-
 | ESTUDANTES.nif | nome           | telefono  | email                        | curso    |
 |----------------|----------------|-----------|------------------------------|----------|
 | **71053454Z**  | Xulián Tenorio |           | oliantedemasaricos@gmail.com | *200204* |
 | **11250562C**  | Álex Tintor    | 606091112 | fireman18@hotmail.es         | *200602* |
 | **50738070R**  | Débora Cabezas |           | deeznutsenyofais@yahoo.com   | *200501* |
+
+| FILLOS.proxenitor | FILLOS.nome | data_nacemento |
+|-------------------|-------------|----------------|
+| ***87425812Y***   | **Sonia**   | 2018-02-14     |
+| ***87425812Y***   | **Selena**  | 2018-12-28     |
+| ***41357625Z***   | **Paulo**   | 2019-05-17     |
 
 Tomando como punto de partida o [suposto presentado no estudo do SQL DDL](DDL.md#agora-toca-aplicar-os-coñecementos), agora imos rexistrar os seguintes datos na nosa base de datos anteriormente creada pero aínda baleira de información.
 
@@ -118,14 +118,6 @@ INSERT INTO IMPARTIDOS
     ('200501', '41357625Z')
 ;
 
-INSERT INTO FILLOS
-  (proxenitor, nome, data_nacemento)
-  VALUES
-    ('87425812Y', 'Sonia',  '2018-02-14'),
-    ('87425812Y', 'Selena', '2018-12-28'),
-    ('41357625Z', 'Paulo',  '2019-05-17')
-;
-
 INSERT INTO ESTUDANTES
    (nif, nome, telefono, email, curso)
    VALUES
@@ -133,6 +125,36 @@ INSERT INTO ESTUDANTES
      ('11250562C', 'Álex Tintor', '606091112', 'fireman18@hotmail.es',         '200204'),
      ('50738070R', 'Débora Cabezas', '',       'deeznutsenyofais@yahoo.com',   '200501')
 ;
+
+INSERT INTO FILLOS
+  (proxenitor, nome, data_nacemento)
+  VALUES
+    ('87425812Y', 'Sonia',  '2018-02-14'),
+    ('87425812Y', 'Selena', '2018-12-28'),
+    ('41357625Z', 'Paulo',  '2019-05-17')
+;
 ```
 Empregamos ```INSERT INTO``` para engadir todas as tuplas que tiñamos como exemplo. Como só fixemos unha delcaración por táboa, non foi posible insertar a clave allea DOCENTES.xefe, pois aínda non existía.
+
+```sql
+UPDATE DOCENTES
+  SET xefe  =   '87425812Y'
+  WHERE nif IN ('63845991S', '41357625Z') 
+;
+```
+Polo tanto, precisamos editar a táboa DOCENTES para engadir o atributo xefe. Empregamos un predicado sinxelo que serve para atopar as tuplas que precisamos, facendo un filtro mediante a clave principal.
+
+```sql
+SELECT docentes.nome, cursos.denominacion, estudantes.nome
+FROM docentes JOIN impartidos ON docentes.nif     = impartidos.docente
+              JOIN cursos     ON impartidos.curso = cursos.codigo
+              JOIN estudantes ON cursos.codigo    = estudantes.curso
+WHERE docentes.nif = '41357625Z';
+```
+Con isto facemos unha sinxela consulta de proba, coa que amosar o nome dun docente, os cursos que imparte e os seus alumnos, dado o seu nif.
+
+| DOCENTES.nome | CURSOS.denominacion | ESTUDANTES.nome |
+|---------------|---------------------|-----------------|
+| Álvaro Siza   | Debuxo II           | Xulián Tenorio  |
+| Álvaro Siza   | Urbanismo I         | Débora Cabezas  |
 
