@@ -7,7 +7,7 @@
 - [```DELETE FROM```, [ten coidado] para eliminar tuplas](#delete-from-ten-coidado-para-eliminar-tuplas)
 - [Agora toca aplicar os coñecementos](#agora-toca-aplicar-os-coñecementos)
 
-Xa aprendemos a facer consultas mediante o SQL DQL(**link**), e despois vimos como crear bases de datos con SQL DDL(**link**). Polo tanto, podemos dar paso a **SQL DML**, terceira sublinguaxe que imos estudar e que se basea no manexo de datos, permitindo engadir, modificar e eliminar tuplas nas bases de datos existentes.
+Xa aprendemos a facer consultas mediante o [SQL DQL](DQL.md), e despois vimos como crear bases de datos con [SQL DDL](DDL.md). Polo tanto, podemos dar paso a **SQL DML**, terceira sublinguaxe que imos estudar e que se basea no manexo de datos, permitindo engadir, modificar e eliminar tuplas nas bases de datos existentes.
 
 ## ```INSERT INTO```, pois unha base de datos baleira é inútil
 
@@ -59,6 +59,8 @@ DELETE FROM <nomeDaTaboa>
 **BEWARE**: Se non se establece un predicado, o resultado será baleirar toda a táboa. *Don't hate the player, hate the game*
 
 ## Agora toca aplicar os coñecementos
+
+![exemploDDL](/img/exemploDDL.png)
 
 | DOCENTES.nif  | nrp             | nome            | data_ingreso | xefe        |
 |---------------|-----------------|-----------------|--------------|-------------|
@@ -158,3 +160,10 @@ Con isto facemos unha sinxela consulta de proba, coa que amosar o nome dun docen
 | Álvaro Siza   | Debuxo II           | Xulián Tenorio  |
 | Álvaro Siza   | Urbanismo I         | Débora Cabezas  |
 
+Por último, supoñemos que o centro deixa de ter recursos para manter o programa de axudas económicas. Debido a isto, tómase a decisión de eliminar os datos dos fillos de docentes da base de datos.
+
+```sql
+DELETE FROM FILLOS
+;
+```
+Como queremos borrar a táboa enteira, non é necesario establecer un predicado.
