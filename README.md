@@ -33,4 +33,4 @@ Os exemplos de consulta foron testados mediante as bases de datos presentes na p
 O exemplo proposto nas sublinguaxes DDL e DML foi implementado e testado previamente en ElephantSQL, co xestor PostregSQL.
 
 
-© 2020 SeicaNonVelaVara, Inc. [Terms of Service](#https://youtu.be/dQw4w9WgXcQ)
+© 2020 SeicaNonVelaVara, Inc. [Terms of Service](https://youtu.be/dQw4w9WgXcQ)
