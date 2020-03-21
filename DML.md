@@ -7,7 +7,7 @@
 - [```DELETE FROM```, [ten coidado] para eliminar tuplas](#delete-from-ten-coidado-para-eliminar-tuplas)
 - [Agora toca aplicar os coñecementos](#agora-toca-aplicar-os-coñecementos)
 
-Xa aprendemos a facer consultas mediante o [SQL DQL](DQL.md), e despois vimos como crear bases de datos con [SQL DDL](DDL.md). Polo tanto, podemos dar paso a **SQL DML**, terceira sublinguaxe que imos estudar e que se basea no manexo de datos, permitindo engadir, modificar e eliminar tuplas nas bases de datos existentes.
+Xa aprendemos a facer consultas mediante o [SQL DQL](DQL.md), e despois vimos como crear bases de datos con [SQL DDL](DDL.md). Polo tanto, podemos dar paso a **SQL DML**, terceira sublinguaxe que imos estudar e que se basea no manexo de datos, permitindo engadir, modificar e eliminar tuplas nunha base de datos existente.
 
 ## ```INSERT INTO```, pois unha base de datos baleira é inútil
 
@@ -56,7 +56,7 @@ DELETE FROM <nomeDaTaboa>
 	    [WHERE <predicado>]
 ;
 ```
-**BEWARE**: Se non se establece un predicado, o resultado será baleirar toda a táboa. *Don't hate the player, hate the game*
+**BEWARE**: Se non se establece un predicado, o resultado será baleirar toda a táboa. *Don't hate the player, hate the game*.
 
 ## Agora toca aplicar os coñecementos
 
@@ -93,7 +93,7 @@ DELETE FROM <nomeDaTaboa>
 | ***87425812Y***   | **Selena**  | 2018-12-28     |
 | ***41357625Z***   | **Paulo**   | 2019-05-17     |
 
-Tomando como punto de partida o [suposto presentado no estudo do SQL DDL](DDL.md#agora-toca-aplicar-os-coñecementos), agora imos rexistrar os seguintes datos na nosa base de datos anteriormente creada pero aínda baleira de información.
+Tomando como punto de partida o [suposto presentado no estudo do SQL DDL](DDL.md#agora-toca-aplicar-os-coñecementos), agora imos rexistrar os seguintes datos na nosa base de datos anteriormente creada pero aínda baleira de información. Os seguintes resultados foron testados previamente en ElephantSQL, co xestor de BD PostgreSQL.
 
 ```sql
 INSERT INTO DOCENTES 
