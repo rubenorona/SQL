@@ -2,9 +2,18 @@
 
 A partir do [primeiro exercicio de implementación DDL](https://github.com/davidgchaves/first-steps-with-git-and-github-wirtz-asir1-and-dam1/tree/master/exercicios-ddl/1-proxectos-de-investigacion) que fixemos na clase, imos agora crear a base de datos en MariaDB, o sistema xestor de bases de datos que [acabamos de instalar localmente](instalacionMariaDB.md).
 
-**Nota**: Danse por explicados os conceptos básicos do [SQL DDL](DDL.md). Volver a explicar cada unha das funcións sería caer nunha redundancia de información. Polo tanto, neste exemplo basearémonos en como implementar unha base de datos dende a liña de comandos dun SXBD instalado no propio sistema, facendo especial fincapé nas diferenzas de MariaDB con PostgreSQL, xestor empregado nos supostos prácticos realizados nos apuntamentos. 
+**Nota**: Danse por explicados os conceptos básicos do [SQL DDL](DDL.md). Volver a explicar cada unha das funcións sería caer nunha redundancia de información. Polo tanto, neste exemplo basearémonos en como implementar unha base de datos dende a liña de comandos dun SXBD instalado no propio sistema, facendo especial fincapé nas diferenzas de MariaDB con PostgreSQL, xestor empregado nos supostos prácticos realizados nos apuntamentos.
 
-### Resumo dos criterios seguidos: 
+### Índice
+
+- [Resumo dos criterios seguidos](#resumo-dos-criterios-seguidos)
+- [Crear e empregar a base de datos](#crear-e-empregar-a-base-de-datos)
+- [Creación das táboas](#creación-das-táboas)
+- [Restrición da clave allea](#restrición-da-clave-allea)
+- [Establecer límites no rexistro de datos](#establecer-limites-no-rexistro-de-datos)
+- [Principais diferenzas DDL detectadas entre MariaDB e PostgreSQL](#principais-diferenzas-ddl-detectadas-entre-mariadb-e-postgresql)
+
+### Resumo dos criterios seguidos
 
 - Evitar acentos e espazos en branco na nomenclatura de obxectos.
 - Comezar por crear todas as táboas, declarando o tipo de dato, as claves primaria e os atributos únicos.
