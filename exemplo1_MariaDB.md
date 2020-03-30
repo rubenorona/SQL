@@ -186,4 +186,10 @@ ALTER TABLE PROXECTO
     CHECK (data_inicio < data_fin)
 ;
 ```
-Os ```CHECK``` son o último tipo de restrición que facemos. Neste caso, temos que asegurarnos de que as datas de inicio deban ser necesariamente anteriores ás de cese.
+Os ```CHECK``` son o último tipo de restrición que facemos. Neste caso, temos que asegurarnos de que as datas de inicio sexan necesariamente anteriores ás de cese.
+
+### Principais diferenzas DDL detectadas entre MariaDB e PostgreSQL
+
+- Non se poden crear dominios, polo que a declaración de tipos de datos non pode ser tan ordeada e simplificada.
+- Non existe ```MONEY``` como tipo de dato. No seu lugar empregamos un tipo numérico similar: ```DECIMAL(15,2)```.
+- MariaDB ignora o nome establecido á restrición da ```PRIMARY KEY```, creando un warning. Polo tanto, evitámolo.
