@@ -2,6 +2,8 @@
 
 A partir do [primeiro exercicio de implementación DDL](https://github.com/davidgchaves/first-steps-with-git-and-github-wirtz-asir1-and-dam1/tree/master/exercicios-ddl/1-proxectos-de-investigacion) que fixemos na clase, imos agora crear a base de datos en MariaDB, o sistema xestor de bases de datos que [acabamos de instalar localmente](instalacionMariaDB.md).
 
+**Nota**: Danse por explicados os conceptos básicos do [SQL DDL](DDL.md). Volver a explicar cada unha das funcións sería caer nunha redundancia de información. Polo tanto, neste exemplo basearémonos en como implementar unha base de datos dende a liña de comandos dun SXBD instalado no propio sistema, facendo especial fincapé nas diferenzas de MariaDB con PostgreSQL, xestor empregado nos supostos prácticos realizados nos apuntamentos. 
+
 ### Resumo dos criterios seguidos: 
 
 - Evitar acentos e espazos en branco na nomenclatura de obxectos.
@@ -93,3 +95,80 @@ Mediante ```CREATE TABLE``` xeramos a estrutura da base de datos. Unha limitaci�
 ![ex1cap2](/img/ex1cap2.PNG)
 ![ex1cap3](/img/ex1cap3.PNG)
 
+### Restrición da clave allea
+
+```sql
+ALTER TABLE UBICACION
+  ADD CONSTRAINT FK_SEDE_UBICACION
+    FOREIGN KEY             (nome_sede)
+    REFERENCES SEDE         (nome_sede)
+    ON DELETE  CASCADE
+    ON UPDATE  CASCADE,
+  ADD CONSTRAINT FK_DEPARTAMENTO_UBICACION
+    FOREIGN KEY             (nome_departamento)
+    REFERENCES DEPARTAMENTO (nome_departamento)
+    ON DELETE  CASCADE
+    ON UPDATE  CASCADE
+;
+
+ALTER TABLE DEPARTAMENTO
+  ADD CONSTRAINT FK_PROFESOR_DEPARTAMENTO
+    FOREIGN KEY             (director)
+    REFERENCES PROFESOR     (dni)
+    ON DELETE  SET NULL
+    ON UPDATE  CASCADE
+;
+
+ALTER TABLE GRUPO
+  ADD CONSTRAINT FK_DEPARTAMENTO_GRUPO
+    FOREIGN KEY             (nome_departamento)
+    REFERENCES DEPARTAMENTO (nome_departamento)
+    ON DELETE  CASCADE 
+    ON UPDATE  CASCADE,
+  ADD CONSTRAINT FK_PROFESOR_GRUPO
+    FOREIGN KEY             (lider)
+    REFERENCES PROFESOR     (dni)
+    ON DELETE  SET NULL
+    ON UPDATE  CASCADE
+;
+
+ALTER TABLE PROFESOR
+  ADD CONSTRAINT FK_GRUPO_PROFESOR
+    FOREIGN KEY             (grupo,      departamento)
+    REFERENCES GRUPO        (nome_grupo, nome_departamento)
+    ON DELETE  SET NULL
+    ON UPDATE  CASCADE
+;
+
+ALTER TABLE PARTICIPA
+  ADD CONSTRAINT FK_PROFESOR_PARTICIPA
+    FOREIGN KEY             (dni)
+    REFERENCES PROFESOR     (dni)
+    ON DELETE  NO ACTION
+    ON UPDATE  CASCADE,
+  ADD CONSTRAINT FK_PROXECTO_PARTICIPA
+    FOREIGN KEY             (codigo_proxecto)
+    REFERENCES PROXECTO     (codigo_proxecto)
+    ON DELETE  NO ACTION
+    ON UPDATE  CASCADE
+;
+
+ALTER TABLE PROXECTO
+  ADD CONSTRAINT FK_GRUPO_PROXECTO
+    FOREIGN KEY             (grupo,      departamento)
+    REFERENCES GRUPO        (nome_grupo, nome_departamento)
+    ON DELETE  SET NULL
+    ON UPDATE  CASCADE
+;
+
+ALTER TABLE FINANCIA 
+  ADD CONSTRAINT FK_PROXECTO_FINANCIA
+    FOREIGN KEY             (codigo_proxecto)
+    REFERENCES PROXECTO     (codigo_proxecto)
+    ON DELETE  CASCADE
+    ON UPDATE  CASCADE
+;
+```
+Unha vez están todas as columnas da base de datos declaradas, resulta moi sinxelo facer a interrelación entre táboas. Empregamos o método máis declarativo posible.
+![ex1cap4](/img/ex1cap4.PNG)
+![ex1cap5](/img/ex1cap5.PNG)
