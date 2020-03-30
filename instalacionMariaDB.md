@@ -25,7 +25,7 @@ Unha maneira de verificar a instalación é comprobar a súa versión:
 mysql -V
 ```
 
-Antes de empregar o xestor, é recomendable que antes executemos o seguinte script, no que configuraremos o contrasinal root, ademais de eliminar os usuarios anónimos, deshabilitar o root remoto e suprimir unha base de datos de proba:
+Antes de empregar o xestor, é recomendable que primeiro executemos o seguinte script, no que configuraremos o contrasinal root, ademais de eliminar os usuarios anónimos, deshabilitar o root remoto e suprimir unha base de datos de proba:
 ```sh
 sudo mysql_secure_installation
 ```
