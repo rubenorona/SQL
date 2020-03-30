@@ -172,3 +172,18 @@ ALTER TABLE FINANCIA
 Unha vez están todas as columnas da base de datos declaradas, resulta moi sinxelo facer a interrelación entre táboas. Empregamos o método máis declarativo posible.
 ![ex1cap4](/img/ex1cap4.PNG)
 ![ex1cap5](/img/ex1cap5.PNG)
+
+### Establecer límites no rexistro de datos
+
+```sql
+ALTER TABLE PARTICIPA
+  ADD CONSTRAINT data_inicio_antes_cese
+    CHECK (data_inicio < data_cese)
+;
+
+ALTER TABLE PROXECTO
+  ADD CONSTRAINT data_inicio_antes_fin
+    CHECK (data_inicio < data_fin)
+;
+```
+Os ```CHECK``` son o último tipo de restrición que facemos. Neste caso, temos que asegurarnos de que as datas de inicio deban ser necesariamente anteriores ás de cese.
