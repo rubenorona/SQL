@@ -30,9 +30,78 @@ sudo mysql
 CREATE SCHEMA naves_espaciais;
 USE           naves_espaciais;
 ```
-Temos que comezar por crear a base de datos, e despois especificar que queremos empregala ata nova orde (a BD activa aparece entre corchetes). 
+Temos que comezar por crear a base de datos, e despois especificar que queremos empregala ata nova orde (a BD activa aparece entre corchetes).
 ![ex2cap1](/img/ex2cap1.PNG)
 
 ## Creación das táboas
+
+```sql
+CREATE TABLE SERVIZO (
+  clave_servizo      CHAR(5),
+  nome_servizo       VARCHAR(30),
+  PRIMARY KEY (Clave_Servizo, Nome_Servizo)
+);
+
+CREATE TABLE DEPENDENCIA (
+  codigo_dependencia CHAR(5)     PRIMARY KEY,
+  nome_dependencia   VARCHAR(30) NOT NULL UNIQUE,
+  clave_servizo      CHAR(5)     NOT NULL,
+  nome_servizo       VARCHAR(30) NOT NULL,
+  funcion            VARCHAR(30),
+  localizacion       VARCHAR(30)
+);
+
+CREATE TABLE CAMARA (
+  codigo_dependencia CHAR(5)     PRIMARY KEY,
+  categoria          VARCHAR(30) NOT NULL,
+  capacidade         INTEGER     NOT NULL
+);
+
+CREATE TABLE TRIPULACION (
+  codigo_tripulacion CHAR(5)     PRIMARY KEY,
+  nome_tripulacion   VARCHAR(30) NOT NULL,
+  codigo_camara      CHAR(5)     NOT NULL,
+  codigo_dependencia CHAR(5)     NOT NULL,
+  categoria          VARCHAR(30) NOT NULL,
+  antigüidade        INTEGER     NOT NULL DEFAULT 0,
+  procedencia        VARCHAR(30) NOT NULL,
+  situacion_admin    VARCHAR(30) NOT NULL
+);
+
+CREATE TABLE VISITA (
+  codigo_tripulacion CHAR(5),
+  codigo_planeta     CHAR(5),
+  data_visita        DATE,
+  tempo              INTEGER     NOT NULL,
+  PRIMARY KEY (codigo_tripulacion, codigo_planeta, data_visita)
+);
+
+CREATE TABLE PLANETA (
+  codigo_planeta     CHAR(5)     PRIMARY KEY,
+  nome_planeta       VARCHAR(30) NOT NULL UNIQUE,
+  galaxia            VARCHAR(30) NOT NULL,
+  coordenadas        CHAR(15)    NOT NULL UNIQUE
+);
+
+CREATE TABLE HABITA (
+  codigo_planeta     CHAR(5),
+  nome_raza          VARCHAR(30),
+  poboacion_parcial  INTEGER     NOT NULL,
+  PRIMARY KEY (codigo_planeta, nome_raza)
+);
+
+CREATE TABLE RAZA (
+  nome_raza          VARCHAR(30) PRIMARY KEY,
+  altura             INTEGER     NOT NULL,
+  anchura            INTEGER     NOT NULL,
+  peso               INTEGER     NOT NULL,
+  poboacion_total    INTEGER     NOT NULL
+);
+```
+Seguindo os criterios expostos, primeiro xeramos a estrutura da base de datos con ```CREATE TABLE```. Unha grande limitación de MariaDB consiste en que non se poden crear dominios para definir os tipos de dato, o cal sería realmente conveniente nos atributos de lonxitude limitada.
+![ex1cap2](/img/ex1cap2.PNG)
+![ex1cap3](/img/ex1cap3.PNG)
+
+## Restrición da clave allea
 
 
