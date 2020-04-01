@@ -99,9 +99,67 @@ CREATE TABLE RAZA (
 );
 ```
 Seguindo os criterios expostos, primeiro xeramos a estrutura da base de datos con ```CREATE TABLE```. Unha grande limitación de MariaDB consiste en que non se poden crear dominios para definir os tipos de dato, o cal sería realmente conveniente nos atributos de lonxitude limitada.
-![ex1cap2](/img/ex1cap2.PNG)
-![ex1cap3](/img/ex1cap3.PNG)
+![ex2cap2](/img/ex2cap2.PNG)
+![ex2cap3](/img/ex2cap3.PNG)
 
 ## Restrición da clave allea
 
+```sql
+ALTER TABLE DEPENDENCIA
+  ADD CONSTRAINT FK_SERVIZO_DEPENDENCIA
+    FOREIGN KEY            (clave_servizo, nome_servizo)
+    REFERENCES SERVIZO     (clave_servizo, nome_servizo)
+    ON DELETE  CASCADE
+    ON UPDATE  CASCADE
+;
 
+ALTER TABLE CAMARA
+  ADD CONSTRAINT FK_DEPENDENCIA_CAMARA
+    FOREIGN KEY            (codigo_dependencia)
+    REFERENCES DEPENDENCIA (codigo_dependencia)
+    ON DELETE  CASCADE
+    ON UPDATE  CASCADE
+;
+
+ALTER TABLE TRIPULACION
+  ADD CONSTRAINT FK_CAMARA_TRIPULACION
+    FOREIGN KEY            (codigo_camara)
+    REFERENCES CAMARA      (codigo_dependencia)
+    ON DELETE  CASCADE
+    ON UPDATE  CASCADE,
+  ADD CONSTRAINT FK_DEPENDENCIA_TRIPULACION
+    FOREIGN KEY            (codigo_dependencia)
+    REFERENCES DEPENDENCIA (codigo_dependencia)
+    ON DELETE  CASCADE
+    ON UPDATE  CASCADE
+;
+
+ALTER TABLE VISITA
+  ADD CONSTRAINT FK_TRIPULACION_VISITA
+    FOREIGN KEY            (codigo_tripulacion)
+    REFERENCES TRIPULACION (codigo_tripulacion)
+    ON DELETE  CASCADE
+    ON UPDATE  CASCADE,
+  ADD CONSTRAINT FK_PLANETA_VISITA
+    FOREIGN KEY            (codigo_planeta)
+    REFERENCES PLANETA     (codigo_planeta)
+    ON DELETE  CASCADE
+    ON UPDATE  CASCADE
+;
+
+ALTER TABLE HABITA
+  ADD CONSTRAINT FK_PLANETA_HABITA
+    FOREIGN KEY            (codigo_planeta)
+    REFERENCES PLANETA     (codigo_planeta)
+    ON DELETE  CASCADE
+    ON UPDATE  CASCADE,
+  ADD CONSTRAINT FK_RAZA_HABITA
+    FOREIGN KEY            (nome_raza)
+    REFERENCES RAZA        (nome_raza)
+    ON DELETE  CASCADE
+    ON UPDATE  CASCADE
+;
+```
+A vantaxe de ter definida toda a estrutura da base de datos radica en que agora é moi fácil facer a interrelación entre táboas, pois nunca imos ter o problema de referenciar algo que non exista. Así pois, establecemos as claves alleas mediante un ```ALTER TABLE```. empregando o método máis declarativo posible.
+![ex2cap4](/img/ex2cap4.PNG)
+![ex2cap5](/img/ex2cap5.PNG)
