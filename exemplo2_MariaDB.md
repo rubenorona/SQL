@@ -163,3 +163,29 @@ ALTER TABLE HABITA
 A vantaxe de ter definida toda a estrutura da base de datos radica en que agora é moi fácil facer a interrelación entre táboas, pois nunca imos ter o problema de referenciar algo que non exista. Así pois, establecemos as claves alleas mediante un ```ALTER TABLE```. empregando o método máis declarativo posible.
 ![ex2cap4](/img/ex2cap4.PNG)
 ![ex2cap5](/img/ex2cap5.PNG)
+
+## Establecer límites no rexistro de datos
+
+```sql
+ALTER TABLE CAMARA
+  ADD CONSTRAINT capacidade_maior_a_cero
+    CHECK (capacidade > 0)
+;
+
+ALTER TABLE HABITA
+  ADD CONSTRAINT poboacion_maior_a_cero
+    CHECK (poboacion_parcial > 0)
+;
+
+ALTER TABLE RAZA
+  ADD CONSTRAINT altura_maior_a_cero
+    CHECK (altura > 0),
+  ADD CONSTRAINT anchura_maior_a_cero
+    CHECK (anchura > 0),
+  ADD CONSTRAINT peso_maior_a_cero
+    CHECK (peso > 0),
+  ADD CONSTRAINT poboacion_maior_a_cero
+    CHECK (poboacion_total > 0)
+;
+```
+Igual que no exemplo anterior, deixamos os ```CHECK``` para o final. Neste caso, o universo do discurso non permite que a capacidade dunha cámara e o número de habitantes sexan iguais ou menores a cero. Ademias, non contemplamos a existencia de razas etéreas, polo que as dimensións dos seres tamén deben ser superiores a cero. 
