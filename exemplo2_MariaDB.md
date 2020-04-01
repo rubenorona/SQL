@@ -188,4 +188,12 @@ ALTER TABLE RAZA
     CHECK (poboacion_total > 0)
 ;
 ```
-Igual que no exemplo anterior, deixamos os ```CHECK``` para o final. Neste caso, o universo do discurso non permite que a capacidade dunha cámara e o número de habitantes sexan iguais ou menores a cero. Ademias, non contemplamos a existencia de razas etéreas, polo que as dimensións dos seres tamén deben ser superiores a cero. 
+Igual que no exemplo anterior, deixamos os ```CHECK``` para o final. Neste caso, o universo do discurso non permite que a capacidade dunha cámara e o número de habitantes sexan iguais ou menores a cero. Ademias, non contemplamos a existencia de razas etéreas, polo que as dimensións dos seres tamén deben ser superiores a cero.
+
+## Principais diferenzas DDL detectadas entre MariaDB e PostgreSQL
+
+Son as mesmas que nos atopamos no [exemplo de implementación previo](exemplo1_MariaDB.md):
+
+- Non se poden crear dominios, polo que a declaración de tipos de datos non pode ser tan ordeada e simplificada.
+- MariaDB ignora o nome establecido á restrición da ```PRIMARY KEY```, creando un warning. Polo tanto, evitámolo.
+- Xa vimos que SQL non diferenza necesariamente entre maiúsculas e minúsculas. Pero no caso de ter un SXBD instalado localmente, isto queda determinado polo sistema operativo. Polo tanto, empregar un xestor MariaDB en Linux provoca que si exista esta diferenciación no nomeamento de obxectos. Debido a isto, o [criterio seguido](#resumo-dos-criterios-seguidos) foi o de táboas en maiúsculas e atributos en minúsculas.
