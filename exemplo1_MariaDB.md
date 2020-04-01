@@ -1,10 +1,10 @@
 # Implementación en MariaDB, exemplo1: Proxectos de Investigación
 
-A partir do [primeiro exercicio de implementación DDL](https://github.com/davidgchaves/first-steps-with-git-and-github-wirtz-asir1-and-dam1/tree/master/exercicios-ddl/1-proxectos-de-investigacion) que fixemos na clase, imos agora crear a base de datos en MariaDB, o sistema xestor de bases de datos que [acabamos de instalar localmente](instalacionMariaDB.md).
+A partir do [primeiro exercicio de implementación DDL](https://github.com/davidgchaves/first-steps-with-git-and-github-wirtz-asir1-and-dam1/tree/master/exercicios-ddl/1-proxectos-de-investigacion) que fixemos na clase, imos agora crear a base de datos en MariaDB, sistema xestor que [acabamos de instalar localmente](instalacionMariaDB.md) en Linux.
 
-**Nota**: Danse por explicados os conceptos básicos do [SQL DDL](DDL.md). Volver a explicar cada unha das  sentencias sería caer nunha redundancia de información. Polo tanto, neste exemplo basearémonos en como implementar unha base de datos dende a liña de comandos dun SXBD instalado no propio sistema, facendo especial fincapé nas diferenzas de MariaDB con PostgreSQL, xestor empregado no [suposto práctico](DDL.md#agora-toca-aplicar-os-coñecementos) realizado nos apuntamentos.
+**Nota**: Danse por aprendidos os conceptos básicos do [SQL DDL](DDL.md). Volver a explicar cada unha das sentencias sería caer nunha redundancia de información. Polo tanto, neste exemplo basearémonos en como implementar unha base de datos dende a liña de comandos dun SXBD instalado no propio sistema, facendo especial fincapé nas diferenzas de MariaDB con PostgreSQL, este último o xestor empregado no [suposto práctico](DDL.md#agora-toca-aplicar-os-coñecementos) realizado nos apuntamentos.
 
-### Índice
+## Índice
 
 - [Resumo dos criterios seguidos](#resumo-dos-criterios-seguidos)
 - [Crear e empregar a base de datos](#crear-e-empregar-a-base-de-datos)
@@ -15,15 +15,15 @@ A partir do [primeiro exercicio de implementación DDL](https://github.com/david
 
 ### Resumo dos criterios seguidos
 
-- Evitar acentos e espazos en branco na nomenclatura de obxectos.
-- Tabóas en maiúsculas, atributos en minúsculas e barras baixas ([ver diferenzas entre MariaDB e PostgreSQL](#principais-diferenzas-ddl-detectadas-entre-mariadb-e-postgresql))
+- Evitar acentos e espazos en branco na nomenclatura de obxectos, empregando barras baixas como obxecto separador.
+- Táboas en maiúsculas, atributos en minúsculas. Razón explicada nas [diferenzas entre MariaDB e PostgreSQL](#principais-diferenzas-ddl-detectadas-entre-mariadb-e-postgresql).
 - Comezar por crear todas as táboas, declarando o tipo de dato, as claves primaria e as columnas de valor único.
 - ```NOT NULL``` en todos os atributos, salvo nas claves primarias e nos datos de rexistro non obrigatorio. 
 - ```UNIQUE``` e ```PRIMARY KEY``` sempre de maneira simplificada, salvo cando están formadas por atributos compostos.
-- Despois disto, ```ALTER TABLE``` para engadir todas as claves alleas (nomeando os ```CONSTRAINT```).
-- Finalmente, engadir as restricións de ```CHECK``` (tamen de forma moi declarativa e dándolles nome).
+- Despois disto, ```ALTER TABLE``` para engadir todas as claves alleas, dando nome ós ```CONSTRAINT```).
+- Finalmente, engadir as restricións de ```CHECK``` (tamén de forma moi declarativa e nomeándoos sempre).
 
-### Crear e empregar a base de datos
+## Crear e empregar a base de datos
 
 ```sql
 sudo mysql
@@ -33,7 +33,7 @@ USE           proxectos_de_investigacion;
 En MariaDB debemos ter especificada a base de datos sobre a que estamos a definir datos, aparecendo o nome desta entre corchetes na liña de comandos. 
 ![ex1cap1](/img/ex1cap1.PNG)
 
-### Creación das táboas
+## Creación das táboas
 
 ```sql
 CREATE TABLE SEDE (
@@ -105,7 +105,7 @@ Mediante ```CREATE TABLE``` xeramos a estrutura da base de datos. Unha limitaci�
 ![ex1cap2](/img/ex1cap2.PNG)
 ![ex1cap3](/img/ex1cap3.PNG)
 
-### Restrición da clave allea
+## Restrición da clave allea
 
 ```sql
 ALTER TABLE UBICACION
@@ -183,7 +183,7 @@ Unha vez están todas as columnas da base de datos declaradas, resulta moi sinxe
 ![ex1cap4](/img/ex1cap4.PNG)
 ![ex1cap5](/img/ex1cap5.PNG)
 
-### Establecer límites no rexistro de datos
+## Establecer límites no rexistro de datos
 
 ```sql
 ALTER TABLE PARTICIPA
@@ -198,7 +198,7 @@ ALTER TABLE PROXECTO
 ```
 Os ```CHECK``` son o último tipo de restrición que facemos. Neste caso, temos que asegurarnos de que as datas de inicio sexan necesariamente anteriores ás de cese.
 
-### Principais diferenzas DDL detectadas entre MariaDB e PostgreSQL
+## Principais diferenzas DDL detectadas entre MariaDB e PostgreSQL
 
 - Non se poden crear dominios, polo que a declaración de tipos de datos non pode ser tan ordeada e simplificada.
 - Non existe ```MONEY``` como tipo de dato. No seu lugar empregamos un tipo numérico similar: ```DECIMAL(15,2)```.
