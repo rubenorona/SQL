@@ -2,7 +2,7 @@
 
 A partir do [primeiro exercicio de implementación DDL](https://github.com/davidgchaves/first-steps-with-git-and-github-wirtz-asir1-and-dam1/tree/master/exercicios-ddl/1-proxectos-de-investigacion) que fixemos na clase, imos agora crear a base de datos en MariaDB, o sistema xestor de bases de datos que [acabamos de instalar localmente](instalacionMariaDB.md).
 
-**Nota**: Danse por explicados os conceptos básicos do [SQL DDL](DDL.md). Volver a explicar cada unha das funcións sería caer nunha redundancia de información. Polo tanto, neste exemplo basearémonos en como implementar unha base de datos dende a liña de comandos dun SXBD instalado no propio sistema, facendo especial fincapé nas diferenzas de MariaDB con PostgreSQL, xestor empregado nos supostos prácticos realizados nos apuntamentos.
+**Nota**: Danse por explicados os conceptos básicos do [SQL DDL](DDL.md). Volver a explicar cada unha das  sentencias sería caer nunha redundancia de información. Polo tanto, neste exemplo basearémonos en como implementar unha base de datos dende a liña de comandos dun SXBD instalado no propio sistema, facendo especial fincapé nas diferenzas de MariaDB con PostgreSQL, xestor empregado no [suposto práctico](DDL.md#agora-toca-aplicar-os-coñecementos) realizado nos apuntamentos.
 
 ### Índice
 
@@ -16,9 +16,10 @@ A partir do [primeiro exercicio de implementación DDL](https://github.com/david
 ### Resumo dos criterios seguidos
 
 - Evitar acentos e espazos en branco na nomenclatura de obxectos.
-- Comezar por crear todas as táboas, declarando o tipo de dato, as claves primaria e os atributos únicos.
+- Tabóas en maiúsculas, atributos en minúsculas e barras baixas ([ver diferenzas entre MariaDB e PostgreSQL](#principais-diferenzas-ddl-detectadas-entre-mariadb-e-postgresql))
+- Comezar por crear todas as táboas, declarando o tipo de dato, as claves primaria e as columnas de valor único.
 - ```NOT NULL``` en todos os atributos, salvo nas claves primarias e nos datos de rexistro non obrigatorio. 
-- ```UNIQUE``` e ```PRIMARY KEY``` sempre de maneira simplificada, salvo cando son atributos compostos.
+- ```UNIQUE``` e ```PRIMARY KEY``` sempre de maneira simplificada, salvo cando están formadas por atributos compostos.
 - Despois disto, ```ALTER TABLE``` para engadir todas as claves alleas (nomeando os ```CONSTRAINT```).
 - Finalmente, engadir as restricións de ```CHECK``` (tamen de forma moi declarativa e dándolles nome).
 
@@ -202,3 +203,4 @@ Os ```CHECK``` son o último tipo de restrición que facemos. Neste caso, temos 
 - Non se poden crear dominios, polo que a declaración de tipos de datos non pode ser tan ordeada e simplificada.
 - Non existe ```MONEY``` como tipo de dato. No seu lugar empregamos un tipo numérico similar: ```DECIMAL(15,2)```.
 - MariaDB ignora o nome establecido á restrición da ```PRIMARY KEY```, creando un warning. Polo tanto, evitámolo.
+- Xa vimos que SQL non diferenza necesariamente entre maiúsculas e minúsculas. Pero no caso de ter un SXBD instalado localmente, isto queda determinado polo sistema operativo. Polo tanto, empregar un xestor MariaDB en Linux provoca que si exista esta diferenciación no nomeamento de obxectos. Debido a isto, o [criterio seguido](#resumo-dos-criterios-seguidos) foi o de táboas en maiúsculas e atributos en minúsculas.
