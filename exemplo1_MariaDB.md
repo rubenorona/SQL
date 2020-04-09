@@ -10,7 +10,7 @@ A partir do [primeiro exercicio de implementación DDL](https://github.com/david
 - [Crear e empregar a base de datos](#crear-e-empregar-a-base-de-datos)
 - [Creación das táboas](#creación-das-táboas)
 - [Restrición da clave allea](#restrición-da-clave-allea)
-- [Establecer límites no rexistro de datos](#establecer-limites-no-rexistro-de-datos)
+- [Establecer límites no rexistro de datos](#establecer-límites-no-rexistro-de-datos)
 - [Principais diferenzas DDL detectadas entre MariaDB e PostgreSQL](#principais-diferenzas-ddl-detectadas-entre-mariadb-e-postgresql)
 
 ### Resumo dos criterios seguidos
