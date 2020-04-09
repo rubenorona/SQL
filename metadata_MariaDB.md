@@ -1,6 +1,6 @@
 # Metadata en MariaDB
 
-Xa vimos o proceso para [instalar MariaDB en Linux](instalacionMariaDB.md), ademais de [varios](exemplo1_MariaDB.md) [exemplos](exemplo2_MariaDB.md) de como implementar bases de datos no SXBD, todo mediante a súa liña de comandos. Agora imos ver outra posibilidade que nos ofrece MariaDB, que consiste na visualización da estrutura dunha base de datos mediante táboas, simulando unha interface gráfica na mesma ventá de comandos que vimos empregando ata o de agora.
+Xa vimos o proceso para [instalar MariaDB en Linux](instalacionMariaDB.md), ademais de [varios exemplos](exemplo2_MariaDB.md) de como implementar bases de datos no SXBD, todo mediante a súa liña de comandos. Agora imos ver outra posibilidade que nos ofrece MariaDB, que consiste na visualización da estrutura dunha base de datos mediante táboas, simulando unha interface gráfica na mesma ventá de comandos que vimos empregando ata o de agora. Iremos apoiando as explicacións de cada función con capturas do seu uso aplicado ó [exemplo1 de implementación física](exemplo1_MariaDB.md).
 
 ### ```SHOW COLUMNS```, o método máis sinxelo para obter información
 
@@ -22,19 +22,26 @@ Se ben é moi fácil de empregar, tamén amosa bastantes limitacións. Só nos p
 - *Default*: valor predeterminado dunha columna. Se aparece un valor baleiro, significa que non foi especificado.
 - *Extra*: información adicional, como o posible autoincremento dun atributo.
 
-![meta1cap1](/img/meta1cap1.PNG)
-
 ## INFORMATION_SCHEMA, como empregar o dicionario de datos
 
+O método que vimos con anterioridade é demasiado básico, polo que non recomendamos o seu uso. Se queremos información sobre unha base de datos, o mellor que podemos facer é acudir á propia fonte, isto é, o dicionario de datos. Así pois, **INFORMATION_SCHEMA** é unha repositorio predeterminado que almacena todos os metadatos das nosas bases de datos. Está formado por máis de trinta táboas diferentes, cada unha con columnas que aportan distinta información, e sobre as que podemos realizar consultas personalizadas. Despois de probalas e consultar a documentación oficial reducimos, dende un punto de vista didáctico, as tres ducias de táboas que forman o dicionario de datos a só unha terna: ```INFORMATION_SCHEMA.COLUMNS```, ```INFORMATION_SCHEMA.KEY_COLUMN_USAGE``` e ```INFORMATION_SCHEMA.CHECK_CONSTRAINTS```. Estas tres táboas permitirannos consultar toda a información que xa estudamos previamente sobre a estrutura dunha base de datos.
+![meta1cap1](/img/meta1cap1.PNG)
+
+### Same. But better. INFORMATION_SCHEMA.COLUMNS
+
+Ofrece unha información similar a ```SHOW COLUMNS```, pero coas vantaxes que aporta unha consulta personalizada: escoller as columnas a amosar, ensinar todas as táboas dunha base de datos nunha mesma búsqueda ou engadir varias databases diferentes, aparte de todos os coñecementos de [SQL DQL](DQL.md) que podemos aplicar aquí. 
+
+
+![meta1cap2](/img/meta1cap2.PNG)
+
+### Claves alleas. INFORMATION_SCHEMA.KEY_COLUMN_USAGE
 
 
 
-### Táboas, atributos, tipo de datos e restricións de clave primaria e unicidade
+![meta1cap3](/img/meta1cap3.PNG)
+
+### Restricións no rexistro de datos. INFORMATION_SCHEMA.CHECK_CONSTRAINTS
 
 
 
-### Claves alleas
-
-
-
-### Restricións no rexistro de datos: ```CHECK```
+![meta1cap4](/img/meta1cap4.PNG)
