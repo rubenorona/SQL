@@ -7,10 +7,11 @@
 - [Data Query Language](DQL.md)
 - [Data Definition Language](DDL.md)
 - [Data Manipulation Language](DML.md)
-- [Ferramentas empregadas](#ferramentas-empregadas)
 - [Instalación de MariaDB en Linux](instalacionMariaDB.md)
   - [Exemplo1 implementación: Proxectos de Investigación](exemplo1_MariaDB.md)
   - [Exemplo2 implementación: Naves Espaciais](exemplo2_MariaDB.md)
+  - [Metadata en MariaDB](metadata_MariaDB.md)
+- [Ferramentas empregadas](#ferramentas-empregadas)
 
 ## Primeiros pasos
 
@@ -27,7 +28,7 @@
 
 ### Ferramentas empregadas
 
-Sistema operativo empregado: UBUNTU 18.04, instalado como máquina virtual con Oracle VirtualBox (versión 6.1.2).
+Sistema operativo empregado: LUBUNTU 19.10, instalado como máquina virtual con Oracle VirtualBox (versión 6.1.4).
 
 Editor de texto: MarkdownPad (versión 2.5.0.2), que conta con highlight de sintaxe e preview a tempo real.
 
