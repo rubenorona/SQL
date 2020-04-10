@@ -46,14 +46,36 @@ WHERE table_schema = 'proxectos_de_investigacion'
 Neste caso, prescindimos das columnas que nos permiten ver o valor predeterminado dun atributo [```column_default```] e a información adicional [```extra```], pois non son relevantes na nosa base de datos. Ademais, desglosamos o tipo de dato en dúas columnas, co obxectivo de que os atributos de lonxitude limitada destacasen máis. Sen embargo, ```data_type``` e ```character_maximum_length``` ben poderían ter sido substituídos unicamente por ```column_type```. Adicionalmente, **INFORMATION_SCHEMA.COLUMNS** contén outro tipo de información a maiores, como ```table_schema``` (útil si consultamos máis dunha base de datos á vez), ```ordinal_position``` (orde dos atributos dentro dunha táboa), ```character_octet_lenght``` (tamaño máximo dun string en bits), ```numeric_precision``` ou ``` datetime_precision```.
 ![meta1cap2](/img/meta1cap2.PNG)
 
-### Claves alleas. INFORMATION_SCHEMA.KEY_COLUMN_USAGE]
+### Claves alleas. INFORMATION_SCHEMA.KEY_COLUMN_USAGE
 
-
-
+Se nos fixamos ben, a táboa que acabamos de ver permítenos ver todos os parámetros que, segundo o noso [criterio preestablecido](exemplo1_MariaDB.md#resumo-dos-criterios-seguidos) durante a implementación de bases de datos, van incluídos en ```CREATE TABLE```. Ou visto de outra maneira, non nos amosa de maneira explícita as claves alleas, que decidimos declarar sempre a posteriori mediante ```ALTER TABLE```. Para consultar estes datos, podemos realizar buscas á táboa ```INFORMATION_SCHEMA.KEY_COLUMN_USAGE```, que nos serve para atopar todas as columnas que teñen constraints (agás os ```CHECK```, que veremos máis adiante **link**).
+```sql
+SELECT table_name,
+       column_name,
+       constraint_name,
+       referenced_table_name,
+       referenced_column_name
+FROM                  INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+WHERE table_schema = 'proxectos_de_investigacion'
+;
+```
+Esta consulta permítenos atopar todas as claves primarias, restricións de unicidade, claves alleas e os atributos ós que estas fan referencia. Outras columnas que poderiamos amosar nesta táboa son ```constraint_schema```, ```table_schema```, ```referenced_table_schema``` (esta terna de columnas resulta útil si facemos unha busca que inclúa máis dunha base de datos) e ```ordinal_position```.
 ![meta1cap3](/img/meta1cap3.PNG)
+
+Sen embargo, si o noso obxectivo é consultar só as claves alleas, o resultado non é claro nin conciso. Para elo, podemos empregar todas as ferramentas que estudamos en [SQL DQL](DQL.md) ó noso favor, co fin de filtrar e modificar o producto final.
+```sql
+SELECT CONCAT (table_name,            '.', column_name)            as 'foreign_key',
+       CONCAT (referenced_table_name, '.', referenced_column_name) as 'references'
+FROM                  INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+WHERE table_schema = 'proxectos_de_investigacion'
+  AND referenced_table_name IS NOT NULL
+;
+```
+Desta maneira, cun simple par de ```CONCAT``` e un predicado máis elaborado,  conseguimos unha visualización moi limpa de todas as claves alleas dunha base de datos, xunto cos atributos ós que fan referencia.
+![meta1cap4](/img/meta1cap4.PNG)
 
 ### Restricións no rexistro de datos. INFORMATION_SCHEMA.CHECK_CONSTRAINTS
 
 
 
-![meta1cap4](/img/meta1cap4.PNG)
+
