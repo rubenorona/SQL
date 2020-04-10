@@ -29,12 +29,24 @@ O método que vimos con anterioridade é demasiado básico, polo que non recomen
 
 ### Same. But better. INFORMATION_SCHEMA.COLUMNS
 
-Ofrece unha información similar a ```SHOW COLUMNS```, pero coas vantaxes que aporta unha consulta personalizada: escoller as columnas a amosar, ensinar todas as táboas dunha base de datos nunha mesma búsqueda ou engadir varias databases diferentes, aparte de todos os coñecementos de [SQL DQL](DQL.md) que podemos aplicar aquí. 
+Ofrece unha información similar a ```SHOW COLUMNS```, pero coas vantaxes que aporta unha consulta personalizada: escoller as columnas a amosar, ensinar todas as táboas dunha base de datos nunha mesma busca ou engadir varias databases diferentes, aparte de todos os coñecementos de [SQL DQL](DQL.md) que podemos aplicar aquí. 
 
-
+Así pois, podemos recrear a consulta que fixemos nun primeiro lugar, servindo de excusa para repasar coñecementos e tamén para explorar as outras posibilidades que brinda a táboa ```INFORMATION_SCHEMA.COLUMNS```. Para iso, seguimos os mesmos principios que nunha consulta ordinaria. No ```SELECT``` separamos entre comas as columnas a amosar; mediante```FROM``` referenciamos á táboa sobre a que facemos a busca; por último, ```WHERE``` permítenos delcarar predicados. 
+```sql
+SELECT table_name,                             /* SHOW COLUMNS só permite unha táboa de cada vez */
+       column_key               as 'key',      /* = Key */
+       column_name,                            /* = Field */
+       data_type,
+       character_maximum_length as 'length',
+       is_nullable                             /* = Null */
+FROM                  INFORMATION_SCHEMA.COLUMNS
+WHERE table_schema = 'proxectos_de_investigacion'
+;
+```
+Neste caso, prescindimos das columnas que nos permiten ver o valor predeterminado dun atributo [```column_default```] e a información adicional [```extra```], pois non son relevantes na nosa base de datos. Ademais, desglosamos o tipo de dato en dúas columnas, co obxectivo de que os atributos de lonxitude limitada destacasen máis. Sen embargo, ```data_type``` e ```character_maximum_length``` ben poderían ter sido substituídos unicamente por ```column_type```. Adicionalmente, **INFORMATION_SCHEMA.COLUMNS** contén outro tipo de información a maiores, como ```table_schema``` (útil si consultamos máis dunha base de datos á vez), ```ordinal_position``` (orde dos atributos dentro dunha táboa), ```character_octet_lenght``` (tamaño máximo dun string en bits), ```numeric_precision``` ou ``` datetime_precision```.
 ![meta1cap2](/img/meta1cap2.PNG)
 
-### Claves alleas. INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+### Claves alleas. INFORMATION_SCHEMA.KEY_COLUMN_USAGE]
 
 
 
