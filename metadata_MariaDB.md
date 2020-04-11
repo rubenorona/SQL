@@ -9,6 +9,7 @@ Xa vimos o proceso para [instalar MariaDB en Linux](instalacionMariaDB.md), adem
   - [Same. But better. ```INFORMATION_SCHEMA.COLUMNS```](#same-but-better-information_schemacolumns)
   - [Claves alleas. ```INFORMATION_SCHEMA.KEY_COLUMN_USAGE```](#claves-alleas-information_schemakey_column_usage)
   - [Restricións no rexistro de datos. ```INFORMATION_SCHEMA.CHECK_CONSTRAINTS```](#restricións-no-rexistro-de-datos-information_schemacheck_constraints)
+- [Metadata da base de datos ```naves_espaciais```](#metadata-da-base-de-datos-naves_espaciais)
 
 ### ```SHOW COLUMNS```, o método máis sinxelo para obter información
 
@@ -94,3 +95,12 @@ WHERE constraint_schema = 'proxectos_de_investigacion'
 ```
 Neste caso, ó ter unha finalidade tan concreta, só precisamos visualizar dúas columnas da táboa. Outra información que podemos consultar é ```constraint_name``` e ```constraint_schema```. Este último só ten sentido empregalo cando no predicado escollemos máis dunha database, pois xa sabemos que os ```CHECK``` só poden relacionar atributos que pertenzan á mesma base de datos. *Para todo lo demás, CREATE ASSERTION*.
 
+
+## Metadata da base de datos ```naves_espaciais```
+
+Nos apartados previos vimos a maneira de sacar o máximo partido á ventá de comandos de MariaDB, apoiándonos sempre no [primeiro suposto de implantación física](exemplo1_MariaDB.md). Pero por seguir un paralelismo, fixemos o mesmo co [segundo exemplo](exemplo2_MariaDB.md). Xa que os comandos empregados para visualizar as tres táboas básicas que expoñen toda a estrutura da base de datos son os mesmos, ímonos limitar a deixar as capturas do proceso, co fin de non caer en redundancias e explicar o mesmo por duplicado.
+
+![meta2cap1](/img/meta2cap1.PNG)
+![meta2cap2](/img/meta2cap2.PNG)
+![meta2cap3](/img/meta2cap3.PNG)
+![meta2cap4](/img/meta2cap4.PNG)
