@@ -32,7 +32,7 @@ Se ben é moi fácil de empregar, tamén amosa bastantes limitacións. Só nos p
 
 ## ```INFORMATION_SCHEMA```, como empregar o dicionario de datos
 
-O método que vimos con anterioridade é demasiado básico, polo que non recomendamos o seu uso. Se queremos información sobre unha base de datos, o mellor que podemos facer é acudir á propia fonte, isto é, o dicionario de datos. Así pois, **INFORMATION_SCHEMA** é unha repositorio predeterminado que almacena todos os metadatos das nosas bases de datos. Está formado por máis de trinta táboas diferentes, cada unha con columnas que aportan distinta información, e sobre as que podemos realizar consultas personalizadas. Despois de probalas e consultar a documentación oficial reducimos, dende un punto de vista didáctico, as tres ducias de táboas que forman o dicionario de datos a só unha terna: ```INFORMATION_SCHEMA.COLUMNS```, ```INFORMATION_SCHEMA.KEY_COLUMN_USAGE``` e ```INFORMATION_SCHEMA.CHECK_CONSTRAINTS```. Estas tres táboas permitirannos consultar toda a información que xa estudamos previamente sobre a estrutura dunha base de datos.
+O método que vimos con anterioridade é demasiado básico, polo que non recomendamos o seu uso. Se queremos información sobre unha base de datos, o mellor que podemos facer é acudir á propia fonte, isto é, o dicionario de datos. Así pois, **INFORMATION_SCHEMA** é unha repositorio predeterminado que almacena todos os metadatos das nosas BD. Está formado por máis de trinta táboas diferentes, cada unha con columnas que aportan distinta información, e sobre as que podemos realizar consultas personalizadas. Despois de probalas e consultar a documentación oficial reducimos, dende un punto de vista didáctico, as tres ducias de táboas que forman o dicionario de datos a só unha terna: ```INFORMATION_SCHEMA.COLUMNS```, ```INFORMATION_SCHEMA.KEY_COLUMN_USAGE``` e ```INFORMATION_SCHEMA.CHECK_CONSTRAINTS```. Estas tres táboas permitirannos consultar toda a información que xa estudamos previamente sobre a estrutura dunha base de datos.
 ![meta1cap1](/img/meta1cap1.PNG)
 
 ### Same. But better: ```INFORMATION_SCHEMA.COLUMNS```
@@ -56,7 +56,7 @@ Neste caso, prescindimos das columnas que nos permiten ver o valor predeterminad
 
 ### Claves alleas: ```INFORMATION_SCHEMA.KEY_COLUMN_USAGE```
 
-Se nos fixamos ben, a táboa que acabamos de ver permítenos ver todos os parámetros que, segundo o noso [criterio preestablecido](exemplo1_MariaDB.md#resumo-dos-criterios-seguidos) durante a implementación de bases de datos, van incluídos en ```CREATE TABLE```. Ou visto de outra maneira, non nos amosa de maneira explícita as claves alleas, que decidimos declarar sempre a posteriori mediante ```ALTER TABLE```. Para consultar estes datos, podemos realizar buscas á táboa **INFORMATION_SCHEMA.KEY_COLUMN_USAGE**, que nos serve para atopar todas as columnas que teñen constraints (agás os ```CHECK```, que [veremos máis adiante](#restricións-no-rexistro-de-datos-information_schemacheck_constraints)).
+Se nos fixamos ben, a táboa que acabamos de ver permítenos ver todos os parámetros que, segundo o noso [criterio preestablecido](exemplo1_MariaDB.md#resumo-dos-criterios-seguidos) durante a implementación de bases de datos, van incluídos en ```CREATE TABLE```. Ou visto doutra maneira, non nos amosa de maneira explícita as claves alleas, que decidimos declarar sempre a posteriori mediante un ```ALTER TABLE``` ex professo. Para consultar estes datos, podemos realizar buscas á táboa **INFORMATION_SCHEMA.KEY_COLUMN_USAGE**, que nos serve para atopar todas as columnas que teñen constraints (agás os ```CHECK```, que [veremos máis adiante](#restricións-no-rexistro-de-datos-information_schemacheck_constraints)).
 ```sql
 SELECT table_name,
        column_name,
@@ -79,11 +79,18 @@ WHERE table_schema = 'proxectos_de_investigacion'
   AND referenced_table_name IS NOT NULL
 ;
 ```
-Desta maneira, cun simple par de ```CONCAT``` e un predicado máis elaborado, acadamos unha visualización moi limpa de todas as claves alleas dunha base de datos, xunto cos atributos ós que fan referencia.
+Desta maneira, cun simple par de concatenacións e un predicado algo máis elaborado, acadamos unha visualización moi limpa de todas as claves alleas dunha base de datos, xunto cos atributos ós que fan referencia.
 ![meta1cap4](/img/meta1cap4.PNG)
 
 ### Restricións no rexistro de datos: ```INFORMATION_SCHEMA.CHECK_CONSTRAINTS```
 
-
-
+Xa estudamos a maneira de visualizar graficamente, dende a ventá de comandos, case todos a información pertinente dunha base de datos. Só nos falta consultar os ```CHECK```, para o que deberemos empregar unha táboa específica para realizar a busca, neste caso **INFORMATION_SCHEMA.CHECK_CONSTRAINTS**. 
+```sql
+SELECT table_name,
+       check_clause
+FROM                       INFORMATION_SCHEMA.CHECK_CONSTRAINTS
+WHERE constraint_schema = 'proxectos_de_investigacion'
+;
+```
+Neste caso, ó ter unha finalidade tan concreta, só precisamos visualizar dúas columnas da táboa. Outra información que podemos consultar é ```constraint_name``` e ```constraint_schema```. Este último só ten sentido empregalo cando no predicado escollemos máis dunha database, pois xa sabemos que os ```CHECK``` só poden relacionar atributos que pertenzan á mesma base de datos. *Para todo lo demás, CREATE ASSERTION*.
 
