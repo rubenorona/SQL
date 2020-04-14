@@ -40,7 +40,7 @@ O método que vimos con anterioridade é demasiado básico, polo que non recomen
 
 Ofrece unha información similar a ```SHOW COLUMNS```, pero coas vantaxes que aporta unha consulta personalizada: escoller as columnas a amosar, ensinar todas as táboas dunha base de datos nunha mesma busca ou engadir varias databases diferentes, aparte de todos os coñecementos de [SQL DQL](DQL.md) que podemos aplicar aquí. 
 
-Así pois, podemos recrear a consulta que fixemos nun primeiro lugar, servindo de excusa para repasar coñecementos e tamén para explorar as outras posibilidades que brinda a táboa ```INFORMATION_SCHEMA.COLUMNS```. Para iso, seguimos os mesmos principios que nunha consulta ordinaria. No ```SELECT``` separamos entre comas as columnas a amosar; mediante```FROM``` referenciamos á táboa sobre a que facemos a busca; por último, ```WHERE``` permítenos delcarar predicados. 
+Así pois, podemos recrear a consulta que fixemos nun primeiro lugar, servindo de excusa para repasar coñecementos e tamén para explorar as outras posibilidades que brinda a táboa ```INFORMATION_SCHEMA.COLUMNS```. Para iso, seguimos os mesmos principios que nunha consulta ordinaria. No ```SELECT``` separamos entre comas as columnas a amosar; mediante```FROM``` referenciamos á táboa sobre a que facemos a busca; por último, ```WHERE``` permítenos declarar predicados. 
 ```sql
 SELECT table_name,                           /* SHOW COLUMNS só permite unha táboa de cada vez */
        column_key               as 'key',    /* = Key */
@@ -93,7 +93,7 @@ FROM                       INFORMATION_SCHEMA.CHECK_CONSTRAINTS
 WHERE constraint_schema = 'proxectos_de_investigacion'
 ;
 ```
-Neste caso, ó ter unha finalidade tan concreta, só precisamos visualizar dúas columnas da táboa. Outra información que podemos consultar é ```constraint_name``` e ```constraint_schema```. Este último só ten sentido empregalo cando no predicado escollemos máis dunha database, pois xa sabemos que os ```CHECK``` só poden relacionar atributos que pertenzan á mesma base de datos. *Para todo lo demás, CREATE ASSERTION*.
+Con esta táboa, ó ter unha finalidade tan concreta, só precisamos visualizar dúas das súas columnas. Outra información que podemos consultar é ```constraint_name``` e ```constraint_schema```. Este último só ten sentido empregalo cando no predicado escollemos máis dunha database, pois xa sabemos que os ```CHECK``` só poden relacionar atributos que pertenzan á mesma base de datos. *Para todo lo demás, CREATE ASSERTION*.
 
 
 ## Metadata da base de datos ```naves_espaciais```
