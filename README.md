@@ -1,5 +1,11 @@
 # Apuntamentos de SQL
 
+### Axuda para coavaliadores
+
+![help](/img/help.png)
+
+Espero que con esta imaxe, todos teñades clara a relación entre os links e as diferentes tarefas. Podedes atopar o índice real abaixo.
+
 ## Índice
 
 - [Primeiros pasos](#primeiros-pasos)
@@ -34,7 +40,7 @@ Editor de texto: MarkdownPad (versión 2.5.0.2), que conta con highlight de sint
 
 Os exemplos de consulta foron testados mediante as bases de datos presentes na páxina web www.SQLzoo.net
 
-O exemplo proposto nas sublinguaxes DDL e DML foi implementado e testado previamente en ElephantSQL, co xestor PostregSQL.
+O exemplo proposto nas sublinguaxes DDL e DML foi implementado e testado previamente en ElephantSQL, co xestor PostgreSQL.
 
 
 © 2020 SeicaNonVelaVara, Inc. [Terms of Service](https://youtu.be/dQw4w9WgXcQ)
